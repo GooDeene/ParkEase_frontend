@@ -1,0 +1,33 @@
+:root {
+	font-family: Montserrat, Helvetica, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+button {
+	text-decoration: none;
+	border: none;
+	background: none;
+}
+
+button:active:not(:disabled) {
+	opacity: 0.95;
+}
+
+:root {
+	--colors_main: #04456a;
+	--colors_sub_main: #195777;
+	--colros_accent: #369fd9;
+	--colors_hint: #acacac;
+	--colors_error: #9c1212;
+	--colors_unactive: #829dad;
+	--colors_white: #ffffff;
+
+	--border_radius-m: 8px;
+	--border_radius_l: 16px;
+}
