@@ -1,0 +1,25 @@
+.controls-textInput {
+	margin: 10px 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.controls-textInput_valid {
+	color: var(--colors_main);
+}
+
+.controls-textInput_invalid {
+	color: var(--colors_error);
+}
+
+.controls-textInput__input {
+	all: unset;
+
+	border: 1px solid;
+	border-radius: var(--border_radius-m);
+
+	flex-grow: 1;
+
+	padding: 13px;
+	text-transform: uppercase;
+}

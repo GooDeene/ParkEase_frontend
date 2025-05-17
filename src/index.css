@@ -18,8 +18,14 @@ button {
 	line-height: inherit;
 }
 
+input::placeholder {
+	color: var(--colors_hint);
+}
+
 * {
 	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
 }
 
 :root {
