@@ -24,6 +24,7 @@ export default tseslint.config(
 			'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 			'react/jsx-curly-spacing': ['error', { when: 'always' }],
 			'react/semi': true,
+			'react/jsx-max-props-per-line': [2, { maximum: 1, when: 'always' }],
 		},
 	}
 );

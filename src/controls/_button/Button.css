@@ -1,17 +1,27 @@
 .controls-button {
-	font-weight: 500;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.controls-button-titleMode {
 	background-color: var(--colors_main);
 	color: var(--colors_white);
 	border-radius: var(--border_radius-m);
+}
 
-	padding: 13px 5px;
+.controls-button-w-full {
 	width: 100%;
 }
 
-.controls-button-l {
-	font-size: 20px;
+.controls-button-default-paddings {
+	padding: 13px 5px;
 }
 
 .controls-button:disabled {
 	background-color: var(--colors_unactive);
+}
+
+.controls-button:active:not(:disabled) {
+	opacity: 0.92;
 }

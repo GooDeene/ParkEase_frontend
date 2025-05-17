@@ -1,0 +1,78 @@
+/* Набор классов для стилизации размеров шрифта и толщины начертания в компонентах */
+
+:root {
+	--controls-fontsize-10: 10px;
+	--controls-fontsize-12: 12px;
+	--controls-fontsize-14: 14px;
+	--controls-fontsize-16: 16px;
+	--controls-fontsize-18: 18px;
+	--controls-fontsize-20: 20px;
+	--controls-fontsize-22: 22px;
+	--controls-fontsize-24: 24px;
+	--controls-fontsize-26: 26px;
+	--controls-fontsize-28: 28px;
+	--controls-fontsize-30: 30px;
+
+	--controls-fontsize-40: 40px;
+
+	--controls-fontweight-regular: 400;
+	--controls-fontweight-medium: 500;
+}
+
+.controls-fontsize-10 {
+	font-size: var(--controls-fontsize-10);
+}
+
+.controls-fontsize-12 {
+	font-size: var(--controls-fontsize-12);
+}
+
+.controls-fontsize-14 {
+	font-size: var(--controls-fontsize-14);
+}
+
+.controls-fontsize-16 {
+	font-size: var(--controls-fontsize-16);
+}
+
+.controls-fontsize-18 {
+	font-size: var(--controls-fontsize-18);
+}
+
+.controls-fontsize-20 {
+	font-size: var(--controls-fontsize-20);
+}
+
+.controls-fontsize-22 {
+	font-size: var(--controls-fontsize-22);
+}
+
+.controls-fontsize-24 {
+	font-size: var(--controls-fontsize-24);
+}
+
+.controls-fontsize-26 {
+	font-size: var(--controls-fontsize-26);
+}
+
+.controls-fontsize-28 {
+	font-size: var(--controls-fontsize-28);
+}
+
+.controls-fontsize-30 {
+	font-size: var(--controls-fontsize-30);
+}
+
+.controls-fontsize-40 {
+	font-size: var(--controls-fontsize-40);
+}
+
+/* Начертания */
+
+.controls-fontweight-regular {
+	font-weight: var(--controls-fontweight-regular);
+}
+
+.controls-fontweight-medium {
+	font-weight: var(--controls-fontweight-medium);
+}

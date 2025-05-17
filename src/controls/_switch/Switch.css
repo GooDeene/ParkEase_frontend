@@ -1,0 +1,76 @@
+.controls-switch {
+	border: 1px solid var(--colors_main);
+	display: flex;
+
+	position: relative;
+	border-radius: var(--border_radius-m);
+	box-sizing: border-box;
+	height: 50px;
+	overflow: hidden;
+
+	--switch-transition-time: 0.25s;
+}
+
+.controls-switch__part {
+	flex-grow: 1;
+	font-size: inherit;
+	font-weight: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50%;
+	overflow: hidden;
+
+	color: var(--colors_main);
+}
+
+.controls-switch__back {
+	height: 100%;
+	background-color: var(--colors_accent);
+	width: 50%;
+	border-radius: calc(var(--border_radius-m) - 1px);
+	box-sizing: border-box;
+	overflow: hidden;
+
+	position: absolute;
+	display: flex;
+	align-items: center;
+	text-align: center;
+
+	transition: var(--switch-transition-time) ease-out;
+}
+
+.controls-switch__backContent {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	position: absolute;
+
+	transition: var(--switch-transition-time) ease-out;
+}
+
+.controls-switch__back_shiftedLeft {
+	left: 0;
+}
+
+.controls-switch__back_shiftedLeft > .controls-switch__backContent {
+	left: 0;
+}
+
+.controls-switch__back_shiftedRight {
+	left: 50%;
+	justify-content: end;
+}
+
+.controls-switch__back_shiftedRight > .controls-switch__backContent {
+	left: -100%;
+}
+
+.controls-switch__leftPart_hidden,
+.controls-switch__rightPart_hidden {
+	flex-shrink: 0;
+	width: 100%;
+	color: var(--colors_white);
+	overflow: hidden;
+}
