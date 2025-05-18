@@ -39,6 +39,8 @@ input::placeholder {
 
 	--border_radius-m: 8px;
 	--border_radius-l: 16px;
+
+	--border-standart: 1px solid var(--colors_main);
 }
 
 html {

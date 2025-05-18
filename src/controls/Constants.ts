@@ -5,4 +5,6 @@ export enum Icon {
 	home = '/src/assets/home.svg',
 	exit = '/src/assets/exit.svg',
 	profile = '/src/assets/profile.svg',
+	cross = '/src/assets/cross.svg',
+	nextArrow = '/src/assets/next_arrow.svg',
 }

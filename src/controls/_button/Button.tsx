@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import './Button.css';
 import type { Icon } from '../Constants';
-
-type TPaddingSize = '4xs' | '3xs' | '2xs' | 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl' | '4xl';
+import type { TPaddingSize } from '../_input/types/TPaddingSize';
+import type { SyntheticEvent } from 'react';
 
 interface IButtonProps {
 	className?: string;
-	onClick?: () => void;
-	title: string;
+	onClick?: (event: SyntheticEvent) => void;
+	title?: string;
 	disabled?: boolean;
 	fullWidth?: boolean;
 	padding?: { t: TPaddingSize; r: TPaddingSize; b: TPaddingSize; l: TPaddingSize };
@@ -50,8 +50,8 @@ const Button = ({
 		<button
 			className={icon ? iconModeClassName : buttonClassName}
 			disabled={disabled}
-			onClick={() => {
-				onClick?.();
+			onClick={(e: SyntheticEvent) => {
+				onClick?.(e);
 			}}
 		>
 			{!icon && title}

@@ -6,12 +6,13 @@ import Switch from './controls/_switch/Switch';
 import { isRequired } from './controls/_input/validators/isRequired';
 import { isValidRussianPhone } from './controls/_input/validators/isValidRussianPhone';
 import { isLicensePlate } from './controls/_input/validators/isLicensePlate';
+import Datepicker from './controls/_datepicker/Datepicker';
 
 function App() {
 	const [val, setVal] = useState('');
 	return (
 		<>
-			<img src='/src/assets/logo_big.svg' />
+			{/* <img src='/src/assets/logo_big.svg' /> */}
 			<Button
 				title='Кнопочка'
 				fullWidth
@@ -47,6 +48,7 @@ function App() {
 				validators={[isRequired, isLicensePlate]}
 				validateOnFocusOut
 			/>
+			<Datepicker />
 		</>
 	);
 }

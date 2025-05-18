@@ -13,16 +13,22 @@ interface ISwitchProps<T = string> {
 		right: TSwitchItem<T>;
 	};
 	value?: T;
+	sizes?: {
+		width?: string;
+		height?: string;
+	};
+	className?: string;
 	onValueChanged?: (value: T) => void;
 }
 
-const Switch = ({ items, onValueChanged }: ISwitchProps) => {
+const Switch = ({ items, className, sizes, onValueChanged }: ISwitchProps) => {
 	const [position, setPosition] = useState('left');
 
 	const rootClassName = clsx(
 		'controls-switch',
 		'controls-fontsize-16',
-		'controls-fontweight-medium'
+		'controls-fontweight-medium',
+		className
 	);
 	const leftPartClassName = clsx('controls-switch__part', 'controls-switch__leftPart');
 	const rightPartClassName = clsx('controls-switch__part', 'controls-switch__rightPart');
@@ -40,7 +46,10 @@ const Switch = ({ items, onValueChanged }: ISwitchProps) => {
 	};
 
 	return (
-		<div className={rootClassName}>
+		<div
+			className={rootClassName}
+			style={{ width: sizes?.width, height: sizes?.height }}
+		>
 			<div className={backClassName}>
 				<div className='controls-switch__backContent'>
 					<span className='controls-switch__leftPart_hidden'>{items.left.title}</span>

@@ -1,0 +1,56 @@
+.controls-datepicker__headerDate {
+	padding: 4px 0;
+	flex-grow: 1;
+	display: flex;
+	gap: 6px;
+	justify-content: center;
+	align-items: center;
+}
+
+.controls-datepicker__header {
+	margin: 0 8px;
+
+	color: var(--colors_main);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.controls-datepicker__switchBlock {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	align-items: center;
+}
+
+.controls-datepicker__buttonsBlock {
+	display: flex;
+	justify-content: stretch;
+	width: 100%;
+	flex-grow: 1;
+}
+
+.controls-datepicker__switch {
+	flex-grow: 1;
+	height: 32px;
+	width: 80%;
+}
+
+.controls-datepicker__arrow {
+	flex-grow: 0;
+	filter: invert(20%) sepia(68%) saturate(849%) hue-rotate(163deg) brightness(98%) contrast(102%);
+	background-color: transparent;
+}
+
+.controls-datepicker__arrow:disabled {
+	filter: invert(74%) sepia(49%) saturate(174%) hue-rotate(158deg) brightness(76%) contrast(79%);
+	background-color: transparent;
+}
+
+.controls-datepicker__arrow_reversed {
+	transform: rotate(180deg);
+}
+
+.controls-datepicker__calendar .react-datepicker__header--custom {
+	border-bottom: var(--border-standart);
+}
