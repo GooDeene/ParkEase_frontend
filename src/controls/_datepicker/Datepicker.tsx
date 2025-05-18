@@ -1,15 +1,13 @@
 import DatePicker from 'react-datepicker';
 import './Datepicker.css';
-import { createContext, useState, type SyntheticEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 import clsx from 'clsx';
 import CalendarHeader from './_header/CalendarHeader';
 import Button from '../_button/Button';
-import { Icon } from '../Constants';
+import CrossIcon from '../_icons/CrossIcon';
 
-interface IDatepickerProps {}
-
-interface IDatePickerContext {
-	useRangeMode: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+interface IDatepickerProps {
+	placeholder?: string;
 }
 
 const getChosenDates = (start: Date | null, end: Date | null): string => {
@@ -33,33 +31,11 @@ const getChosenDates = (start: Date | null, end: Date | null): string => {
 	return '';
 };
 
-export const DatepickerContext = createContext<IDatePickerContext | null>(null);
-
-const Cross = () => {
-	return (
-		<svg
-			width='50'
-			height='50'
-			viewBox='0 0 50 50'
-			fill='none'
-			xmlns='http://www.w3.org/2000/svg'
-		>
-			<path
-				d='M45 45L5 5M45 5L5 45'
-				stroke='currentColor'
-				stroke-width='4'
-				stroke-linecap='round'
-			/>
-		</svg>
-	);
-};
-
 const DEFAULT_PLACEHOLDER = 'Дата не выбрана';
 
-const Datepicker = ({}: IDatepickerProps) => {
+const Datepicker = ({ placeholder }: IDatepickerProps) => {
 	const [startDate, setStartDate] = useState<Date | null>(new Date());
 	const [endDate, setEndDate] = useState<Date | null>(new Date());
-	const [rangeMode, setRangeMode] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
 
 	const calendarClassName = clsx('controls-datepicker__calendar');
@@ -73,19 +49,10 @@ const Datepicker = ({}: IDatepickerProps) => {
 	};
 
 	const changeHandler = (value: [Date | null, Date | null]) => {
-		const copy = [...value];
-
-		const start = copy[0];
-		const end = copy[1];
-		setStartDate(() => start);
-		setEndDate(() => end);
-		// setIsOpen(() => false);
+		setStartDate(() => value[0]);
+		setEndDate(() => value[1]);
 	};
 	const title = getChosenDates(startDate, endDate);
-
-	const renderDayContents = (day: number, _date: Date) => {
-		return <div className={dayClassName}>{day}</div>;
-	};
 
 	return (
 		<div className={rootClassName}>
@@ -101,13 +68,14 @@ const Datepicker = ({}: IDatepickerProps) => {
 			>
 				{title}
 				{!title && (
-					<span className='controls-datepicker__placeholder'>{DEFAULT_PLACEHOLDER}</span>
+					<span className='controls-datepicker__placeholder'>
+						{placeholder || DEFAULT_PLACEHOLDER}
+					</span>
 				)}
 				{title && (
 					<Button
 						className={clsx('controls-datepicker__reset', 'controls-margin_right-xs')}
-						icon={Icon.cross}
-						iconSizes={{ height: 24, width: 24 }}
+						icon={<CrossIcon size={24} />}
 						onClick={(e: SyntheticEvent) => {
 							e.stopPropagation();
 							setStartDate(() => null);
@@ -116,7 +84,7 @@ const Datepicker = ({}: IDatepickerProps) => {
 					/>
 				)}
 			</div>
-			{isOpen && rangeMode && (
+			{isOpen && (
 				<DatePicker
 					calendarClassName={calendarClassName}
 					startDate={startDate}
@@ -129,7 +97,6 @@ const Datepicker = ({}: IDatepickerProps) => {
 					inline
 					selectsRange
 					swapRange
-					// renderDayContents={renderDayContents}
 				/>
 			)}
 		</div>

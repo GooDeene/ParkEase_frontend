@@ -1,11 +1,9 @@
 import clsx from 'clsx';
 import Button from '../../_button/Button';
-import Switch from '../../_switch/Switch';
-import { Icon } from '../../Constants';
 
 import './CalendarHeader.css';
-import { useContext } from 'react';
-import { DatepickerContext } from '../Datepicker';
+import HomeIcon from '../../_icons/HomeIcon';
+import NextArrowIcon from '../../_icons/NextArrowIcon';
 
 /**
  * Функция форматирования переданной даты для отображения в шапке календаря.
@@ -48,12 +46,8 @@ const CalendarHeader = ({
 	prevMonthButtonDisabled,
 	nextMonthButtonDisabled,
 }: ICalendarHeaderProps) => {
-	// const context = useContext(DatepickerContext);
-	// const useRangeMode = context?.useRangeMode;
-
 	const headerClassName = clsx('controls-datepicker__header');
 	const arrowCalssName = 'controls-datepicker__arrow';
-	const swicthBlockClassName = clsx('controls-datepicker__switchBlock');
 	const buttonsClassName = clsx('controls-datepicker__buttonsBlock');
 	const dateClassName = clsx(
 		'controls-datepicker__headerDate',
@@ -68,28 +62,12 @@ const CalendarHeader = ({
 		changeYear(now.getFullYear());
 	};
 
-	const switchChangedHandler = (value: string) => {
-		// useRangeMode?.[1](() => value === 'period');
-	};
-
 	return (
 		<div className={headerClassName}>
-			{/* <div className={swicthBlockClassName}>
-				<span>Выбрать</span>
-				<Switch
-					className='controls-datepicker__switch'
-					items={{
-						left: { title: 'Дату', value: 'date' },
-						right: { title: 'Период', value: 'period' },
-					}}
-					onValueChanged={switchChangedHandler}
-				/>
-			</div> */}
 			<div className={buttonsClassName}>
 				<Button
 					className={clsx(arrowCalssName, 'controls-datepicker__arrow_reversed')}
-					icon={Icon.nextArrow}
-					iconSizes={{ height: 20, width: 20 }}
+					icon={<NextArrowIcon size={24} />}
 					onClick={decreaseMonth}
 					disabled={prevMonthButtonDisabled}
 				/>
@@ -97,16 +75,14 @@ const CalendarHeader = ({
 					<span>{formatDate(date)}</span>
 					{!isSameDates(date, new Date()) && (
 						<Button
-							icon={Icon.home}
-							iconSizes={{ width: 24, height: 24 }}
+							icon={<HomeIcon size={18} />}
 							onClick={homeClickHandler}
 						/>
 					)}
 				</div>
 				<Button
 					className={arrowCalssName}
-					icon={Icon.nextArrow}
-					iconSizes={{ height: 20, width: 20 }}
+					icon={<NextArrowIcon size={24} />}
 					onClick={increaseMonth}
 					disabled={nextMonthButtonDisabled}
 				/>

@@ -1,8 +1,7 @@
 import clsx from 'clsx';
 import './Button.css';
-import type { Icon } from '../Constants';
 import type { TPaddingSize } from '../_input/types/TPaddingSize';
-import type { SyntheticEvent } from 'react';
+import { type ReactNode, type SyntheticEvent } from 'react';
 
 interface IButtonProps {
 	className?: string;
@@ -13,8 +12,7 @@ interface IButtonProps {
 	padding?: { t: TPaddingSize; r: TPaddingSize; b: TPaddingSize; l: TPaddingSize };
 
 	// Если задана эта опция кнопка отображается в режиме иконки (без текста и заливки фона)
-	icon?: Icon;
-	iconSizes?: { width: number; height: number };
+	icon?: ReactNode;
 }
 
 const Button = ({
@@ -25,7 +23,6 @@ const Button = ({
 	fullWidth = false,
 	padding,
 	icon,
-	iconSizes,
 }: IButtonProps) => {
 	const buttonClassName = clsx(
 		'controls-button',
@@ -55,13 +52,7 @@ const Button = ({
 			}}
 		>
 			{!icon && title}
-			{icon && (
-				<img
-					width={iconSizes?.width}
-					height={iconSizes?.height}
-					src={icon}
-				/>
-			)}
+			{icon && icon}
 		</button>
 	);
 };

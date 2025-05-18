@@ -5,9 +5,13 @@
 }
 
 .controls-button-titleMode {
-	background-color: var(--colors_main);
 	color: var(--colors_white);
+	background-color: var(--colors_main);
 	border-radius: var(--border_radius-m);
+}
+
+.controls-button-iconMode {
+	color: var(--colors_main);
 }
 
 .controls-button-w-full {
