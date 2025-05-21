@@ -1,6 +1,6 @@
-import type { IconComponent } from './types/TIcon';
+import type { TIconComponent } from './types/TIconComponent';
 
-const HomeIcon: IconComponent = (props) => {
+const HomeIcon: TIconComponent = (props) => {
 	return (
 		<svg
 			className={props.className}

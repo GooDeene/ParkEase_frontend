@@ -1,24 +1,9 @@
 import clsx from 'clsx';
 import Button from '../../_button/Button';
-
-import './CalendarHeader.css';
 import HomeIcon from '../../_icons/HomeIcon';
 import NextArrowIcon from '../../_icons/NextArrowIcon';
-
-/**
- * Функция форматирования переданной даты для отображения в шапке календаря.
- * @param date Дата.
- * @returns
- */
-const formatDate = (date: Date): string => {
-	const options: Intl.DateTimeFormatOptions = {
-		year: 'numeric',
-		month: 'long',
-	};
-	const str = date.toLocaleDateString('ru-RU', options).slice(0, -3);
-
-	return str.charAt(0).toUpperCase() + str.slice(1);
-};
+import { formatDateToCalendarHeader } from '../../utils/formatDate';
+import './CalendarHeader.css';
 
 const isSameDates = (date1: Date, date2: Date): boolean => {
 	const months = [date1.getMonth(), date2.getMonth()];
@@ -72,7 +57,7 @@ const CalendarHeader = ({
 					disabled={prevMonthButtonDisabled}
 				/>
 				<div className={dateClassName}>
-					<span>{formatDate(date)}</span>
+					<span>{formatDateToCalendarHeader(date)}</span>
 					{!isSameDates(date, new Date()) && (
 						<Button
 							icon={<HomeIcon size={18} />}

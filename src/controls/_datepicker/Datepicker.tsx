@@ -1,6 +1,13 @@
 import DatePicker from 'react-datepicker';
 import './Datepicker.css';
-import { useState, type SyntheticEvent } from 'react';
+import {
+	forwardRef,
+	useRef,
+	useState,
+	type ForwardedRef,
+	type RefObject,
+	type SyntheticEvent,
+} from 'react';
 import clsx from 'clsx';
 import CalendarHeader from './_header/CalendarHeader';
 import Button from '../_button/Button';
@@ -8,6 +15,9 @@ import CrossIcon from '../_icons/CrossIcon';
 
 interface IDatepickerProps {
 	placeholder?: string;
+	startDate: Date | null;
+	endDate: Date | null;
+	onSelectionComplete?: (startDate: Date | null, endDate: Date | null) => void;
 }
 
 const getChosenDates = (start: Date | null, end: Date | null): string => {
@@ -31,38 +41,85 @@ const getChosenDates = (start: Date | null, end: Date | null): string => {
 	return '';
 };
 
+/**
+ * Возвращает true, если календарь надо открывать вверх. Иначе - false.
+ */
+const calculateUpsideOpening = (inputRef: RefObject<HTMLDivElement | null>): boolean => {
+	const screenHeight = window.screen.height;
+	const inputTopOffset = inputRef.current?.getBoundingClientRect().top ?? 0;
+
+	return inputTopOffset > screenHeight / 2;
+};
+
 const DEFAULT_PLACEHOLDER = 'Дата не выбрана';
 
-const Datepicker = ({ placeholder }: IDatepickerProps) => {
-	const [startDate, setStartDate] = useState<Date | null>(new Date());
-	const [endDate, setEndDate] = useState<Date | null>(new Date());
+const Datepicker = (
+	{
+		placeholder,
+		startDate: initialStartDate,
+		endDate: initialEndDate,
+		onSelectionComplete,
+	}: IDatepickerProps,
+	rootRef: ForwardedRef<HTMLDivElement>
+) => {
+	const [startDate, setStartDate] = useState<Date | null>(() => initialStartDate);
+	const [endDate, setEndDate] = useState<Date | null>(() => initialEndDate);
+	const [openCalendarUpside, setOpenCalendarUpside] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const calendarClassName = clsx('controls-datepicker__calendar');
+	const inputRef = useRef<HTMLDivElement>(null);
+
+	const calendarClassName = clsx(
+		'controls-datepicker__calendar',
+		openCalendarUpside
+			? 'controls-datepicker__calendar_upside'
+			: 'controls-datepicker__calendar_downside'
+	);
 	const dayClassName = clsx('controls-datepicker__day');
 	const dateCardClassName = clsx('controls-datepicker__dateCard', 'controls-fontsize-20');
 	const overlayClassName = clsx('controls-datepicker__overlay');
-	const rootClassName = clsx('controls-datepicker', 'controls-margin_top-2xl');
+	const rootClassName = clsx('controls-datepicker');
 
 	const rootClickHandler = () => {
-		setIsOpen((prev) => !prev);
+		setOpenCalendarUpside(() => calculateUpsideOpening(inputRef));
+		setIsOpen(() => true);
 	};
 
 	const changeHandler = (value: [Date | null, Date | null]) => {
 		setStartDate(() => value[0]);
 		setEndDate(() => value[1]);
 	};
+
+	const onOverlayClick = () => {
+		setIsOpen(() => false);
+		onSelectionComplete?.(startDate, endDate);
+	};
+
+	const onResetClick = (e: SyntheticEvent) => {
+		e.stopPropagation();
+		setStartDate(() => null);
+		setEndDate(() => null);
+
+		if (!isOpen) {
+			onSelectionComplete?.(null, null);
+		}
+	};
+
 	const title = getChosenDates(startDate, endDate);
 
 	return (
-		<div className={rootClassName}>
+		<div
+			ref={rootRef}
+			className={rootClassName}
+		>
 			{isOpen && (
 				<div
 					className={overlayClassName}
-					onClick={() => setIsOpen(() => false)}
+					onClick={onOverlayClick}
 				/>
 			)}
 			<div
+				ref={inputRef}
 				className={dateCardClassName}
 				onClick={rootClickHandler}
 			>
@@ -76,11 +133,7 @@ const Datepicker = ({ placeholder }: IDatepickerProps) => {
 					<Button
 						className={clsx('controls-datepicker__reset', 'controls-margin_right-xs')}
 						icon={<CrossIcon size={24} />}
-						onClick={(e: SyntheticEvent) => {
-							e.stopPropagation();
-							setStartDate(() => null);
-							setEndDate(() => null);
-						}}
+						onClick={onResetClick}
 					/>
 				)}
 			</div>
@@ -103,4 +156,4 @@ const Datepicker = ({ placeholder }: IDatepickerProps) => {
 	);
 };
 
-export default Datepicker;
+export default forwardRef(Datepicker);

@@ -1,6 +1,6 @@
-import type { IconComponent } from './types/TIcon';
+import type { TIconComponent } from './types/TIconComponent';
 
-const NextArrowIcon: IconComponent = (props) => {
+const NextArrowIcon: TIconComponent = (props) => {
 	return (
 		<svg
 			className={props.className}

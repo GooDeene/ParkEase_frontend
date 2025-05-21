@@ -1,0 +1,35 @@
+.givenUpRegistry {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+
+	justify-self: center;
+	margin: 0 auto;
+}
+
+.givenUpRegistry__wrapper {
+	padding: 10px 45px;
+	/* width: 80%; */
+	margin: 0 auto;
+}
+
+.givenUpRegistry__card {
+	width: calc(50% - 10px);
+	height: 70px;
+	color: var(--colors_main);
+	border: 2px solid var(--colors_main);
+	border-radius: var(--border_radius-l);
+	box-sizing: border-box;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.givenUpRegistry__card:active {
+	/* color: var(--colors_white);
+	background-color: var(--colors_main); */
+
+	opacity: 0.6;
+}

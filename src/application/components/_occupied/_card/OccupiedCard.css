@@ -1,0 +1,25 @@
+.occupiedCard {
+	width: 100%;
+	border: 1px solid var(--colors_main);
+
+	padding: 6px 6px 6px 10px;
+	display: flex;
+	justify-content: space-between;
+	border-radius: var(--border_radius-m);
+	color: var(--colors_main);
+
+	box-sizing: border-box;
+}
+
+.occupiedCard__textBlock {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.occupiedCard__textRow {
+	/* width: 50%; */
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

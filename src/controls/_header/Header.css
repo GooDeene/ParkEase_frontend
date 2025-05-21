@@ -1,0 +1,21 @@
+.controls-header {
+	position: sticky;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 90px;
+	box-sizing: border-box;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	background-color: var(--colors_sub_main);
+	color: var(--colors_white);
+
+	z-index: 1;
+}
+
+.controls-header__button {
+	color: inherit;
+}
