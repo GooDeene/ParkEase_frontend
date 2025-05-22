@@ -5,13 +5,14 @@ import ProfileIcon from '../_icons/ProfileIcon';
 import ExitIcon from '../_icons/ExitIcon';
 import { useState } from 'react';
 
+const ROOT_CLASS_NAME = 'controls-header';
+
 const Header = () => {
 	const [title, setTitle] = useState('А123АА123');
 
-	const rootClassName = clsx('controls-header');
-	const headerButtonClassName = clsx(`${rootClassName}__button`);
+	const headerButtonClassName = clsx(`${ROOT_CLASS_NAME}__button`);
 	const headerTitleClassName = clsx(
-		`${rootClassName}__title`,
+		`${ROOT_CLASS_NAME}__title`,
 		'controls-fontsize-24',
 		'controls-fontweight-medium'
 	);
@@ -25,7 +26,7 @@ const Header = () => {
 	const onExitCLick = () => {};
 
 	return (
-		<div className={rootClassName}>
+		<div className={ROOT_CLASS_NAME}>
 			<Button
 				className={headerButtonClassName}
 				icon={<ProfileIcon />}

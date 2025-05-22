@@ -4,16 +4,19 @@ import Button from '../../../../controls/_button/Button';
 import ReloadIcon from '../../../../controls/_icons/ReloadIcon';
 import Datepicker from '../../../../controls/_datepicker/Datepicker';
 import { useState } from 'react';
+import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
 
-interface IOccupiedDateFilterProps {
+interface IOccupiedDateFilterProps extends IPropsWithClassName {
 	onValueChanged?: (startDate: Date | null, endDate: Date | null) => void;
 }
 
-const OccupiedDateFilter = ({ onValueChanged }: IOccupiedDateFilterProps) => {
+const ROOT_CLASS_NAME = 'occupiedDateFilter';
+
+const OccupiedDateFilter = ({ onValueChanged, className }: IOccupiedDateFilterProps) => {
 	const [selectedStart, setSelectedStart] = useState<Date | null>(new Date());
 	const [selectedEnd, setSelectedEnd] = useState<Date | null>(new Date());
-	const rootClassName = clsx('occupiedDateFilter');
-	const headerClassName = clsx(`${rootClassName}__header`);
+	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
+	const headerClassName = clsx(`${ROOT_CLASS_NAME}__header`);
 
 	const onFilterSet = (start: Date | null, end: Date | null) => {
 		if (selectedStart !== start && selectedEnd !== end) {
@@ -27,7 +30,7 @@ const OccupiedDateFilter = ({ onValueChanged }: IOccupiedDateFilterProps) => {
 	};
 
 	return (
-		<div className={rootClassName}>
+		<div className={wrapperClassName}>
 			<div className={headerClassName}>
 				<span>Выбрать на период</span>
 				<Button icon={<ReloadIcon size={30} />} />

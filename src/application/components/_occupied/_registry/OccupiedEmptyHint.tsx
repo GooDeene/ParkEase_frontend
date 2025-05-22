@@ -1,17 +1,18 @@
 import clsx from 'clsx';
 import './OccupiedEmptyHint.css';
 
+const ROOT_CLASS_NAME = 'occupiedEmptyHint';
+
 const OccupiedEmptyHint = () => {
-	const rootClassName = clsx('occupiedEmptyHint');
 	const titleClassName = clsx(
-		`${rootClassName}__title`,
+		`${ROOT_CLASS_NAME}__title`,
 		'controls-margin_bottom-l',
 		'controls-fontsize-20'
 	);
-	const detailClassName = clsx(`${rootClassName}__detail`, 'controls-fontsize-14');
+	const detailClassName = clsx(`${ROOT_CLASS_NAME}__detail`, 'controls-fontsize-14');
 
 	return (
-		<div className={rootClassName}>
+		<div className={ROOT_CLASS_NAME}>
 			<img
 				className='controls-margin_bottom-3xl'
 				src='src/assets/no_park_sign.png'

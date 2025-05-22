@@ -8,7 +8,7 @@ import { isLicensePlate } from './controls/_input/validators/isLicensePlate';
 import Datepicker from './controls/_datepicker/Datepicker';
 import Header from './controls/_header/Header';
 import OccupiedCard from './application/components/_occupied/_card/OccupiedCard';
-import OccipiedRegistry from './application/components/_occupied/_registry/OccipiedRegistry';
+import OccupiedRegistry from './application/components/_occupied/_registry/OccupiedRegistry';
 import OccupiedDateFilter from './application/components/_occupied/_filter/OccupiedDateFilter';
 import OccupiedEmptyHint from './application/components/_occupied/_registry/OccupiedEmptyHint';
 import GivenUpRegistry from './application/components/_givenUp/_registry/GivenUpRegistry';

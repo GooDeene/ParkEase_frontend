@@ -31,6 +31,8 @@ const DEFAULT_INVALID_HINT_DURATION = 3000;
  */
 const VALIDATION_DEBOUNCE = 700;
 
+const ROOT_CLASS_NAME = 'controls-textInput';
+
 const TextInput = ({
 	placeholder,
 	type,
@@ -53,13 +55,13 @@ const TextInput = ({
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const rootClassName = clsx(
-		'controls-textInput',
+		ROOT_CLASS_NAME,
 		'controls-fontsize-20',
-		valid ? 'controls-textInput_valid' : 'controls-textInput_invalid'
+		valid ? `${ROOT_CLASS_NAME}_valid` : `${ROOT_CLASS_NAME}_invalid`
 	);
-	const inputClassName = clsx('controls-textInput__input');
+	const inputClassName = clsx(`${ROOT_CLASS_NAME}__input`);
 	const hintClassName = clsx(
-		'controls-textInput__hint',
+		`${ROOT_CLASS_NAME}__hint`,
 		'controls-fontsize-12',
 		'controls-fontweight-medium'
 	);

@@ -53,6 +53,8 @@ const calculateUpsideOpening = (inputRef: RefObject<HTMLDivElement | null>): boo
 
 const DEFAULT_PLACEHOLDER = 'Дата не выбрана';
 
+const ROOT_CLASS_NAME = 'controls-datepicker';
+
 const Datepicker = (
 	{
 		placeholder,
@@ -78,7 +80,6 @@ const Datepicker = (
 	const dayClassName = clsx('controls-datepicker__day');
 	const dateCardClassName = clsx('controls-datepicker__dateCard', 'controls-fontsize-20');
 	const overlayClassName = clsx('controls-datepicker__overlay');
-	const rootClassName = clsx('controls-datepicker');
 
 	const rootClickHandler = () => {
 		setOpenCalendarUpside(() => calculateUpsideOpening(inputRef));
@@ -110,7 +111,7 @@ const Datepicker = (
 	return (
 		<div
 			ref={rootRef}
-			className={rootClassName}
+			className={ROOT_CLASS_NAME}
 		>
 			{isOpen && (
 				<div
@@ -123,15 +124,17 @@ const Datepicker = (
 				className={dateCardClassName}
 				onClick={rootClickHandler}
 			>
-				{title}
-				{!title && (
-					<span className='controls-datepicker__placeholder'>
-						{placeholder || DEFAULT_PLACEHOLDER}
-					</span>
-				)}
+				<span
+					className={clsx(
+						!title && 'controls-datepicker__placeholder',
+						title && 'controls-datepicker__dateCardTitle'
+					)}
+				>
+					{title !== '' ? title : placeholder || DEFAULT_PLACEHOLDER}
+				</span>
 				{title && (
 					<Button
-						className={clsx('controls-datepicker__reset', 'controls-margin_right-xs')}
+						className={clsx('controls-datepicker__reset')}
 						icon={<CrossIcon size={24} />}
 						onClick={onResetClick}
 					/>

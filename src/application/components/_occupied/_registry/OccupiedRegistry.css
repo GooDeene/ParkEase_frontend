@@ -6,6 +6,7 @@
 
 .occupiedRegistry__title {
 	align-self: center;
+	color: var(--colors_main);
 }
 
 .occupiedRegistry__cards {

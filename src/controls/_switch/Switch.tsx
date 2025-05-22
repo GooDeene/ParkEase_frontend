@@ -21,23 +21,25 @@ interface ISwitchProps<T = string> {
 	onValueChanged?: (value: T) => void;
 }
 
+const ROOT_CLASS_NAME = 'controls-switch';
+
 const Switch = ({ items, className, sizes, onValueChanged }: ISwitchProps) => {
 	const [position, setPosition] = useState('left');
 
-	const rootClassName = clsx(
-		'controls-switch',
+	const wrapperClassName = clsx(
+		ROOT_CLASS_NAME,
 		'controls-fontsize-16',
 		'controls-fontweight-medium',
 		className
 	);
-	const leftPartClassName = clsx('controls-switch__part', 'controls-switch__leftPart');
-	const rightPartClassName = clsx('controls-switch__part', 'controls-switch__rightPart');
+	const leftPartClassName = clsx(`${ROOT_CLASS_NAME}__part`, `${ROOT_CLASS_NAME}__leftPart`);
+	const rightPartClassName = clsx(`${ROOT_CLASS_NAME}__part`, `${ROOT_CLASS_NAME}__rightPart`);
 
 	const backClassName = clsx(
-		'controls-switch__back',
+		`${ROOT_CLASS_NAME}__back`,
 		position === 'left'
-			? 'controls-switch__back_shiftedLeft'
-			: 'controls-switch__back_shiftedRight'
+			? `${ROOT_CLASS_NAME}__back_shiftedLeft`
+			: `${ROOT_CLASS_NAME}__back_shiftedRight`
 	);
 
 	const clickHandler = (selectedPosition: 'left' | 'right') => {
@@ -47,13 +49,17 @@ const Switch = ({ items, className, sizes, onValueChanged }: ISwitchProps) => {
 
 	return (
 		<div
-			className={rootClassName}
+			className={wrapperClassName}
 			style={{ width: sizes?.width, height: sizes?.height }}
 		>
 			<div className={backClassName}>
-				<div className='controls-switch__backContent'>
-					<span className='controls-switch__leftPart_hidden'>{items.left.title}</span>
-					<span className='controls-switch__rightPart_hidden'>{items.right.title}</span>
+				<div className={`${ROOT_CLASS_NAME}__backContent`}>
+					<span className={`${ROOT_CLASS_NAME}__leftPart_hidden`}>
+						{items.left.title}
+					</span>
+					<span className={`${ROOT_CLASS_NAME}__rightPart_hidden`}>
+						{items.right.title}
+					</span>
 				</div>
 			</div>
 			<button

@@ -37,8 +37,7 @@ const getSecondRow = (dates: IOccupiedCard['dates']): string => {
 /**
  * Обработчик клика по всей карточке места.
  */
-const onCardClick = () => {
-};
+const onCardClick = () => {};
 
 /**
  * Обработчик клика по кнопке отмены брони места.
@@ -47,14 +46,15 @@ const onDiscardClick = (event: SyntheticEvent) => {
 	event.stopPropagation();
 };
 
+const ROOT_CLASS_NAME = 'occupiedCard';
+
 const OccupiedCard = ({ dates, spotName }: IOccupiedCard) => {
-	const rootClassName = clsx('occupiedCard');
-	const textBlockClassName = clsx(`${rootClassName}__textBlock`);
-	const textClassName = clsx(`${rootClassName}__textRow`);
+	const textBlockClassName = clsx(`${ROOT_CLASS_NAME}__textBlock`);
+	const textClassName = clsx(`${ROOT_CLASS_NAME}__textRow`);
 
 	return (
 		<div
-			className={rootClassName}
+			className={ROOT_CLASS_NAME}
 			onClick={onCardClick}
 		>
 			<div className={textBlockClassName}>

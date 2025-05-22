@@ -6,9 +6,10 @@ interface IGivenUpRegistryProps {
 	items: IParkingSpot[];
 }
 
+const ROOT_CLASS_NAME = 'givenUpRegistry';
+
 const GivenUpRegistry = ({ items }: IGivenUpRegistryProps) => {
-	const rootClassName = clsx('givenUpRegistry');
-	const cardClassName = clsx(`${rootClassName}__card`, 'controls-fontsize-40');
+	const cardClassName = clsx(`${ROOT_CLASS_NAME}__card`, 'controls-fontsize-40');
 
 	const onCardClick = (item: IParkingSpot) => {
 		console.log(`Клик по карточке ${item.spotName}`);
@@ -16,7 +17,7 @@ const GivenUpRegistry = ({ items }: IGivenUpRegistryProps) => {
 
 	return (
 		<div className='givenUpRegistry__wrapper'>
-			<div className={rootClassName}>
+			<div className={ROOT_CLASS_NAME}>
 				{items.map((item) => {
 					return (
 						<button

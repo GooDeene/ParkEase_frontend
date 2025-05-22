@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import Header from '../../../controls/_header/Header';
+import ScreenLayout from '../../../controls/_layout/ScreenLayout';
 import Switch from '../../../controls/_switch/Switch';
-import GivenUpRegistry from '../../components/_givenUp/_registry/GivenUpRegistry';
-import OccupiedDateFilter from '../../components/_occupied/_filter/OccupiedDateFilter';
-import OccipiedRegistry from '../../components/_occupied/_registry/OccipiedRegistry';
+import OccupiedSubScreen from './_subScreens/OccupiedSubScreen';
 import './MainScreen.css';
 
 const SWITCH_ITEMS = {
@@ -16,72 +16,20 @@ const SWITCH_ITEMS = {
 	},
 };
 
+const ROOT_CLASS_NAME = 'mainScreen';
+
 const MainScreen = () => {
+	const switchClassName = clsx(`${ROOT_CLASS_NAME}__modeSwitch`, 'controls-margin_bottom-l');
 	return (
 		<div>
 			<Header />
-			<span>Место на парковке</span>
-			<Switch items={SWITCH_ITEMS} />
-			<OccipiedRegistry
-				items={[
-					{
-						id: '123',
-						startDate: new Date(),
-						endDate: new Date(),
-						owner: {
-							phone: '89536050838',
-							telegram: '@avada_keda5ra',
-						},
-						spotName: '31л',
-					},
-					{
-						id: '456',
-						startDate: new Date(),
-						endDate: null,
-						owner: {
-							phone: null,
-							telegram: '@pihny_sladko',
-						},
-						spotName: '148',
-					},
-				]}
-				showBottomSeparator
-			/>
-			<OccupiedDateFilter />
-			<GivenUpRegistry
-				items={[
-					{
-						id: '123',
-						startDate: new Date(),
-						endDate: new Date(),
-						owner: {
-							phone: '89536050838',
-							telegram: '@avada_keda5ra',
-						},
-						spotName: '31л',
-					},
-					{
-						id: '13л',
-						startDate: new Date(),
-						endDate: null,
-						owner: {
-							phone: null,
-							telegram: '@pihny_sladko',
-						},
-						spotName: '148',
-					},
-					{
-						id: '2',
-						startDate: new Date(),
-						endDate: null,
-						owner: {
-							phone: null,
-							telegram: '@pihny_sladko',
-						},
-						spotName: '148',
-					},
-				]}
-			/>
+			<ScreenLayout>
+				<div className={switchClassName}>
+					<span className='controls-margin_bottom-l'>Место на парковке</span>
+					<Switch items={SWITCH_ITEMS} />
+				</div>
+				<OccupiedSubScreen />
+			</ScreenLayout>
 		</div>
 	);
 };

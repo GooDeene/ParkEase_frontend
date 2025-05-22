@@ -1,0 +1,10 @@
+.mainScreen__modeSwitch {
+	display: flex;
+	flex-direction: column;
+
+	color: var(--colors_main);
+}
+
+.mainScreen__modeSwitch:first-child {
+	text-align: center;
+}

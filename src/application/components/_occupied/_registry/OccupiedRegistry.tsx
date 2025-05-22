@@ -10,18 +10,24 @@ interface IOccupiedRegistryProps extends IPropsWithClassName {
 	showBottomSeparator?: boolean;
 }
 
-const OccipiedRegistry = ({ items, showBottomSeparator = false }: IOccupiedRegistryProps) => {
-	const rootClassName = clsx('occupiedRegistry');
-	const cardsClassName = clsx(`${rootClassName}__cards`);
-	const separatorClassName = clsx(`${rootClassName}__separator`);
+const ROOT_CLASS_NAME = 'occupiedRegistry';
+
+const OccupiedRegistry = ({
+	items,
+	showBottomSeparator = false,
+	className,
+}: IOccupiedRegistryProps) => {
+	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
+	const cardsClassName = clsx(`${ROOT_CLASS_NAME}__cards`);
+	const separatorClassName = clsx(`${ROOT_CLASS_NAME}__separator`);
 	const titleClassName = clsx(
-		`${rootClassName}__title`,
+		`${ROOT_CLASS_NAME}__title`,
 		'cotnrols-fontsize-20',
 		'controls-margin_bottom-l'
 	);
 
 	return (
-		<div className={rootClassName}>
+		<div className={wrapperClassName}>
 			<div className={titleClassName}>Уже занятые мной</div>
 			<div className={cardsClassName}>
 				{items.map((item) => {
@@ -39,4 +45,4 @@ const OccipiedRegistry = ({ items, showBottomSeparator = false }: IOccupiedRegis
 	);
 };
 
-export default OccipiedRegistry;
+export default OccupiedRegistry;
