@@ -25,7 +25,7 @@ const OccupateScreen = () => {
 					<OwnerCard
 						item={{
 							phone: null,
-							telegram: '@pinticov',
+							telegram: null,
 						}}
 					/>
 				</div>

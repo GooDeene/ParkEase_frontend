@@ -54,7 +54,9 @@ const OwnerCard = ({
 							{telegram}
 						</a>
 					) : (
-						<span>{DEAFULT_CONTACT_NOT_SPECIFIED}</span>
+						<span className='controls-text-ellipsis'>
+							{DEAFULT_CONTACT_NOT_SPECIFIED}
+						</span>
 					)}
 				</div>
 				<div className={contactClassName}>
@@ -73,7 +75,9 @@ const OwnerCard = ({
 							{phone}
 						</a>
 					) : (
-						<span>{DEAFULT_CONTACT_NOT_SPECIFIED}</span>
+						<span className='controls-text-ellipsis'>
+							{DEAFULT_CONTACT_NOT_SPECIFIED}
+						</span>
 					)}
 				</div>
 			</div>

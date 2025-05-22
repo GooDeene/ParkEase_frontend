@@ -10,8 +10,8 @@
 	display: flex;
 	flex-direction: column;
 
+	flex-shrink: 1;
 	flex-grow: 1;
-	flex-basis: 50%;
 }
 
 .occupateScreen__spotBlock {
