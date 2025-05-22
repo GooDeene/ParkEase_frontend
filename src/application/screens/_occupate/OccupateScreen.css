@@ -1,0 +1,29 @@
+.occupateScreen__infoBlocks {
+	display: flex;
+	color: var(--colors_main);
+	align-items: stretch;
+
+	gap: 10px;
+}
+
+.occupateScreen__spotNameWrapper {
+	display: flex;
+	flex-direction: column;
+
+	flex-grow: 1;
+	flex-basis: 50%;
+}
+
+.occupateScreen__spotBlock {
+	border: 1px solid var(--colors_main);
+	border-radius: var(--border_radius-m);
+	padding: 4px;
+	width: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	box-sizing: border-box;
+	flex-grow: 1;
+}

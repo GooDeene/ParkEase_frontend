@@ -11,7 +11,7 @@
 }
 
 .controls-button-iconMode {
-	color: var(--colors_main);
+	color: inherit;
 }
 
 .controls-button-w-full {

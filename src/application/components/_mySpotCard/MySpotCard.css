@@ -1,0 +1,56 @@
+.mySpotCard {
+	border: 1px solid var(--colors_main);
+	border-radius: var(--border_radius-l);
+
+	padding: 10px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--colors_main);
+	/* margin: 20px; */
+
+	box-sizing: border-box;
+	/* max-width: 420px; */
+
+	max-height: 120px;
+}
+
+.mySpotCard:active {
+	opacity: 0.8;
+}
+
+.mySpotCard__spotInfoBlock {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	flex-grow: 1;
+}
+
+.mySpotCard__giveUpButton {
+	height: 100%;
+	width: 120px;
+	border-radius: var(--border_radius-l);
+}
+
+.mySpotCard__giveUpButtonContent {
+	display: flex;
+	flex-direction: column;
+}
+
+.mySpotCard__emptyHint {
+	display: flex;
+	flex-direction: column;
+	max-width: 300px;
+	gap: 10px;
+	line-height: 1.3;
+}
+
+.mySpotCard__emptyHint > * {
+	text-align: center;
+}
+
+.mySpotCard__emptyHintDetail {
+	color: var(--colors_hint);
+}

@@ -6,7 +6,7 @@ import { type ReactNode, type SyntheticEvent } from 'react';
 interface IButtonProps {
 	className?: string;
 	onClick?: (event: SyntheticEvent) => void;
-	title?: string;
+	title?: string | ReactNode;
 	disabled?: boolean;
 	fullWidth?: boolean;
 	padding?: { t: TPaddingSize; r: TPaddingSize; b: TPaddingSize; l: TPaddingSize };

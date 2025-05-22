@@ -32,7 +32,7 @@ const OccupiedDateFilter = ({ onValueChanged, className }: IOccupiedDateFilterPr
 	return (
 		<div className={wrapperClassName}>
 			<div className={headerClassName}>
-				<span>Выбрать на период</span>
+				<span>На период</span>
 				<Button icon={<ReloadIcon size={30} />} />
 			</div>
 			<Datepicker

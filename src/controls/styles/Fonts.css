@@ -76,3 +76,10 @@
 .controls-fontweight-medium {
 	font-weight: var(--controls-fontweight-medium);
 }
+
+/* Класс запрета переноса и переполнения */
+.controls-text-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

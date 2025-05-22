@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import CalendarHeader from './_header/CalendarHeader';
 import Button from '../_button/Button';
 import CrossIcon from '../_icons/CrossIcon';
+import { getDatesPeriod } from '../utils/getDatesPeriod';
 
 interface IDatepickerProps {
 	placeholder?: string;
@@ -19,27 +20,6 @@ interface IDatepickerProps {
 	endDate: Date | null;
 	onSelectionComplete?: (startDate: Date | null, endDate: Date | null) => void;
 }
-
-const getChosenDates = (start: Date | null, end: Date | null): string => {
-	if (end) {
-		if (start) {
-			const isSame = start.toUTCString() === end.toUTCString();
-			if (isSame) {
-				return `${start.toLocaleDateString()}`;
-			} else {
-				return `${start.toLocaleDateString()} — ${end.toLocaleDateString()}`;
-			}
-		}
-
-		return `— ${end.toLocaleDateString()}`;
-	}
-
-	if (start) {
-		return start.toLocaleDateString();
-	}
-
-	return '';
-};
 
 /**
  * Возвращает true, если календарь надо открывать вверх. Иначе - false.
@@ -84,6 +64,7 @@ const Datepicker = (
 	const rootClickHandler = () => {
 		setOpenCalendarUpside(() => calculateUpsideOpening(inputRef));
 		setIsOpen(() => true);
+		document.body.style.overflow = 'hidden';
 	};
 
 	const changeHandler = (value: [Date | null, Date | null]) => {
@@ -93,6 +74,7 @@ const Datepicker = (
 
 	const onOverlayClick = () => {
 		setIsOpen(() => false);
+		document.body.style.overflow = '';
 		onSelectionComplete?.(startDate, endDate);
 	};
 
@@ -106,7 +88,7 @@ const Datepicker = (
 		}
 	};
 
-	const title = getChosenDates(startDate, endDate);
+	const title = getDatesPeriod([startDate, endDate]);
 
 	return (
 		<div

@@ -29,13 +29,13 @@ const Header = () => {
 		<div className={ROOT_CLASS_NAME}>
 			<Button
 				className={headerButtonClassName}
-				icon={<ProfileIcon />}
+				icon={<ProfileIcon size={40} />}
 				onClick={onProfileClick}
 			/>
 			<span className={headerTitleClassName}>{title}</span>
 			<Button
 				className={headerButtonClassName}
-				icon={<ExitIcon />}
+				icon={<ExitIcon size={40} />}
 				onClick={onExitCLick}
 			/>
 		</div>

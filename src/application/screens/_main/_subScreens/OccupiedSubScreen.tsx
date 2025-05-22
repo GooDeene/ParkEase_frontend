@@ -14,7 +14,7 @@ const OccupiedSubScreen = () => {
 						endDate: new Date(),
 						owner: {
 							phone: '89536050838',
-							telegram: '@avada_keda5ra',
+							telegram: '@v_medvedevskiadasdasdasdawdawdawdawdy',
 						},
 						spotName: '31л',
 					},
@@ -24,14 +24,14 @@ const OccupiedSubScreen = () => {
 						endDate: null,
 						owner: {
 							phone: null,
-							telegram: '@pihny_sladko',
+							telegram: null,
 						},
 						spotName: '148',
 					},
 				]}
 				showBottomSeparator
 			/>
-			<OccupiedDateFilter />
+			<OccupiedDateFilter className='controls-margin_bottom-3xl' />
 			<GivenUpRegistry
 				items={[
 					{
@@ -40,7 +40,7 @@ const OccupiedSubScreen = () => {
 						endDate: new Date(),
 						owner: {
 							phone: '89536050838',
-							telegram: '@avada_keda5ra',
+							telegram: '@avada_keda5ra_and_abra_kadabra_extra_large_nckname',
 						},
 						spotName: '31л',
 					},
@@ -64,6 +64,16 @@ const OccupiedSubScreen = () => {
 						},
 						spotName: '148',
 					},
+					// {
+					// 	id: '2',
+					// 	startDate: new Date(),
+					// 	endDate: null,
+					// 	owner: {
+					// 		phone: null,
+					// 		telegram: '@pihny_sladko',
+					// 	},
+					// 	spotName: '148',
+					// },
 				]}
 			/>
 		</>

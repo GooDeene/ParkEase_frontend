@@ -3,6 +3,8 @@ import './OccupiedRegistry.css';
 import OccupiedCard from '../_card/OccupiedCard';
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
 import type { IParkingSpot } from '../../../../controls/types/TParkingSpot';
+import OccupiedDialog, { type OccupiedDialogAPI } from '../_dialog/OccupiedDialog';
+import { useRef } from 'react';
 
 interface IOccupiedRegistryProps extends IPropsWithClassName {
 	className?: string;
@@ -17,6 +19,8 @@ const OccupiedRegistry = ({
 	showBottomSeparator = false,
 	className,
 }: IOccupiedRegistryProps) => {
+	const dialogRef = useRef<OccupiedDialogAPI>(null);
+
 	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
 	const cardsClassName = clsx(`${ROOT_CLASS_NAME}__cards`);
 	const separatorClassName = clsx(`${ROOT_CLASS_NAME}__separator`);
@@ -26,22 +30,29 @@ const OccupiedRegistry = ({
 		'controls-margin_bottom-l'
 	);
 
-	return (
+	const onCardClick = (item: IParkingSpot) => {
+		dialogRef.current?.open(item);
+	};
+
+	return items.length ? (
 		<div className={wrapperClassName}>
+			<OccupiedDialog ref={dialogRef} />
 			<div className={titleClassName}>Уже занятые мной</div>
 			<div className={cardsClassName}>
 				{items.map((item) => {
 					return (
 						<OccupiedCard
 							key={item.id}
-							dates={[item.startDate, item.endDate]}
-							spotName={item.spotName}
+							item={item}
+							onCardClick={onCardClick}
 						/>
 					);
 				})}
 				{showBottomSeparator && <div className={separatorClassName} />}
 			</div>
 		</div>
+	) : (
+		<></>
 	);
 };
 

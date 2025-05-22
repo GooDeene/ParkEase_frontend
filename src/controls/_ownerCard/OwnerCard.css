@@ -1,0 +1,28 @@
+.controls-ownerCard {
+	color: var(--colors_main);
+	box-sizing: border-box;
+	flex-basis: 50%;
+	flex-shrink: 1;
+
+	max-width: 70%;
+}
+
+.controls-ownerCard__content {
+	border: 1px solid var(--colors_main);
+	border-radius: var(--border_radius-m);
+	padding: 10px;
+
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+}
+
+.controls-ownerCard__contact {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.controls-ownerCard__icon {
+	flex-shrink: 0;
+}

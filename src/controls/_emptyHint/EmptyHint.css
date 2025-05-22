@@ -1,19 +1,22 @@
-.occupiedEmptyHint {
+.controls-emptyHint {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 
-	padding: 45px;
+	padding-top: 15px;
+
+	width: 100%;
+	height: 100%;
 }
 
-.occupiedEmptyHint__title {
+.controls-emptyHint__title {
 	/* width: 80%; */
 	margin-top: 20px;
 	text-align: center;
 	color: var(--colors_main);
 }
 
-.occupiedEmptyHint__detail {
+.controls-emptyHint__detail {
 	/* width: 80%; */
 	text-align: center;
 	color: var(--colors_hint);

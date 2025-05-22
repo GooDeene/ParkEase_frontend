@@ -1,0 +1,28 @@
+.myGivenSpotCard {
+	padding: 6px 6px 6px 6px;
+	border: 1px solid var(--colors_main);
+	border-radius: var(--border_radius-m);
+
+	min-height: 50px;
+
+	display: flex;
+	align-items: center;
+	color: var(--colors_main);
+	box-sizing: border-box;
+}
+
+.myGivenSpotCard__actionButton {
+	width: 95px;
+}
+
+.myGivenSpotCard__actionWrapper {
+	height: 100%;
+	width: 95px;
+	text-align: center;
+	color: var(--colors_hint);
+	line-height: 1.1;
+}
+
+.myGivenSpotCard__title {
+	flex-grow: 1;
+}

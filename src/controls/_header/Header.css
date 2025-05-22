@@ -3,7 +3,7 @@
 	top: 0;
 	left: 0;
 	width: 100vw;
-	height: 90px;
+	height: 70px;
 	box-sizing: border-box;
 
 	display: flex;
@@ -13,9 +13,9 @@
 	background-color: var(--colors_sub_main);
 	color: var(--colors_white);
 
-	z-index: 1;
+	z-index: 2;
 }
 
 .controls-header__button {
-	color: inherit;
+	color: var(--colors_main);
 }

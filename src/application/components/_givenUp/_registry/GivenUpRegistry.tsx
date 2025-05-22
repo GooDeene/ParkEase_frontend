@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import type { IParkingSpot } from '../../../../controls/types/TParkingSpot';
 import './GivenUpRegistry.css';
+import EmptyHint from '../../../../controls/_emptyHint/EmptyHint';
 
 interface IGivenUpRegistryProps {
 	items: IParkingSpot[];
@@ -18,17 +19,25 @@ const GivenUpRegistry = ({ items }: IGivenUpRegistryProps) => {
 	return (
 		<div className='givenUpRegistry__wrapper'>
 			<div className={ROOT_CLASS_NAME}>
-				{items.map((item) => {
-					return (
-						<button
-							key={item.id}
-							className={cardClassName}
-							onClick={() => onCardClick(item)}
-						>
-							{item.spotName}
-						</button>
-					);
-				})}
+				{items.length ? (
+					items.map((item) => {
+						return (
+							<button
+								key={item.id}
+								className={cardClassName}
+								onClick={() => onCardClick(item)}
+							>
+								{item.spotName}
+							</button>
+						);
+					})
+				) : (
+					<EmptyHint
+						title='На выбранные даты не нашлось свободных мест'
+						detail='Попробуйте изменить или сбросить диапазон дат'
+						igmSrc='/src/assets/no_park_sign.png'
+					/>
+				)}
 			</div>
 		</div>
 	);
