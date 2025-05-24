@@ -1,6 +1,6 @@
 .reloadButton:focus {
-	-webkit-animation: rotate-reset-button 1s ease-in-out 1;
-	animation: rotate-reset-button 0.7s ease-in-out 1;
+	-webkit-animation: rotate-reset-button 0.7s ease-out 1;
+	animation: rotate-reset-button 0.7s ease-out 1;
 }
 .reloadButton:active {
 	-webkit-animation: none;
