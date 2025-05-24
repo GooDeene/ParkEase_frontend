@@ -9,6 +9,8 @@ interface IOwnerCardProps extends IPropsWithClassName {
 	item: ISpotOwner;
 	title?: string;
 	clickableLinks?: boolean;
+
+	onContactClick?: (contactType: 'phone' | 'telegram') => void;
 }
 
 const DEFAULT_TITLE = 'Владелец';
@@ -25,6 +27,7 @@ const OwnerCard = ({
 	item: { telegram, phone },
 	title,
 	clickableLinks = true,
+	onContactClick: clickHandler,
 }: IOwnerCardProps) => {
 	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
 	const titleClassName = clsx(`${ROOT_CLASS_NAME}__title`, 'controls-margin_bottom-3xs');
@@ -32,7 +35,9 @@ const OwnerCard = ({
 	const iconClassName = clsx(`${ROOT_CLASS_NAME}__icon`);
 	const contactClassName = clsx(`${ROOT_CLASS_NAME}__contact`, 'controls-fontsize-14');
 
-	const onContactClick = (contactType: 'telegram' | 'phone') => {};
+	const onContactClick = (contactType: 'telegram' | 'phone') => {
+		clickHandler?.(contactType);
+	};
 
 	return (
 		<div className={wrapperClassName}>

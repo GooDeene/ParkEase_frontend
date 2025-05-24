@@ -8,7 +8,7 @@ import { useState } from 'react';
 const ROOT_CLASS_NAME = 'controls-header';
 
 const Header = () => {
-	const [title, setTitle] = useState('А123АА123');
+	const [title] = useState('А123АА123');
 
 	const headerButtonClassName = clsx(`${ROOT_CLASS_NAME}__button`);
 	const headerTitleClassName = clsx(
