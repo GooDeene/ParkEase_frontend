@@ -14,8 +14,8 @@ const CrossIcon: TIconComponent = (props) => {
 			<path
 				d='M45 45L5 5M45 5L5 45'
 				stroke='currentColor'
-				stroke-width='4'
-				stroke-linecap='round'
+				strokeWidth='4'
+				strokeLinecap='round'
 			/>
 		</svg>
 	);

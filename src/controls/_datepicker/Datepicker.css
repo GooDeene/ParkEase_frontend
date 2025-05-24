@@ -9,6 +9,7 @@
 
 	z-index: 1;
 	position: relative;
+	interpolate-size: allow-keywords;
 }
 
 .controls-datepicker__dateCard {
@@ -53,12 +54,17 @@
 	border: var(--border-standart);
 	overflow: hidden;
 
+	height: auto;
+	transition: 0.5s ease;
+}
+
+.controls-datepicker__calendar_inputMode {
 	position: absolute;
-	min-height: 282px;
 }
 
 .controls-datepicker__calendar_upside {
-	bottom: 105%;
+	transform: translateY(-100%);
+	top: -5%;
 }
 
 .controls-datepicker__calendar_downside {
@@ -107,4 +113,9 @@
 		.react-datepicker__year-text--in-range
 	) {
 	background-color: var(--colors_white);
+}
+
+.TEST_CLASS {
+	height: 0;
+	border-width: 0;
 }

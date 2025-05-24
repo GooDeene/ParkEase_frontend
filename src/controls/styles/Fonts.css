@@ -83,3 +83,8 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+
+/* Класс выравния текста по центру */
+.controls-text-center {
+	text-align: center;
+}

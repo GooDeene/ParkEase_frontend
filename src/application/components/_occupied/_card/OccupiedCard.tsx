@@ -4,6 +4,7 @@ import Button from '../../../../controls/_button/Button';
 import { formatDateToRU } from '../../../../controls/utils/formatDate';
 import type { SyntheticEvent } from 'react';
 import type { IParkingSpot } from '../../../../controls/types/TParkingSpot';
+import { getDatePeriodTitle } from '../../../../controls/utils/getDatePeriodTitle';
 
 interface IOccupiedCard {
 	item: IParkingSpot;
@@ -15,13 +16,7 @@ const getFirstRow = (
 	dates: [IParkingSpot['startDate'], IParkingSpot['endDate']],
 	spotName: IParkingSpot['spotName']
 ): string => {
-	const result = ['Место', `${spotName},`, 'на'];
-
-	if (!dates[1]) {
-		result.push('дату');
-	} else {
-		result.push('период');
-	}
+	const result = ['Место', `${spotName},`, 'на', getDatePeriodTitle(dates[0], dates[1])];
 
 	return result.join(' ').trim();
 };

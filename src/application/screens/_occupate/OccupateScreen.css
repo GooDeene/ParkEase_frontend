@@ -6,6 +6,15 @@
 	gap: 10px;
 }
 
+.occupateScreen__datepickerBlock {
+	color: var(--colors_main);
+}
+
+.occupateScreen__submitButton {
+	margin-top: 30px;
+	width: 100%;
+}
+
 .occupateScreen__spotNameWrapper {
 	display: flex;
 	flex-direction: column;

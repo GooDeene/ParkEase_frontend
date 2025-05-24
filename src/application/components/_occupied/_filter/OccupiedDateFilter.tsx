@@ -5,6 +5,7 @@ import ReloadIcon from '../../../../controls/_icons/ReloadIcon';
 import Datepicker from '../../../../controls/_datepicker/Datepicker';
 import { useState } from 'react';
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
+import { getDatePeriodTitle } from '../../../../controls/utils/getDatePeriodTitle';
 
 interface IOccupiedDateFilterProps extends IPropsWithClassName {
 	onValueChanged?: (startDate: Date | null, endDate: Date | null) => void;
@@ -32,7 +33,7 @@ const OccupiedDateFilter = ({ onValueChanged, className }: IOccupiedDateFilterPr
 	return (
 		<div className={wrapperClassName}>
 			<div className={headerClassName}>
-				<span>На период</span>
+				<span>{`На ${getDatePeriodTitle(selectedStart, selectedEnd)}`}</span>
 				<Button icon={<ReloadIcon size={30} />} />
 			</div>
 			<Datepicker

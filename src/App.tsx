@@ -8,8 +8,8 @@ function App() {
 	return (
 		<>
 			<ToastContainer />
-			{/* <MainScreen /> */}
-			<OccupateScreen />
+			<MainScreen />
+			{/* <OccupateScreen /> */}
 		</>
 	);
 }
