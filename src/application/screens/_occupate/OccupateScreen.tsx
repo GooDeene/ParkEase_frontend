@@ -15,7 +15,6 @@ const spotName = '212';
 const OccupateScreen = () => {
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [endDate, setEndDate] = useState<Date | null>(null);
-	// const dateTitle = useMemo(() => getDatePeriodTitle(startDate, endDate), [startDate, endDate])
 
 	const infoBlocksClassName = clsx(`${ROOT_CLASS_NAME}__infoBlocks`);
 	const spotNameClassName = clsx(`${ROOT_CLASS_NAME}__spotNameWrapper`);

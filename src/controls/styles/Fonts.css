@@ -88,3 +88,8 @@
 .controls-text-center {
 	text-align: center;
 }
+
+/* Навешивает цвет текста - основной */
+.controls-fontcolor-main {
+	color: var(--colors_main);
+}

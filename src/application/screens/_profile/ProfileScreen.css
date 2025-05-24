@@ -1,0 +1,10 @@
+.profileScreen__inputs {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.profileScreen__submitButton {
+	margin-top: 30px;
+	width: 100%;
+}

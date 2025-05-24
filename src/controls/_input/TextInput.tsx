@@ -1,8 +1,9 @@
 import './TextInput.css';
 import clsx from 'clsx';
 import type { TValidationResult } from './types/TValidationResult';
-import { useRef, useState } from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState, type ForwardedRef } from 'react';
 import type { TValidator } from './types/TValidator';
+import type { TValidationAPI } from './types/TValidationAPI';
 
 interface ITextInputProps {
 	placeholder?: string;
@@ -13,6 +14,7 @@ interface ITextInputProps {
 	invalidHintDuration?: number;
 	validateOnFocusOut?: boolean;
 	validateOnChange?: boolean;
+	uppercase?: boolean;
 
 	onValueChanged?: (value: string) => void;
 	onValidationComplete?: (result: TValidationResult) => void;
@@ -33,24 +35,35 @@ const VALIDATION_DEBOUNCE = 700;
 
 const ROOT_CLASS_NAME = 'controls-textInput';
 
-const TextInput = ({
-	placeholder,
-	type,
-	value,
-	validators,
-	hint: defaultHint,
-	invalidHintDuration,
-	validateOnFocusOut = false,
-	validateOnChange = false,
-	onValueChanged,
-	onValidationComplete,
-	onFocusIn,
-	onFocusOut,
-}: ITextInputProps) => {
+const TextInput = (
+	{
+		placeholder,
+		type,
+		value,
+		validators,
+		hint: defaultHint,
+		invalidHintDuration,
+		validateOnFocusOut = false,
+		validateOnChange = false,
+		uppercase = false,
+		onValueChanged,
+		onValidationComplete,
+		onFocusIn,
+		onFocusOut,
+	}: ITextInputProps,
+	ref: ForwardedRef<TValidationAPI>
+) => {
 	const [validationDebounceTimer, setValidationDebounceTimer] = useState<number | null>(null);
 	const [validationCleanerTimer, setValidationCleanerTimer] = useState<number | null>(null);
 	const [hint, setHint] = useState(defaultHint);
 	const [valid, setValid] = useState(true);
+	const [internalValue, setInternalValue] = useState(value);
+
+	useImperativeHandle(ref, () => {
+		return {
+			validate: () => validate(internalValue),
+		};
+	});
 
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -59,7 +72,10 @@ const TextInput = ({
 		'controls-fontsize-20',
 		valid ? `${ROOT_CLASS_NAME}_valid` : `${ROOT_CLASS_NAME}_invalid`
 	);
-	const inputClassName = clsx(`${ROOT_CLASS_NAME}__input`);
+	const inputClassName = clsx(
+		`${ROOT_CLASS_NAME}__input`,
+		uppercase && `${ROOT_CLASS_NAME}__input_uppercase`
+	);
 	const hintClassName = clsx(
 		`${ROOT_CLASS_NAME}__hint`,
 		'controls-fontsize-12',
@@ -83,7 +99,7 @@ const TextInput = ({
 		setValidationCleanerTimer(() => timerId);
 	};
 
-	const validate = (valueToValidate: string) => {
+	const validate = (valueToValidate: string): boolean | string => {
 		const validationResult: TValidationResult[] = [];
 		for (const validator of validators || []) {
 			validationResult.push(validator(valueToValidate));
@@ -95,12 +111,13 @@ const TextInput = ({
 				if (valid || hint !== result) {
 					validationFail(result);
 				}
-				return;
+				return result;
 			}
 		}
 
 		onValidationComplete?.(true);
 		clearValidationStatus();
+		return true;
 	};
 
 	const focusInHandler = () => {
@@ -111,7 +128,7 @@ const TextInput = ({
 	const focusOutHandler = () => {
 		onFocusOut?.();
 		if (validateOnFocusOut) {
-			validate(value);
+			validate(internalValue);
 		}
 	};
 
@@ -134,7 +151,7 @@ const TextInput = ({
 
 	const changeHandler = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = target.value;
-		console.log(newValue);
+		setInternalValue(() => newValue);
 		onValueChanged?.(newValue);
 
 		if (validateOnChange) {
@@ -151,7 +168,7 @@ const TextInput = ({
 				type={type}
 				className={inputClassName}
 				placeholder={placeholder}
-				value={value}
+				value={internalValue}
 				onChange={changeHandler}
 				onBlur={focusOutHandler}
 				onFocus={focusInHandler}
@@ -160,4 +177,4 @@ const TextInput = ({
 	);
 };
 
-export default TextInput;
+export default forwardRef(TextInput);
