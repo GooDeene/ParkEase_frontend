@@ -59,7 +59,7 @@ const ValidationController = (props: PropsWithChildren, ref: ForwardedRef<TValid
 		return true;
 	};
 
-	return <div>{childs}</div>;
+	return <>{childs}</>;
 };
 
 export default forwardRef(ValidationController);

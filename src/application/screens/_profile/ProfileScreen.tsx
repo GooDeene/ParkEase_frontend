@@ -28,7 +28,7 @@ const ProfileScreen = ({ defaultValues }: { defaultValues: any }) => {
 	const [isButtonActive, setIsButtonActive] = useState(false);
 	const validatorRef = useRef<TValidationAPI>(null);
 
-	const inputClassName = clsx(`${ROOT_CLASS_NAME}__inputs`, 'controls-margin_top-l');
+	const inputsClassName = clsx(`${ROOT_CLASS_NAME}__inputs`, 'controls-margin_top-l');
 	const submitButtonClassName = clsx(`${ROOT_CLASS_NAME}__submitButton`);
 
 	const onInputChange = (value: string, type: TInputVariant) => {
@@ -46,12 +46,12 @@ const ProfileScreen = ({ defaultValues }: { defaultValues: any }) => {
 		}
 	};
 
-    /**
-     * Обработчик клика кнопки подтверждения изменений.
-     * Вызывает валидацию всего содержимого контейнера, подсвечивая нарушения.
-     * В случае успеха - отправляет запрос к API.
-     * В случае неудачи - ничего не делает
-     */
+	/**
+	 * Обработчик клика кнопки подтверждения изменений.
+	 * Вызывает валидацию всего содержимого контейнера, подсвечивая нарушения.
+	 * В случае успеха - отправляет запрос к API.
+	 * В случае неудачи - ничего не делает
+	 */
 	const onSubmitClick = () => {
 		const validationRes = validatorRef.current?.validate();
 		if (validationRes) {
@@ -66,7 +66,7 @@ const ProfileScreen = ({ defaultValues }: { defaultValues: any }) => {
 			<Header />
 			<ScreenLayout>
 				<Title text='Информация о пользователе' />
-				<div className={inputClassName}>
+				<div className={inputsClassName}>
 					<ValidationController ref={validatorRef}>
 						<TextInput
 							hint='Телефон'
