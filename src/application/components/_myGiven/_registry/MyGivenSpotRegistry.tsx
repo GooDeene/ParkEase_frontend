@@ -3,9 +3,8 @@ import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithC
 import MyGivenSpotCard from '../_card/MyGivenSpotCard';
 import type { SpotStatus } from '../types/SpotStatus';
 import './MyGivenSpotRegistry.css';
-import Button from '../../../../controls/_button/Button';
-import ReloadIcon from '../../../../controls/_icons/ReloadIcon';
 import EmptyHint from '../../../../controls/_emptyHint/EmptyHint';
+import ReloadButton from '../../_reloadButton/ReloadButton';
 
 type TMyGivenSpotRecord = {
 	id: string;
@@ -32,7 +31,7 @@ const MyGivenSpotRegistry = ({ items, className }: IMyGivenSpotRegistryProps) =>
 				<>
 					<div className={headerClassName}>
 						<span>Предоставленные периоды</span>
-						<Button icon={<ReloadIcon size={30} />} />
+						<ReloadButton />
 					</div>
 					<div className={cardsClassName}>
 						{items.map((item) => {

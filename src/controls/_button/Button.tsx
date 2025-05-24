@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import './Button.css';
 import type { TPaddingSize } from '../_input/types/TPaddingSize';
-import { type ReactNode, type SyntheticEvent } from 'react';
+import { forwardRef, type ForwardedRef, type ReactNode, type SyntheticEvent } from 'react';
+import './Button.css';
 
 interface IButtonProps {
 	className?: string;
@@ -15,15 +15,10 @@ interface IButtonProps {
 	icon?: ReactNode;
 }
 
-const Button = ({
-	className,
-	onClick,
-	disabled,
-	title,
-	fullWidth = false,
-	padding,
-	icon,
-}: IButtonProps) => {
+const Button = (
+	{ className, onClick, disabled, title, fullWidth = false, padding, icon }: IButtonProps,
+	ref: ForwardedRef<HTMLButtonElement>
+) => {
 	const buttonClassName = clsx(
 		'controls-button',
 		'controls-button-titleMode',
@@ -45,6 +40,7 @@ const Button = ({
 
 	return (
 		<button
+			ref={ref}
 			className={icon ? iconModeClassName : buttonClassName}
 			disabled={disabled}
 			onClick={(e: SyntheticEvent) => {
@@ -57,4 +53,4 @@ const Button = ({
 	);
 };
 
-export default Button;
+export default forwardRef(Button);
