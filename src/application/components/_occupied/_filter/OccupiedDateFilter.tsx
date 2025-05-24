@@ -1,7 +1,5 @@
 import clsx from 'clsx';
 import './OccupiedDateFilter.css';
-import Button from '../../../../controls/_button/Button';
-import ReloadIcon from '../../../../controls/_icons/ReloadIcon';
 import Datepicker from '../../../../controls/_datepicker/Datepicker';
 import { useState } from 'react';
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
