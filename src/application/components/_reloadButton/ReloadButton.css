@@ -1,5 +1,5 @@
 .reloadButton:focus {
-	-webkit-animation: rotate-reset-button 0.7s ease-out 1;
+	-webkit-animation: -webkit-rotate-reset-button 0.7s ease-out 1;
 	animation: rotate-reset-button 0.7s ease-out 1;
 }
 .reloadButton:active {
@@ -10,21 +10,17 @@
 @keyframes rotate-reset-button {
 	from {
 		transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
 	}
 	to {
 		transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
 	}
 }
 
-@-webkit-keyframes rotate-reset-button {
+@-webkit-keyframes -webkit-rotate-reset-button {
 	from {
-		transform: rotate(0deg);
 		-webkit-transform: rotate(0deg);
 	}
 	to {
-		transform: rotate(360deg);
 		-webkit-transform: rotate(360deg);
 	}
 }
