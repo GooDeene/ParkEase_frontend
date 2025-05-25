@@ -1,13 +1,6 @@
 import DatePicker from 'react-datepicker';
 import './Datepicker.css';
-import {
-	forwardRef,
-	useRef,
-	useState,
-	type ForwardedRef,
-	type RefObject,
-	type SyntheticEvent,
-} from 'react';
+import { forwardRef, useRef, useState, type ForwardedRef, type SyntheticEvent } from 'react';
 import clsx from 'clsx';
 import CalendarHeader from './_header/CalendarHeader';
 import Button from '../_button/Button';
@@ -30,12 +23,12 @@ interface IDatepickerProps extends IPropsWithClassName {
 /**
  * Возвращает true, если календарь надо открывать вверх. Иначе - false.
  */
-const calculateUpsideOpening = (inputRef: RefObject<HTMLDivElement | null>): boolean => {
-	const screenHeight = window.screen.height;
-	const inputTopOffset = inputRef.current?.getBoundingClientRect().top ?? 0;
+// const calculateUpsideOpening = (inputRef: RefObject<HTMLDivElement | null>): boolean => {
+// 	const screenHeight = window.screen.height;
+// 	const inputTopOffset = inputRef.current?.getBoundingClientRect().top ?? 0;
 
-	return inputTopOffset > screenHeight / 2;
-};
+// 	return inputTopOffset > screenHeight / 2;
+// };
 
 const DEFAULT_PLACEHOLDER = 'Дата не выбрана';
 
