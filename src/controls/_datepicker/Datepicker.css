@@ -56,6 +56,7 @@
 
 	height: auto;
 	transition: 0.5s ease;
+	-webkit-transition: 0.5s ease;
 
 	width: 85%;
 	max-width: 360px;
@@ -80,7 +81,7 @@
 
 .controls-datepicker__day {
 	color: inherit;
-	font-size: max(2.5vmin, 17px);
+	font-size: max(2.1vmin, 17px);
 	display: flex;
 	align-items: center;
 	justify-content: center;

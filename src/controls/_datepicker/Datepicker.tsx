@@ -73,7 +73,7 @@ const Datepicker = (
 			setIsOpen(() => true);
 
 			const el = document.querySelector(`.controls-datepicker__calendar`);
-			setTimeout(() => el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 250);
+			setTimeout(() => el?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 250);
 			// document.body.style.overflow = 'hidden';
 		}
 	};
