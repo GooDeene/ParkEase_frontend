@@ -34,11 +34,7 @@ const CalendarHeader = ({
 	const headerClassName = clsx('controls-datepicker__header');
 	const arrowCalssName = 'controls-datepicker__arrow';
 	const buttonsClassName = clsx('controls-datepicker__buttonsBlock');
-	const dateClassName = clsx(
-		'controls-datepicker__headerDate',
-		'controls-fontsize-20',
-		'controls-fontweight-medium'
-	);
+	const dateClassName = clsx('controls-datepicker__headerDate', 'controls-fontweight-medium');
 
 	const homeClickHandler = () => {
 		const now = new Date();

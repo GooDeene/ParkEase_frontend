@@ -77,7 +77,7 @@ const Datepicker = (
 		if (!inline) {
 			setOpenCalendarUpside(() => calculateUpsideOpening(inputRef));
 			setIsOpen(() => true);
-			document.body.style.overflow = 'hidden';
+			// document.body.style.overflow = 'hidden';
 		}
 	};
 

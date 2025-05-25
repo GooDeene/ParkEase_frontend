@@ -2,9 +2,11 @@
 	padding: 4px 0;
 	flex-grow: 1;
 	display: flex;
-	gap: 6px;
+	gap: 5%;
 	justify-content: center;
-	align-items: baseline;
+	align-items: center;
+
+	font-size: max(2.5vmin, 20px);
 }
 
 .controls-datepicker__header {
@@ -39,4 +41,19 @@
 
 .controls-datepicker__calendar .react-datepicker__header--custom {
 	border-bottom: var(--border-standart);
+}
+
+/* Перебивание стилей библиотеки для размерности */
+.react-datepicker__header {
+	display: flex;
+	flex-direction: column;
+}
+
+.react-datepicker__day-names {
+	display: flex;
+}
+
+.react-datepicker__day-name {
+	flex-grow: 1;
+	font-size: 145%;
 }
