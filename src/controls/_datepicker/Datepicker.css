@@ -62,7 +62,7 @@
 }
 
 .controls-datepicker__calendar_inputMode {
-	position: absolute;
+	position: relative;
 }
 
 .controls-datepicker__calendar_upside {
@@ -153,4 +153,14 @@
 
 .react-datepicker__day--outside-month {
 	color: var(--colors_unactive);
+}
+
+/* Тест плавного разворота по клику */
+.test-class_shown {
+	height: max-content;
+}
+
+.test-class_hidden {
+	height: 0;
+	top: -10px;
 }

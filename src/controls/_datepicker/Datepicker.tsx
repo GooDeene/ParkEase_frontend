@@ -55,7 +55,7 @@ const Datepicker = (
 ) => {
 	const [startDate, setStartDate] = useState<Date | null>(() => initialStartDate);
 	const [endDate, setEndDate] = useState<Date | null>(() => initialEndDate);
-	const [openCalendarUpside, setOpenCalendarUpside] = useState(false);
+	// const [openCalendarUpside, setOpenCalendarUpside] = useState(false);
 	const [isOpen, setIsOpen] = useState(inline);
 
 	const inputRef = useRef<HTMLDivElement>(null);
@@ -64,9 +64,10 @@ const Datepicker = (
 		`${ROOT_CLASS_NAME}__calendar`,
 		!inline && `${ROOT_CLASS_NAME}__calendar_inputMode`,
 		!inline &&
-			(openCalendarUpside
-				? `${ROOT_CLASS_NAME}__calendar_upside`
-				: `${ROOT_CLASS_NAME}__calendar_downside`),
+			// (openCalendarUpside
+			// 	? `${ROOT_CLASS_NAME}__calendar_upside`
+			`${ROOT_CLASS_NAME}__calendar_downside`,
+		isOpen ? 'test-class_shown' : 'test-class_hidden',
 		calendarClass
 	);
 	const dayClassName = clsx(`${ROOT_CLASS_NAME}__day`);
@@ -75,8 +76,11 @@ const Datepicker = (
 
 	const rootClickHandler = () => {
 		if (!inline) {
-			setOpenCalendarUpside(() => calculateUpsideOpening(inputRef));
+			// setOpenCalendarUpside(() => calculateUpsideOpening(inputRef));
 			setIsOpen(() => true);
+
+			const el = document.querySelector(`.controls-datepicker__calendar`);
+			setTimeout(() => el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 250);
 			// document.body.style.overflow = 'hidden';
 		}
 	};
@@ -116,6 +120,7 @@ const Datepicker = (
 		e.stopPropagation();
 		setStartDate(() => null);
 		setEndDate(() => null);
+		setIsOpen(() => false);
 
 		if (inline || !isOpen) {
 			onSelectionComplete?.(null, null);
@@ -156,21 +161,21 @@ const Datepicker = (
 					/>
 				)}
 			</div>
-			{isOpen && (
-				<DatePicker
-					calendarClassName={calendarClassName}
-					startDate={startDate}
-					endDate={endDate}
-					onChange={changeHandler}
-					renderCustomHeader={CalendarHeader}
-					dayClassName={() => dayClassName}
-					minDate={new Date()}
-					disabledKeyboardNavigation
-					inline
-					selectsRange
-					swapRange
-				/>
-			)}
+			{/* {isOpen && ( */}
+			<DatePicker
+				calendarClassName={calendarClassName}
+				startDate={startDate}
+				endDate={endDate}
+				onChange={changeHandler}
+				renderCustomHeader={CalendarHeader}
+				dayClassName={() => dayClassName}
+				minDate={new Date()}
+				disabledKeyboardNavigation
+				inline
+				selectsRange
+				swapRange
+			/>
+			{/* )} */}
 		</div>
 	);
 };
