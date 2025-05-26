@@ -79,7 +79,7 @@ const TextInput = (
 	);
 	const inputClassName = clsx(
 		`${ROOT_CLASS_NAME}__input`,
-		uppercase && `${ROOT_CLASS_NAME}__input_uppercase`
+		uppercase && internalValue !== '' && `${ROOT_CLASS_NAME}__input_uppercase`
 	);
 	const hintClassName = clsx(
 		`${ROOT_CLASS_NAME}__hint`,
