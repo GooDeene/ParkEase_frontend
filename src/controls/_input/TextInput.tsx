@@ -27,7 +27,7 @@ interface ITextInputProps extends IPropsWithClassName {
 /**
  * Время (в мс) на протяжении которого над полем ввода вместо подсказки отображается сообщение ошибки валидации
  */
-const DEFAULT_INVALID_HINT_DURATION = 3000;
+const DEFAULT_INVALID_HINT_DURATION = 3300;
 
 /**
  * Время "дребезга" между окончанием ввода пользователя и валидацией (при условии возведения флага "validateOnChange"),
