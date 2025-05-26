@@ -1,0 +1,25 @@
+.authorizeScreen {
+	padding: 60px 35px;
+
+	display: flex;
+	flex-direction: column;
+
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.authorizeScreen__logo {
+	margin-bottom: 60px;
+	align-self: center;
+}
+
+.authorizeScreen__subScreen {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin-top: 20px;
+}
+
+.authorizeScreen__subScreen_hidden {
+	display: none;
+}

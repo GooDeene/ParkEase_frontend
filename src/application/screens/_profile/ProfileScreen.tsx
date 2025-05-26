@@ -3,7 +3,7 @@ import Header from '../../../controls/_header/Header';
 import ScreenLayout from '../../../controls/_layout/ScreenLayout';
 import Title from '../../../controls/_title/Title';
 import TextInput from '../../../controls/_input/TextInput';
-import { useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import { isValidRussianPhone } from '../../../controls/_input/validators/isValidRussianPhone';
 import { isLicensePlate } from '../../../controls/_input/validators/isLicensePlate';
 import { isRequired } from '../../../controls/_input/validators/isRequired';
@@ -63,7 +63,7 @@ const ProfileScreen = ({ defaultValues }: { defaultValues: any }) => {
 
 	return (
 		<div>
-			<Header />
+			<Header showHome />
 			<ScreenLayout>
 				<Title text='Информация о пользователе' />
 				<div className={inputsClassName}>
@@ -111,4 +111,4 @@ const ProfileScreen = ({ defaultValues }: { defaultValues: any }) => {
 	);
 };
 
-export default ProfileScreen;
+export default memo(ProfileScreen);

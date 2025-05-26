@@ -11,7 +11,14 @@ import React, {
 import { type PropsWithChildren } from 'react';
 import type { TValidationAPI } from '../_input/types/TValidationAPI';
 
-const ValidationController = (props: PropsWithChildren, ref: ForwardedRef<TValidationAPI>) => {
+interface IValidationControllerProps extends PropsWithChildren {
+	childProps?: object;
+}
+
+const ValidationController = (
+	props: IValidationControllerProps,
+	ref: ForwardedRef<TValidationAPI>
+) => {
 	const [childs, setChilds] = useState<
 		React.ReactElement<unknown, string | React.JSXElementConstructor<any>>[]
 	>([]);
@@ -26,12 +33,16 @@ const ValidationController = (props: PropsWithChildren, ref: ForwardedRef<TValid
 
 		// Обновляем детей, передавая им ref
 		const childrenWithRef = childrenArray.map((child, index) =>
-			cloneElement(child, { pupa: 'zalupa', ref: childRefs[index] } as any)
+			cloneElement(child, {
+				...(props.childProps || {}),
+				...(child.props || {}),
+				ref: childRefs[index],
+			} as any)
 		);
 
 		setChilds(() => childrenWithRef);
 		setRefs(() => childRefs);
-	}, []);
+	}, [props.children]);
 
 	useImperativeHandle(ref, () => {
 		return {

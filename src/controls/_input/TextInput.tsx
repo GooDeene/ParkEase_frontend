@@ -4,8 +4,9 @@ import type { TValidationResult } from './types/TValidationResult';
 import { forwardRef, useImperativeHandle, useRef, useState, type ForwardedRef } from 'react';
 import type { TValidator } from './types/TValidator';
 import type { TValidationAPI } from './types/TValidationAPI';
+import type { IPropsWithClassName } from '../types/IPropsWithClassName';
 
-interface ITextInputProps {
+interface ITextInputProps extends IPropsWithClassName {
 	placeholder?: string;
 	type: React.HTMLInputTypeAttribute;
 	value: string;
@@ -15,6 +16,7 @@ interface ITextInputProps {
 	validateOnFocusOut?: boolean;
 	validateOnChange?: boolean;
 	uppercase?: boolean;
+	showRequired?: boolean;
 
 	onValueChanged?: (value: string) => void;
 	onValidationComplete?: (result: TValidationResult) => void;
@@ -37,6 +39,7 @@ const ROOT_CLASS_NAME = 'controls-textInput';
 
 const TextInput = (
 	{
+		className,
 		placeholder,
 		type,
 		value,
@@ -46,6 +49,7 @@ const TextInput = (
 		validateOnFocusOut = false,
 		validateOnChange = false,
 		uppercase = false,
+		showRequired = false,
 		onValueChanged,
 		onValidationComplete,
 		onFocusIn,
@@ -70,7 +74,8 @@ const TextInput = (
 	const rootClassName = clsx(
 		ROOT_CLASS_NAME,
 		'controls-fontsize-20',
-		valid ? `${ROOT_CLASS_NAME}_valid` : `${ROOT_CLASS_NAME}_invalid`
+		valid ? `${ROOT_CLASS_NAME}_valid` : `${ROOT_CLASS_NAME}_invalid`,
+		className
 	);
 	const inputClassName = clsx(
 		`${ROOT_CLASS_NAME}__input`,
@@ -78,9 +83,10 @@ const TextInput = (
 	);
 	const hintClassName = clsx(
 		`${ROOT_CLASS_NAME}__hint`,
-		'controls-fontsize-12',
+		'controls-fontsize-14',
 		'controls-fontweight-medium'
 	);
+	const requiredClassName = clsx(`${ROOT_CLASS_NAME}__required`);
 
 	const validationFail = (message: string) => {
 		setHint(() => message);
@@ -162,7 +168,10 @@ const TextInput = (
 
 	return (
 		<div className={rootClassName}>
-			<span className={hintClassName}>{hint}</span>
+			<div className={hintClassName}>
+				{showRequired && <span className={requiredClassName}>*</span>}
+				<span>{hint}</span>
+			</div>
 			<input
 				ref={inputRef}
 				type={type}
@@ -172,6 +181,7 @@ const TextInput = (
 				onChange={changeHandler}
 				onBlur={focusOutHandler}
 				onFocus={focusInHandler}
+				size={10}
 			/>
 		</div>
 	);

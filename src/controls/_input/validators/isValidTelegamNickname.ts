@@ -1,7 +1,7 @@
 import type { TValidator } from '../types/TValidator';
 
 const NICKNAME_SYMBOL = '@';
-const DEFAULT_FAIL_MESSAGE = 'Ник должен начинаться с "@"';
+const DEFAULT_FAIL_MESSAGE = 'Ник должен начинаться с @';
 const NOT_EMPTY_NICKNAME = 'Ник не может быть пустым';
 
 export const isValidTelegarmNickname: TValidator<string> = (value) => {

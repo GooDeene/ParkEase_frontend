@@ -21,3 +21,12 @@
 
 	padding: 9px 13px;
 }
+
+.controls-textInput__hint {
+	display: flex;
+	gap: 6px;
+}
+
+.controls-textInput__required {
+	color: var(--colors_error);
+}

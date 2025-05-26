@@ -4,10 +4,16 @@ import Button from '../_button/Button';
 import ProfileIcon from '../_icons/ProfileIcon';
 import ExitIcon from '../_icons/ExitIcon';
 import { useState } from 'react';
+import type { IPropsWithClassName } from '../types/IPropsWithClassName';
+import HomeIcon from '../_icons/HomeIcon';
+
+interface IHeaderProps extends IPropsWithClassName {
+	showHome?: boolean;
+}
 
 const ROOT_CLASS_NAME = 'controls-header';
 
-const Header = () => {
+const Header = ({ showHome = false }: IHeaderProps) => {
 	const [title] = useState('А123АА123');
 
 	const headerButtonClassName = clsx(`${ROOT_CLASS_NAME}__button`);
@@ -29,7 +35,7 @@ const Header = () => {
 		<div className={ROOT_CLASS_NAME}>
 			<Button
 				className={headerButtonClassName}
-				icon={<ProfileIcon size={40} />}
+				icon={showHome ? <HomeIcon size={40} /> : <ProfileIcon size={40} />}
 				onClick={onProfileClick}
 			/>
 			<span className={headerTitleClassName}>{title}</span>

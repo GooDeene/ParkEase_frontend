@@ -1,12 +1,13 @@
 import { ToastContainer } from 'react-toastify';
 import './App.css';
-import MainScreen from './application/screens/_main/MainScreen';
+import AuthorizeScreen from './application/screens/_authorize/AuthorizeScreen';
 
 function App() {
 	return (
 		<>
 			<ToastContainer />
-			<MainScreen />
+			<AuthorizeScreen />
+			{/* <MainScreen /> */}
 			{/* <OccupateScreen /> */}
 			{/* <GiveUpScreen /> */}
 			{/* <ProfileScreen
