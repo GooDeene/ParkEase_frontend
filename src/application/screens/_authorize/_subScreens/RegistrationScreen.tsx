@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import './RegistrationScreen.css';
 import { isRequired } from '../../../../controls/_input/validators/isRequired';
 import { isValidRussianPhone } from '../../../../controls/_input/validators/isValidRussianPhone';
 import { isValidPassword } from '../../../../controls/_input/validators/isValidPassword';
