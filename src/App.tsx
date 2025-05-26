@@ -6,6 +6,7 @@ import MainScreen from './application/screens/_main/MainScreen';
 import ProfileScreen from './application/screens/_profile/ProfileScreen';
 import OccupateScreen from './application/screens/_occupate/OccupateScreen';
 import GiveUpScreen from './application/screens/_giveUp/GiveUpScreen';
+import ParkingScreen from './application/screens/_parking/ParkingScreen';
 
 function App() {
 	return (
@@ -41,6 +42,10 @@ function App() {
 					<Route
 						path={'/give-up'}
 						element={<GiveUpScreen />}
+					/>
+					<Route
+						path='*'
+						element={<ParkingScreen />}
 					/>
 				</Routes>
 			</BrowserRouter>

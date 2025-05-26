@@ -1,0 +1,9 @@
+.parkingScreen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	color: var(--colors_main);
+	padding: 60px 35px;
+	text-align: center;
+}

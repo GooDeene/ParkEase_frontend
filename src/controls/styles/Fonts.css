@@ -93,3 +93,11 @@
 .controls-fontcolor-main {
 	color: var(--colors_main);
 }
+
+.controls-fontcolor-hint {
+	color: var(--colors_hint);
+}
+
+.controls-fontcolor-error {
+	color: var(--colors_error);
+}
