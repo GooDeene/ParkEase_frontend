@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import './Switch.css';
-import { useState } from 'react';
+import { forwardRef, useState, type ForwardedRef } from 'react';
 
 type TSwitchItem<T> = {
 	title: string;
@@ -23,7 +23,10 @@ interface ISwitchProps<T = string> {
 
 const ROOT_CLASS_NAME = 'controls-switch';
 
-const Switch = ({ items, className, sizes, onValueChanged }: ISwitchProps) => {
+const Switch = (
+	{ items, className, sizes, onValueChanged }: ISwitchProps,
+	ref: ForwardedRef<HTMLDivElement>
+) => {
 	const [position, setPosition] = useState('left');
 
 	const wrapperClassName = clsx(
@@ -49,6 +52,7 @@ const Switch = ({ items, className, sizes, onValueChanged }: ISwitchProps) => {
 
 	return (
 		<div
+			ref={ref}
 			className={wrapperClassName}
 			style={{ width: sizes?.width, height: sizes?.height }}
 		>
@@ -83,4 +87,4 @@ const Switch = ({ items, className, sizes, onValueChanged }: ISwitchProps) => {
 /**
  * Конпонент переключателя между двумя выбранными значениями.
  */
-export default Switch;
+export default forwardRef(Switch);

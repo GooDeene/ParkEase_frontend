@@ -17,9 +17,17 @@
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
-	margin-top: 20px;
+	margin-top: 10px;
 }
 
 .authorizeScreen__subScreen_hidden {
 	display: none;
+}
+
+.authorizeScreen__separator {
+	height: 1px;
+	background-color: var(--colors_hint);
+	margin-top: 14px;
+	width: 80%;
+	margin: 14px auto 0 auto;
 }

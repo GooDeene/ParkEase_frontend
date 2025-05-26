@@ -34,7 +34,7 @@ const LoginSubScreen = ({ className }: IPropsWithClassName) => {
 				<TextInput
 					type='tel'
 					hint='Телефон'
-					placeholder='Номер, начиная с +7 или 8'
+					placeholder='Начиная с +7 или 8'
 					value={phone}
 					validateOnChange
 					validateOnFocusOut
