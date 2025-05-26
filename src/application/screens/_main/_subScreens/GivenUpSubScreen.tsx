@@ -1,5 +1,4 @@
 import MyGivenSpotRegistry from '../../../components/_myGiven/_registry/MyGivenSpotRegistry';
-import { SpotStatus } from '../../../components/_myGiven/types/SpotStatus';
 import MySpotCard from '../../../components/_mySpotCard/MySpotCard';
 
 const GivenUpSubScreen = () => {
