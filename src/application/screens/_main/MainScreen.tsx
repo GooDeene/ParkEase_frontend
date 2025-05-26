@@ -6,28 +6,39 @@ import OccupiedSubScreen from './_subScreens/OccupiedSubScreen';
 import { useState } from 'react';
 import './MainScreen.css';
 import GivenUpSubScreen from './_subScreens/GivenUpSubScreen';
+import { useNavigate, useParams } from 'react-router';
 
-type TSwitchType = 'occupied' | 'give up';
+enum SwithcValue {
+	Occupate = 'occupate',
+	GiveUp = 'giveUp',
+}
 
 const SWITCH_ITEMS = {
 	left: {
 		title: 'Занять',
-		value: 'occupied',
+		value: SwithcValue.Occupate,
 	},
 	right: {
 		title: 'Уступить',
-		value: 'give up',
+		value: SwithcValue.GiveUp,
 	},
 };
 
 const ROOT_CLASS_NAME = 'mainScreen';
 
 const MainScreen = () => {
-	const [switchValue, setSwitchValue] = useState<TSwitchType>('occupied');
+	const params = useParams();
+	const mode = params.mode;
+	const navigate = useNavigate();
+
+	const [switchValue, setSwitchValue] = useState<SwithcValue>(
+		mode === SwithcValue.GiveUp ? mode : SwithcValue.Occupate
+	);
 	const switchClassName = clsx(`${ROOT_CLASS_NAME}__modeSwitch`, 'controls-margin_bottom-l');
 
 	const onSwitchChanged = (val: string) => {
-		setSwitchValue(() => val as TSwitchType);
+		setSwitchValue(() => val as SwithcValue);
+		navigate(`/main/${val}`);
 	};
 
 	return (
@@ -42,7 +53,11 @@ const MainScreen = () => {
 						onValueChanged={onSwitchChanged}
 					/>
 				</div>
-				{switchValue === 'occupied' ? <OccupiedSubScreen /> : <GivenUpSubScreen />}
+				{switchValue === SwithcValue.Occupate ? (
+					<OccupiedSubScreen />
+				) : (
+					<GivenUpSubScreen />
+				)}
 			</ScreenLayout>
 		</div>
 	);

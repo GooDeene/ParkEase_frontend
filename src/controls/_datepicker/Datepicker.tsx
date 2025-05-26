@@ -113,7 +113,10 @@ const Datepicker = (
 		e.stopPropagation();
 		setStartDate(() => null);
 		setEndDate(() => null);
-		setIsOpen(() => false);
+
+		if (!inline) {
+			setIsOpen(() => false);
+		}
 
 		if (inline || !isOpen) {
 			onSelectionComplete?.(null, null);

@@ -6,6 +6,7 @@ import ExitIcon from '../_icons/ExitIcon';
 import { useState } from 'react';
 import type { IPropsWithClassName } from '../types/IPropsWithClassName';
 import HomeIcon from '../_icons/HomeIcon';
+import { useNavigate } from 'react-router';
 
 interface IHeaderProps extends IPropsWithClassName {
 	showHome?: boolean;
@@ -14,6 +15,8 @@ interface IHeaderProps extends IPropsWithClassName {
 const ROOT_CLASS_NAME = 'controls-header';
 
 const Header = ({ showHome = false }: IHeaderProps) => {
+	const navigate = useNavigate();
+
 	const [title] = useState('А123АА123');
 
 	const headerButtonClassName = clsx(`${ROOT_CLASS_NAME}__button`);
@@ -27,9 +30,17 @@ const Header = ({ showHome = false }: IHeaderProps) => {
 	 * Обработчик клика по кнопки профиля
 	 * TODO: редирект на страницу профиля
 	 */
-	const onProfileClick = () => {};
+	const onProfileClick = () => {
+		if (showHome) {
+			navigate('/main');
+		} else {
+			navigate('/profile');
+		}
+	};
 
-	const onExitCLick = () => {};
+	const onExitCLick = () => {
+		navigate('/auth');
+	};
 
 	return (
 		<div className={ROOT_CLASS_NAME}>

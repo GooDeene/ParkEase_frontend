@@ -8,7 +8,7 @@ import { formatDateToRU } from './formatDate';
 export const getDatesPeriod = ([start, end]: [Date | null, Date | null]): string => {
 	if (end) {
 		return start
-			? `${formatDateToRU(start)} — ${formatDateToRU(end)}`
+			? `${formatDateToRU(start)} – ${formatDateToRU(end)}`
 			: 'Некорректный интервал';
 	} else {
 		return start ? formatDateToRU(start) : '';

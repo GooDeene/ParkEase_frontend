@@ -24,10 +24,10 @@ interface ISwitchProps<T = string> {
 const ROOT_CLASS_NAME = 'controls-switch';
 
 const Switch = (
-	{ items, className, sizes, onValueChanged }: ISwitchProps,
+	{ items, className, sizes, value, onValueChanged }: ISwitchProps,
 	ref: ForwardedRef<HTMLDivElement>
 ) => {
-	const [position, setPosition] = useState('left');
+	const [position, setPosition] = useState(items.right.value === value ? 'right' : 'left');
 
 	const wrapperClassName = clsx(
 		ROOT_CLASS_NAME,

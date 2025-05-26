@@ -12,12 +12,12 @@
 
 	box-sizing: border-box;
 	/* max-width: 420px; */
-
-	max-height: 120px;
 }
 
-.mySpotCard:active {
-	opacity: 0.8;
+.mySpotCard__buttonsWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
 .mySpotCard__spotInfoBlock {

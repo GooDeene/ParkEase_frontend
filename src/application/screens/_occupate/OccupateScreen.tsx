@@ -27,7 +27,7 @@ const OccupateScreen = () => {
 
 	return (
 		<div>
-			<Header />
+			<Header showHome />
 			<ScreenLayout>
 				<div className={infoBlocksClassName}>
 					<div className={spotNameClassName}>

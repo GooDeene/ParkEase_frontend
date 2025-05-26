@@ -20,6 +20,7 @@
 	flex-grow: 1;
 
 	padding: 9px 13px;
+	background-color: white;
 }
 
 .controls-textInput__hint {
@@ -29,4 +30,8 @@
 
 .controls-textInput__required {
 	color: var(--colors_error);
+}
+
+.controls-textInput__input_uppercase {
+	text-transform: uppercase;
 }

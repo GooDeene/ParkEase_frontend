@@ -21,7 +21,13 @@ const PHONE_VALIDATORS = [isRequired, isValidRussianPhone];
 const LICENCE_PLATE_VALIDATORS = [isRequired, isLicensePlate];
 const TELEGRAM_VALIDATORS = [isValidTelegarmNickname];
 
-const ProfileScreen = ({ defaultValues }: { defaultValues: any }) => {
+const defaultValues = {
+	phone: '89090090909',
+	licencePlate: 'А123ГА196',
+	telegram: '@medved',
+};
+
+const ProfileScreen = () => {
 	const [phone, setPhone] = useState<string>(defaultValues.phone);
 	const [licencePlate, setLicencePlate] = useState<string>(defaultValues.licencePlate);
 	const [telegram, setTelegram] = useState<string>(defaultValues.telegram);

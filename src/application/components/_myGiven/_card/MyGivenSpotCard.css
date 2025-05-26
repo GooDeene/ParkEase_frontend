@@ -1,9 +1,11 @@
 .myGivenSpotCard {
-	padding: 6px 6px 6px 6px;
+	padding: 6px;
 	border: 1px solid var(--colors_main);
 	border-radius: var(--border_radius-m);
 
 	min-height: 50px;
+
+	position: relative;
 
 	display: flex;
 	align-items: center;
@@ -12,17 +14,35 @@
 }
 
 .myGivenSpotCard__actionButton {
-	width: 95px;
+	min-width: 90px;
 }
 
 .myGivenSpotCard__actionWrapper {
-	height: 100%;
-	width: 95px;
+	background-color: white;
+	position: absolute;
+	right: 6px;
+	/* height: 100%; */
+	min-width: 90px;
 	text-align: center;
 	color: var(--colors_hint);
 	line-height: 1.1;
+	width: min-content;
+	display: flex;
+	align-items: center;
+	box-shadow: -10px 0px 6px -2px white;
+	opacity: 1;
+
+	transition: 0.25s;
+}
+
+.myGivenSpotCard__actionWrapper_hidden {
+	opacity: 0;
 }
 
 .myGivenSpotCard__title {
 	flex-grow: 1;
+
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: clip;
 }

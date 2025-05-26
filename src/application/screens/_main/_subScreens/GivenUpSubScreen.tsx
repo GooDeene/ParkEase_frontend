@@ -7,7 +7,7 @@ const GivenUpSubScreen = () => {
 		<>
 			<MySpotCard
 				className='controls-margin_top-4xl'
-				spotName='123'
+				spotName='1998'
 			/>
 			<MyGivenSpotRegistry
 				className='controls-margin_top-3xl'

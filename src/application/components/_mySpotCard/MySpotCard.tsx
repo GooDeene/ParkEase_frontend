@@ -5,6 +5,7 @@ import type { SyntheticEvent } from 'react';
 import { formatDateToRU } from '../../../controls/utils/formatDate';
 import { getTomorrowDate } from '../../../controls/utils/getTomorrowDate';
 import './MySpotCard.css';
+import { useNavigate } from 'react-router';
 
 interface IMySpotCard extends IPropsWithClassName {
 	spotName?: string;
@@ -16,31 +17,30 @@ const DEFAULT_EMPTY_TITLE = 'У вас нет постоянного парко�
 const DEFAULT_EMPTY_DETAIL = 'Получите его у администратора парковки вашего офиса';
 
 const MySpotCard = ({ className, spotName }: IMySpotCard) => {
+	const navigate = useNavigate();
+
 	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
 	const spotNameClassName = clsx('controls-fontsize-40', 'controls-fontweight-medium');
 	const giveUpButtonClassName = clsx(`${ROOT_CLASS_NAME}__giveUpButton`, 'controls-fontsize-14');
 	const spotInfoBlockClassName = clsx(`${ROOT_CLASS_NAME}__spotInfoBlock`);
 	const buttonContentClassName = clsx(`${ROOT_CLASS_NAME}__giveUpButtonContent`);
-
+	const buttonsWrapperClassName = clsx(`${ROOT_CLASS_NAME}__buttonsWrapper`);
 	const emptyHintClassName = clsx(`${ROOT_CLASS_NAME}__emptyHint`);
 	const emptyDetailClassName = clsx(
 		`${ROOT_CLASS_NAME}__emptyHintDetail`,
 		'controls-fontsize-14'
 	);
 
-	const onCardClick = () => {
-		console.log('card click');
-	};
-
-	const onButtonClick = (event: SyntheticEvent) => {
+	const onTomorrowClick = (event: SyntheticEvent) => {
 		event.stopPropagation();
 	};
 
+	const onPeriodClick = () => {
+		navigate(`/give-up`);
+	};
+
 	return (
-		<div
-			onClick={onCardClick}
-			className={wrapperClassName}
-		>
+		<div className={wrapperClassName}>
 			{spotName && spotName !== '' ? (
 				<>
 					<div className={spotInfoBlockClassName}>
@@ -48,18 +48,32 @@ const MySpotCard = ({ className, spotName }: IMySpotCard) => {
 							Ваше место
 						</span>
 						<span className={spotNameClassName}>{spotName}</span>
+						<span className={clsx('controls-fontsize-20', 'controls-text-ellipsis')}>
+							устпите его
+						</span>
 					</div>
-					<Button
-						className={giveUpButtonClassName}
-						title={
-							<div className={buttonContentClassName}>
-								<span>Уступить</span>
-								<span className='controls-margin_bottom-s'>на завтра</span>
-								<span>{`(${formatDateToRU(getTomorrowDate())})`}</span>
-							</div>
-						}
-						onClick={onButtonClick}
-					/>
+					<div className={buttonsWrapperClassName}>
+						<Button
+							className={giveUpButtonClassName}
+							title={
+								<div className={buttonContentClassName}>
+									<span>На завтра</span>
+									<span>{`(${formatDateToRU(getTomorrowDate())})`}</span>
+								</div>
+							}
+							onClick={onTomorrowClick}
+						/>
+						<Button
+							className={giveUpButtonClassName}
+							title={
+								<div className={buttonContentClassName}>
+									<span>На другой</span>
+									<span>период</span>
+								</div>
+							}
+							onClick={onPeriodClick}
+						/>
+					</div>
 				</>
 			) : (
 				<div className={emptyHintClassName}>

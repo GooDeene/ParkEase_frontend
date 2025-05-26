@@ -32,7 +32,7 @@ const OccupiedDateFilter = ({ onValueChanged, className }: IOccupiedDateFilterPr
 	return (
 		<div className={wrapperClassName}>
 			<div className={headerClassName}>
-				<span>{`На ${getDatePeriodTitle(selectedStart, selectedEnd)}`}</span>
+				<span>{`Свободные на ${getDatePeriodTitle(selectedStart, selectedEnd)}`}</span>
 				<ReloadButton />
 			</div>
 			<Datepicker

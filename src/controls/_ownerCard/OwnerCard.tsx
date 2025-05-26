@@ -31,7 +31,7 @@ const OwnerCard = ({
 }: IOwnerCardProps) => {
 	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
 	const titleClassName = clsx(`${ROOT_CLASS_NAME}__title`, 'controls-margin_bottom-3xs');
-	const contentClassName = clsx(`${ROOT_CLASS_NAME}__content`, 'controls-font-ellipsis');
+	const contentClassName = clsx(`${ROOT_CLASS_NAME}__content`, 'controls-text-ellipsis');
 	const iconClassName = clsx(`${ROOT_CLASS_NAME}__icon`);
 	const contactClassName = clsx(`${ROOT_CLASS_NAME}__contact`, 'controls-fontsize-14');
 

@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import './OccupiedCard.css';
 import Button from '../../../../controls/_button/Button';
-import { formatDateToRU } from '../../../../controls/utils/formatDate';
 import type { SyntheticEvent } from 'react';
 import type { IParkingSpot } from '../../../../controls/types/TParkingSpot';
 import { getDatePeriodTitle } from '../../../../controls/utils/getDatePeriodTitle';
+import { getDatesPeriod } from '../../../../controls/utils/getDatesPeriod';
 
 interface IOccupiedCard {
 	item: IParkingSpot;
@@ -19,16 +19,6 @@ const getFirstRow = (
 	const result = ['Место', `${spotName},`, 'на', getDatePeriodTitle(dates[0], dates[1])];
 
 	return result.join(' ').trim();
-};
-
-const getSecondRow = (dates: [IParkingSpot['startDate'], IParkingSpot['endDate']]): string => {
-	if (dates[1] && dates[0]) {
-		return `${formatDateToRU(dates[0])} — ${formatDateToRU(dates[1])}`;
-	} else if (dates[0]) {
-		return formatDateToRU(dates[0]);
-	}
-
-	return '';
 };
 
 const ROOT_CLASS_NAME = 'occupiedCard';
@@ -61,7 +51,7 @@ const OccupiedCard = ({ item, onCardClick: externalOnCardClick }: IOccupiedCard)
 					{getFirstRow([item.startDate, item.endDate], item.spotName)}
 				</span>
 				<span className={textClassName}>
-					{getSecondRow([item.startDate, item.endDate])}
+					{getDatesPeriod([item.startDate, item.endDate])}
 				</span>
 			</div>
 			<Button

@@ -20,7 +20,7 @@ const GiveUpScreen = () => {
 
 	return (
 		<div>
-			<Header />
+			<Header showHome />
 			<ScreenLayout>
 				<Title text={`Уступить место ${spotName}`} />
 				<div className={clsx('controls-margin_top-l', 'controls-fontcolor-main')}>

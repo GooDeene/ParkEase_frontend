@@ -45,7 +45,7 @@ const OccupiedSubScreen = () => {
 						spotName: '31л',
 					},
 					{
-						id: '13л',
+						id: '13acasc',
 						startDate: new Date(),
 						endDate: null,
 						owner: {
@@ -55,7 +55,7 @@ const OccupiedSubScreen = () => {
 						spotName: '148',
 					},
 					{
-						id: '2',
+						id: '2jmnbbnkhjarenbkjaywevr',
 						startDate: new Date(),
 						endDate: null,
 						owner: {

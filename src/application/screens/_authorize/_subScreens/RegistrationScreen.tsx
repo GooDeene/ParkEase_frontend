@@ -70,6 +70,7 @@ const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 					validateOnChange
 					validateOnFocusOut
 					showRequired
+					uppercase
 					onValueChanged={setLicencePlate}
 				/>
 				<TextInput

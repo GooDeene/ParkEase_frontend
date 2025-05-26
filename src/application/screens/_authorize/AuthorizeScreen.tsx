@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Switch from '../../../controls/_switch/Switch';
 import clsx from 'clsx';
 import LoginSubScreen from './_subScreens/LoginScreen';
@@ -35,6 +35,19 @@ const AuthorizeScreen = () => {
 			);
 		}
 	}, [switchValue]);
+
+	useLayoutEffect(() => {
+		const body = document.querySelector('body');
+		if (body) {
+			body.style.backgroundImage = `url('public/background.png')`;
+		}
+
+		return () => {
+			if (body) {
+				body.style.backgroundImage = ``;
+			}
+		};
+	}, []);
 
 	return (
 		<div className={ROOT_CLASS_NAME}>
