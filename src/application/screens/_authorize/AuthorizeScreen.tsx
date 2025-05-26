@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Switch from '../../../controls/_switch/Switch';
-import './AuthorizeScreen.css';
 import clsx from 'clsx';
-import LoginScreen from './_subScreens/LoginScreen';
-import RegistrationScreen from './_subScreens/RegistrationScreen';
+import LoginSubScreen from './_subScreens/LoginScreen';
+import RegistrationSubScreen from './_subScreens/RegistrationScreen';
+import logo from '/src/assets/logo_high_res.png';
+import './AuthorizeScreen.css';
 
 const ROOT_CLASS_NAME = 'authorizeScreen';
 const LOGO_CLASS_NAME = clsx(`${ROOT_CLASS_NAME}__logo`);
@@ -28,7 +29,7 @@ const AuthorizeScreen = () => {
 		<div className={ROOT_CLASS_NAME}>
 			<img
 				className={LOGO_CLASS_NAME}
-				src='/src/assets/logo_high_res.png'
+				src={logo}
 				width={100}
 				height={100}
 			/>
@@ -38,11 +39,10 @@ const AuthorizeScreen = () => {
 				onValueChanged={setSwitchValue}
 			/>
 			<div className={SUB_SCREENS_CLASS_NAME}>
-				{/* Подэкраны скрываются классом в силу особенностей реализации контроллера валидации */}
-				<LoginScreen
+				<LoginSubScreen
 					className={switchValue === 'auth' ? '' : HIDDEN_SUB_SCREEN_CLASS_NAME}
 				/>
-				<RegistrationScreen
+				<RegistrationSubScreen
 					className={switchValue === 'reg' ? '' : HIDDEN_SUB_SCREEN_CLASS_NAME}
 				/>
 			</div>

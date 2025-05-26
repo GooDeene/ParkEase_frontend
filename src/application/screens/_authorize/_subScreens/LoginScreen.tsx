@@ -11,7 +11,7 @@ import type { TValidationAPI } from '../../../../controls/_input/types/TValidati
 const PHONE_VALIDATORS = [isRequired, isValidRussianPhone];
 const PASSWORD_VALIDATORS = [isRequired];
 
-const LoginScreen = ({ className }: IPropsWithClassName) => {
+const LoginSubScreen = ({ className }: IPropsWithClassName) => {
 	const [phone, setPhone] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -60,4 +60,4 @@ const LoginScreen = ({ className }: IPropsWithClassName) => {
 	);
 };
 
-export default LoginScreen;
+export default LoginSubScreen;

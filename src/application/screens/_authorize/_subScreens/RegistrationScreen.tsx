@@ -17,7 +17,7 @@ const TELEGRAM_VALIDATORS = [isValidTelegarmNickname];
 const LICENCE_PLATE_VALIDATORS = [isRequired, isLicensePlate];
 const PASSWORD_VALIDATORS = [isRequired, isValidPassword];
 
-const RegistrationScreen = ({ className }: IPropsWithClassName) => {
+const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 	const [phone, setPhone] = useState('');
 	const [telegram, setTelegram] = useState('');
 	const [licencePlate, setLicencePlate] = useState('');
@@ -102,4 +102,4 @@ const RegistrationScreen = ({ className }: IPropsWithClassName) => {
 	);
 };
 
-export default RegistrationScreen;
+export default RegistrationSubScreen;
