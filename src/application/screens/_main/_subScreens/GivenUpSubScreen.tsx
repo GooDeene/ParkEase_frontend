@@ -9,7 +9,7 @@ const GivenUpSubScreen = () => {
 				spotName='1998'
 			/>
 			<MyGivenSpotRegistry
-				className='controls-margin_top-3xl'
+				className='controls-margin_top-xl'
 				items={
 					[
 						// {
