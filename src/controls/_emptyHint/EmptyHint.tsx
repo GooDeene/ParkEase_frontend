@@ -20,6 +20,8 @@ const EmptyHint = ({ title, detail, igmSrc }: IEmptyHintProps) => {
 	return (
 		<div className={ROOT_CLASS_NAME}>
 			<img
+				width={250}
+				height={250}
 				className='controls-margin_bottom-3xl'
 				src={igmSrc}
 			/>
