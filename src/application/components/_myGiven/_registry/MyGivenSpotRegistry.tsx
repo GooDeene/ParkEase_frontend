@@ -5,6 +5,7 @@ import type { SpotStatus } from '../types/SpotStatus';
 import './MyGivenSpotRegistry.css';
 import EmptyHint from '../../../../controls/_emptyHint/EmptyHint';
 import ReloadButton from '../../_reloadButton/ReloadButton';
+import ParkSign from '/src/assets/yes_park_sign.png';
 
 type TMyGivenSpotRecord = {
 	id: string;
@@ -49,7 +50,7 @@ const MyGivenSpotRegistry = ({ items, className }: IMyGivenSpotRegistryProps) =>
 				<EmptyHint
 					title='Когда вы уступите место, запись об этом появится здесь'
 					detail='Если планы поменялись, можно отказаться от сдачи места, но только пока его не заняли'
-					igmSrc='/src/assets/yes_park_sign.png'
+					igmSrc={ParkSign}
 				/>
 			)}
 		</div>

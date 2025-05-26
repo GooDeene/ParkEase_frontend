@@ -14,6 +14,9 @@ body {
 	padding: 0;
 
 	height: 100%;
+
+	background-size: cover;
+	background-position-x: center;
 }
 
 a {
@@ -58,7 +61,4 @@ input::placeholder {
 html {
 	touch-action: manipulation;
 	height: 100%;
-
-	background-size: cover;
-	background-position-x: center;
 }

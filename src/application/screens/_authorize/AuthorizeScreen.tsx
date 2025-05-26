@@ -39,7 +39,7 @@ const AuthorizeScreen = () => {
 	useLayoutEffect(() => {
 		const body = document.querySelector('body');
 		if (body) {
-			body.style.backgroundImage = `url('public/background.png')`;
+			body.style.backgroundImage = `url('background.png')`;
 		}
 
 		return () => {
