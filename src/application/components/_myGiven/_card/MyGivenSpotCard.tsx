@@ -15,7 +15,7 @@ const ROOT_CLASS_NAME = 'myGivenSpotCard';
 
 const MyGivenSpotCard = ({ className, spotStatus, dates }: IMyGivenSpotCardProps) => {
 	const [hideAction, setHideAction] = useState(false);
-	const [showTimeout, setShowTimeout] = useState<number | null>(null);
+	const [showTimeout, setShowTimeout] = useState<NodeJS.Timeout | null>(null);
 	const [title, setTitle] = useState(getDatesPeriod(dates));
 
 	const cardClassName = clsx(ROOT_CLASS_NAME, className);
