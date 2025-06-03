@@ -29,16 +29,17 @@ const ValidationController = (
 		const childrenArray = React.Children.toArray(props.children) as ReactElement[];
 
 		// Создаем refs для каждого ребенка
-		const childRefs = childrenArray.map(() => createRef<TValidationAPI>());
+		//@ts-ignore
+		const childRefs = childrenArray.map((item) => item.ref || createRef<TValidationAPI>());
 
 		// Обновляем детей, передавая им ref
-		const childrenWithRef = childrenArray.map((child, index) =>
-			cloneElement(child, {
+		const childrenWithRef = childrenArray.map((child, index) => {
+			return cloneElement(child, {
 				...(props.childProps || {}),
 				...(child.props || {}),
 				ref: childRefs[index],
-			} as any)
-		);
+			} as any);
+		});
 
 		setChilds(() => childrenWithRef);
 		setRefs(() => childRefs);

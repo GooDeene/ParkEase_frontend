@@ -35,3 +35,7 @@
 .controls-textInput__input_uppercase {
 	text-transform: uppercase;
 }
+
+.controls-textInput__input:disabled {
+	color: var(--colors_unactive);
+}

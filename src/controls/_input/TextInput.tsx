@@ -17,12 +17,20 @@ interface ITextInputProps extends IPropsWithClassName {
 	validateOnChange?: boolean;
 	uppercase?: boolean;
 	showRequired?: boolean;
+	disabled?: boolean;
 
 	onValueChanged?: (value: string) => void;
 	onValidationComplete?: (result: TValidationResult) => void;
 	onFocusIn?: () => void;
 	onFocusOut?: () => void;
 }
+
+export type TInputAPI = TValidationAPI & {
+	/**
+	 * Устанавливает временное сообщение ошибки для поля ввода по аналогии с текстом ошибки валидации.
+	 */
+	setTemporalError: (text: string) => void;
+};
 
 /**
  * Время (в мс) на протяжении которого над полем ввода вместо подсказки отображается сообщение ошибки валидации
@@ -50,15 +58,20 @@ const TextInput = (
 		validateOnChange = false,
 		uppercase = false,
 		showRequired = false,
+		disabled = false,
 		onValueChanged,
 		onValidationComplete,
 		onFocusIn,
 		onFocusOut,
 	}: ITextInputProps,
-	ref: ForwardedRef<TValidationAPI>
+	ref: ForwardedRef<TInputAPI>
 ) => {
-	const [validationDebounceTimer, setValidationDebounceTimer] = useState<number | null>(null);
-	const [validationCleanerTimer, setValidationCleanerTimer] = useState<number | null>(null);
+	const [validationDebounceTimer, setValidationDebounceTimer] = useState<NodeJS.Timeout | null>(
+		null
+	);
+	const [validationCleanerTimer, setValidationCleanerTimer] = useState<NodeJS.Timeout | null>(
+		null
+	);
 	const [hint, setHint] = useState(defaultHint);
 	const [valid, setValid] = useState(true);
 	const [internalValue, setInternalValue] = useState(value);
@@ -66,6 +79,7 @@ const TextInput = (
 	useImperativeHandle(ref, () => {
 		return {
 			validate: () => validate(internalValue),
+			setTemporalError: validationFail,
 		};
 	});
 
@@ -173,6 +187,7 @@ const TextInput = (
 				<span>{hint}</span>
 			</div>
 			<input
+				disabled={disabled}
 				ref={inputRef}
 				type={type}
 				className={inputClassName}

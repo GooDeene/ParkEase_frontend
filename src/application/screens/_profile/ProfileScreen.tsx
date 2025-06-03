@@ -4,7 +4,6 @@ import ScreenLayout from '../../../controls/_layout/ScreenLayout';
 import Title from '../../../controls/_title/Title';
 import TextInput from '../../../controls/_input/TextInput';
 import { memo, useRef, useState } from 'react';
-import { isValidRussianPhone } from '../../../controls/_input/validators/isValidRussianPhone';
 import { isLicensePlate } from '../../../controls/_input/validators/isLicensePlate';
 import { isRequired } from '../../../controls/_input/validators/isRequired';
 import Button from '../../../controls/_button/Button';
@@ -12,25 +11,24 @@ import { isValidTelegarmNickname } from '../../../controls/_input/validators/isV
 import './ProfileScreen.css';
 import ValidationController from '../../../controls/_validationController/ValidationController';
 import type { TValidationAPI } from '../../../controls/_input/types/TValidationAPI';
+import { useRecoilState } from 'recoil';
+import { UserAtom } from '../../core/state/UserAtom';
+import { isValidEmail } from '../../../controls/_input/validators/isValidEmail';
 
-type TInputVariant = 'phone' | 'licencePlate' | 'telegram';
+type TInputVariant = 'email' | 'licencePlate' | 'telegram';
 
 const ROOT_CLASS_NAME = 'profileScreen';
 
-const PHONE_VALIDATORS = [isRequired, isValidRussianPhone];
+const EMAIL_VALIDATORS = [isRequired, isValidEmail];
 const LICENCE_PLATE_VALIDATORS = [isRequired, isLicensePlate];
 const TELEGRAM_VALIDATORS = [isValidTelegarmNickname];
 
-const defaultValues = {
-	phone: '89090090909',
-	licencePlate: 'А123ГА196',
-	telegram: '@medved',
-};
-
 const ProfileScreen = () => {
-	const [phone, setPhone] = useState<string>(defaultValues.phone);
-	const [licencePlate, setLicencePlate] = useState<string>(defaultValues.licencePlate);
-	const [telegram, setTelegram] = useState<string>(defaultValues.telegram);
+	const [userAtom, _setUserAtom] = useRecoilState(UserAtom);
+
+	const [email, setEmail] = useState<string>(userAtom.email || '');
+	const [licencePlate, setLicencePlate] = useState<string>(userAtom.licencePlate || '');
+	const [telegram, setTelegram] = useState<string>(userAtom.telegram || '');
 	const [isButtonActive, setIsButtonActive] = useState(false);
 	const validatorRef = useRef<TValidationAPI>(null);
 
@@ -38,10 +36,10 @@ const ProfileScreen = () => {
 	const submitButtonClassName = clsx(`${ROOT_CLASS_NAME}__submitButton`);
 
 	const onInputChange = (value: string, type: TInputVariant) => {
-		setIsButtonActive(() => defaultValues[type] !== value);
+		setIsButtonActive(() => userAtom[type] !== value);
 		switch (type) {
-			case 'phone':
-				setPhone(() => value);
+			case 'email':
+				setEmail(() => value);
 				break;
 			case 'licencePlate':
 				setLicencePlate(() => value);
@@ -75,12 +73,13 @@ const ProfileScreen = () => {
 				<div className={inputsClassName}>
 					<ValidationController ref={validatorRef}>
 						<TextInput
-							hint='Телефон'
-							type='tel'
-							placeholder='Номер, начиная с +7 или 8'
-							value={phone}
-							onValueChanged={(val) => onInputChange(val, 'phone')}
-							validators={PHONE_VALIDATORS}
+							disabled
+							hint='Почта'
+							type='email'
+							placeholder='ex@ample.ru'
+							value={email}
+							onValueChanged={(val) => onInputChange(val, 'email')}
+							validators={EMAIL_VALIDATORS}
 							validateOnChange
 							validateOnFocusOut
 						/>

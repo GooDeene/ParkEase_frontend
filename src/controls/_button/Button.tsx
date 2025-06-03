@@ -3,6 +3,8 @@ import type { TPaddingSize } from '../_input/types/TPaddingSize';
 import { forwardRef, type ForwardedRef, type ReactNode, type SyntheticEvent } from 'react';
 import './Button.css';
 
+import LoaderGif from '/menu_spinner.gif';
+
 interface IButtonProps {
 	className?: string;
 	onClick?: (event: SyntheticEvent) => void;
@@ -13,10 +15,20 @@ interface IButtonProps {
 
 	// Если задана эта опция кнопка отображается в режиме иконки (без текста и заливки фона)
 	icon?: ReactNode;
+	loading?: boolean;
 }
 
 const Button = (
-	{ className, onClick, disabled, title, fullWidth = false, padding, icon }: IButtonProps,
+	{
+		className,
+		onClick,
+		disabled,
+		title,
+		fullWidth = false,
+		padding,
+		icon,
+		loading = false,
+	}: IButtonProps,
 	ref: ForwardedRef<HTMLButtonElement>
 ) => {
 	const buttonClassName = clsx(
@@ -25,14 +37,16 @@ const Button = (
 		!className?.includes('controls-fontsize') && 'controls-fontsize-20',
 		!className?.includes('controls-fontweight') && 'controls-fontweight-medium',
 		fullWidth && 'controls-button-w-full',
-		padding
-			? clsx(
-					`controls-padding_top-${padding.t}`,
-					`controls-padding_right-${padding.r}`,
-					`controls-padding_bottom-${padding.b}`,
-					`controls-padding_left-${padding.l}`
-			  )
-			: 'controls-button-default-paddings',
+		!loading
+			? padding
+				? clsx(
+						`controls-padding_top-${padding.t}`,
+						`controls-padding_right-${padding.r}`,
+						`controls-padding_bottom-${padding.b}`,
+						`controls-padding_left-${padding.l}`
+				  )
+				: 'controls-button-default-paddings'
+			: '',
 		className
 	);
 
@@ -47,8 +61,17 @@ const Button = (
 				onClick?.(e);
 			}}
 		>
-			{!icon && title}
-			{icon && icon}
+			{loading ? (
+				<img
+					height={56}
+					src={LoaderGif}
+				/>
+			) : (
+				<>
+					{!icon && title}
+					{icon && icon}
+				</>
+			)}
 		</button>
 	);
 };

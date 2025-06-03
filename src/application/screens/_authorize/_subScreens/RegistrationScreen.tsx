@@ -1,6 +1,5 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type SyntheticEvent } from 'react';
 import { isRequired } from '../../../../controls/_input/validators/isRequired';
-import { isValidRussianPhone } from '../../../../controls/_input/validators/isValidRussianPhone';
 import { isValidPassword } from '../../../../controls/_input/validators/isValidPassword';
 import TextInput from '../../../../controls/_input/TextInput';
 import { isLicensePlate } from '../../../../controls/_input/validators/isLicensePlate';
@@ -11,26 +10,62 @@ import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithC
 import clsx from 'clsx';
 import type { TValidationAPI } from '../../../../controls/_input/types/TValidationAPI';
 import { isSamePassowrds } from './_validators/isSamePasswords';
+import { createUserWithEmailAndPassword, type UserCredential } from 'firebase/auth';
+import { auth, db } from '../../../../../firebase';
+import { UserAtom, type IUserAtom } from '../../../core/state/UserAtom';
+import { doc, setDoc } from 'firebase/firestore';
+import { useSetRecoilState } from 'recoil';
+import { isValidEmail } from '../../../../controls/_input/validators/isValidEmail';
+import { useLoading } from '../../../core/utils/useLoading';
+import { toast } from 'react-toastify';
 
-const PHONE_VALIDATORS = [isRequired, isValidRussianPhone];
+const EMAIL_VALIDATORS = [isRequired, isValidEmail];
 const TELEGRAM_VALIDATORS = [isValidTelegarmNickname];
 const LICENCE_PLATE_VALIDATORS = [isRequired, isLicensePlate];
 const PASSWORD_VALIDATORS = [isRequired, isValidPassword];
 
 const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
-	const [phone, setPhone] = useState('');
+	const [email, setEmail] = useState('');
 	const [telegram, setTelegram] = useState('');
 	const [licencePlate, setLicencePlate] = useState('');
 	const [password, setPassword] = useState('');
 	const [passRepeat, setPassRepeat] = useState('');
-
+	const { loading, runProcess } = useLoading();
 	const validatorRef = useRef<TValidationAPI>(null);
 
-	const onSubmitClick = () => {
+	const setUserAtom = useSetRecoilState(UserAtom);
+
+	const onSubmitClick = async (event: SyntheticEvent) => {
+		event.preventDefault();
 		const validateRes = validatorRef.current?.validate();
 
 		if (validateRes) {
 			// TODO: отправка зпроса регистрации
+
+			runProcess(() => createUserWithEmailAndPassword(auth, email, password))
+				.then((userCredential: UserCredential) =>
+					runProcess(() => {
+						const user = userCredential.user;
+
+						const dbUser: IUserAtom = {
+							email,
+							licencePlate: licencePlate.toUpperCase(),
+							telegram,
+							parkingId: 'parking-1',
+							parkingSpotId: null,
+						};
+						// Создаем запись пользователя в Firestore
+						return setDoc(doc(db, 'users', user.uid), dbUser).then(() => {
+							setUserAtom(dbUser);
+						});
+					})
+				)
+				.catch(() => {
+					toast('Не удалось зарегистрироваться!', {
+						type: 'error',
+						autoClose: 2500,
+					});
+				});
 		}
 	};
 
@@ -41,15 +76,15 @@ const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 				ref={validatorRef}
 			>
 				<TextInput
-					type='tel'
-					hint='Телефон'
-					placeholder='Начиная с +7 или 8'
-					value={phone}
-					validators={PHONE_VALIDATORS}
+					type='email'
+					hint='Почта'
+					placeholder='ex@ample.com'
+					value={email}
+					validators={EMAIL_VALIDATORS}
 					validateOnChange
 					validateOnFocusOut
 					showRequired
-					onValueChanged={setPhone}
+					onValueChanged={setEmail}
 				/>
 				<TextInput
 					type='text'
@@ -97,6 +132,7 @@ const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 					className={clsx('controls-margin_top-3xl', className)}
 					title='Зарегистрироваться'
 					onClick={onSubmitClick}
+					loading={loading}
 				/>
 			</ValidationController>
 		</>

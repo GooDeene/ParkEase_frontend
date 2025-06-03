@@ -3,10 +3,14 @@ import './Header.css';
 import Button from '../_button/Button';
 import ProfileIcon from '../_icons/ProfileIcon';
 import ExitIcon from '../_icons/ExitIcon';
-import { useState } from 'react';
 import type { IPropsWithClassName } from '../types/IPropsWithClassName';
 import HomeIcon from '../_icons/HomeIcon';
 import { useNavigate } from 'react-router';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { UserAtom } from '../../application/core/state/UserAtom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../../firebase';
+import { AuthAtom } from '../../application/core/state/AuthAtom';
 
 interface IHeaderProps extends IPropsWithClassName {
 	showHome?: boolean;
@@ -17,7 +21,10 @@ const ROOT_CLASS_NAME = 'controls-header';
 const Header = ({ showHome = false }: IHeaderProps) => {
 	const navigate = useNavigate();
 
-	const [title] = useState('А123АА123');
+	const resetUserAtom = useResetRecoilState(UserAtom);
+	const resetAuthAtom = useResetRecoilState(AuthAtom);
+
+	const userAtom = useRecoilValue(UserAtom);
 
 	const headerButtonClassName = clsx(`${ROOT_CLASS_NAME}__button`);
 	const headerTitleClassName = clsx(
@@ -39,7 +46,14 @@ const Header = ({ showHome = false }: IHeaderProps) => {
 	};
 
 	const onExitCLick = () => {
-		navigate('/auth');
+		signOut(auth)
+			.then(() => {
+				resetUserAtom();
+				resetAuthAtom();
+			})
+			.catch(() => {
+				console.log('Ошибка разлогинивания!');
+			});
 	};
 
 	return (
@@ -49,7 +63,7 @@ const Header = ({ showHome = false }: IHeaderProps) => {
 				icon={showHome ? <HomeIcon size={40} /> : <ProfileIcon size={40} />}
 				onClick={onProfileClick}
 			/>
-			<span className={headerTitleClassName}>{title}</span>
+			<span className={headerTitleClassName}>{userAtom.licencePlate}</span>
 			<Button
 				className={headerButtonClassName}
 				icon={<ExitIcon size={40} />}

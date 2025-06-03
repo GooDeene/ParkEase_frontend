@@ -37,7 +37,6 @@ const Switch = (
 	);
 	const leftPartClassName = clsx(`${ROOT_CLASS_NAME}__part`, `${ROOT_CLASS_NAME}__leftPart`);
 	const rightPartClassName = clsx(`${ROOT_CLASS_NAME}__part`, `${ROOT_CLASS_NAME}__rightPart`);
-
 	const backClassName = clsx(
 		`${ROOT_CLASS_NAME}__back`,
 		position === 'left'

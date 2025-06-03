@@ -1,6 +1,6 @@
 import type { TValidator } from '../types/TValidator';
 
-const DEFAULT_FAIL_MESSAGE = 'Поле обязательно для заполнения!';
+const DEFAULT_FAIL_MESSAGE = 'Обязательно для заполнения!';
 
 export const isRequired: TValidator<string> = (value: string, failMessage?: string) => {
 	const trimmed = value.trim();

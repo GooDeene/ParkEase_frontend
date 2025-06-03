@@ -10,12 +10,15 @@ import App from './App.tsx';
 
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import { ru } from 'date-fns/locale/ru';
+import { RecoilRoot } from 'recoil';
 
 registerLocale('ru', ru);
 setDefaultLocale('ru');
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<App />
+		<RecoilRoot>
+			<App />
+		</RecoilRoot>
 	</StrictMode>
 );
