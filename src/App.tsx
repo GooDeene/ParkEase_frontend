@@ -30,6 +30,7 @@ function App() {
 
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
+				// setLoading(true);
 				// Пользователь залогинен — слушаем его данные из Firestore
 				const userDocRef = doc(db, 'users', user.uid);
 

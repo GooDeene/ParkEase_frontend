@@ -1,19 +1,22 @@
 .loaderScreen {
-	padding: 200px 16px 0 16px;
+	/* padding: 30vh 16px 0 16px; */
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 
-	gap: 200px;
+	gap: 10vh;
+	height: 100vh;
+	overflow: hidden;
 }
 
 .loaderScreen__logo {
-	width: 100%;
+	/* flex-grow: 1; */
+	max-width: 600px;
 }
 
 .loaderScreen__image {
-	width: 116px;
+	width: 90px;
 
 	-webkit-animation-name: rotation;
 	-webkit-animation-duration: 1s;
