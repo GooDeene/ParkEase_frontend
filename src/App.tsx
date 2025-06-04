@@ -26,7 +26,7 @@ function App() {
 	const resetUserAtom = useResetRecoilState(UserAtom);
 
 	useEffect(() => {
-		setTimeout(() => setShowLoader(false), 1050);
+		setTimeout(() => setShowLoader(false), 1300);
 
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
