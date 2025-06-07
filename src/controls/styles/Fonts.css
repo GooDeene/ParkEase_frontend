@@ -14,6 +14,7 @@
 	--controls-fontsize-30: 30px;
 
 	--controls-fontsize-40: 40px;
+	--controls-fontsize-60: 60px;
 
 	--controls-fontweight-regular: 400;
 	--controls-fontweight-medium: 500;
@@ -67,6 +68,10 @@
 	font-size: var(--controls-fontsize-40);
 }
 
+.controls-fontsize-60 {
+	font-size: var(--controls-fontsize-60);
+}
+
 /* Начертания */
 
 .controls-fontweight-regular {
@@ -89,7 +94,7 @@
 	text-align: center;
 }
 
-/* Навешивает цвет текста - основной */
+/* Классы цвета текста */
 .controls-fontcolor-main {
 	color: var(--colors_main);
 }
@@ -100,4 +105,8 @@
 
 .controls-fontcolor-error {
 	color: var(--colors_error);
+}
+
+.controls-fontcolor-accent {
+	color: var(--colors_accent);
 }

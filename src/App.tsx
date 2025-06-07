@@ -13,14 +13,17 @@ import { auth, db } from '../firebase';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { AuthAtom } from './application/core/state/AuthAtom';
 import { UserAtom, type IUserAtom } from './application/core/state/UserAtom';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import LoaderScreen from './application/screens/_loader/LoaderScreen';
+import ParkingSelectionScreen from './application/screens/_parkingSelection/ParkingSelectionScreen';
+import AdminScreen from './application/screens/_admin/AdminScreen';
+import SpotEditingScreen from './application/screens/_admin/SpotEditingScreen';
 
 function App() {
 	const [loading, setLoading] = useState(true);
 	const [showLoader, setShowLoader] = useState(true);
 	const [authAtom, setAuthAtom] = useRecoilState(AuthAtom);
-	const [_userAtom, setUserAtom] = useRecoilState(UserAtom);
+	const [userAtom, setUserAtom] = useRecoilState(UserAtom);
 
 	const resetAuthAtom = useResetRecoilState(AuthAtom);
 	const resetUserAtom = useResetRecoilState(UserAtom);
@@ -38,13 +41,36 @@ function App() {
 					userDocRef,
 					(docSnap) => {
 						if (docSnap.exists()) {
+							const userData = docSnap.data() as IUserAtom;
+
 							// установим данные пользователя из БД
 							setAuthAtom({ logged: true, role: 'user' });
 							setUserAtom({
-								...docSnap.data(),
+								...userData,
 							} as IUserAtom);
+
+							if (userData.parkingId) {
+								// если пользователь привязан к парковке - проверим не админ ли он
+								getDoc(doc(db, 'parkings', userData.parkingId)).then(
+									(parkingSnap) => {
+										if (!parkingSnap.exists()) {
+											console.log('Парковка не найдена');
+											return;
+										}
+
+										const parkingData = parkingSnap.data();
+
+										if (
+											Array.isArray(parkingData.admins) &&
+											parkingData.admins.includes(user.uid)
+										) {
+											setAuthAtom((prev) => ({ ...prev, role: 'admin' }));
+										}
+									}
+								);
+							}
 						} else {
-							// Документ пользователя не найден — можно очистить стейт или создать профиль
+							// Документ пользователя не найден — можно очистить стейт
 							resetAuthAtom();
 							resetUserAtom();
 						}
@@ -75,46 +101,84 @@ function App() {
 		return <LoaderScreen />;
 	}
 
+	const AdminRoutes = (
+		<>
+			<Route
+				path='/admin'
+				element={<AdminScreen />}
+			/>
+			<Route
+				path='parking-spot-editing/:id'
+				element={<SpotEditingScreen />}
+			/>
+		</>
+	);
+
 	return (
 		<>
 			<ToastContainer />
 			<BrowserRouter>
 				{authAtom.logged ? (
-					<Routes>
-						<Route
-							path='/auth'
-							element={<Navigate to={'/main/occupied'} />}
-						/>
-						<Route
-							path='/'
-							element={<Navigate to={'/main/occupied'} />}
-						/>
-						<Route
-							path={'/main'}
-							element={<MainScreen />}
-						>
+					userAtom.parkingId ? (
+						<Routes>
+							{authAtom.role === 'admin' ? (
+								AdminRoutes
+							) : (
+								<Route
+									path='/admin'
+									element={<LoaderScreen />}
+								/>
+							)}
 							<Route
-								path={':mode'}
-								element={<MainScreen />}
+								path='/auth'
+								element={<Navigate to={'/main/occupied'} />}
 							/>
-						</Route>
-						<Route
-							path={'/profile'}
-							element={<ProfileScreen />}
-						/>
-						<Route
-							path={'/occupate/:id'}
-							element={<OccupateScreen />}
-						/>
-						<Route
-							path={'/give-up'}
-							element={<GiveUpScreen />}
-						/>
-						<Route
-							path='*'
-							element={<ParkingScreen />}
-						/>
-					</Routes>
+							<Route
+								path='/parking-selection'
+								element={<Navigate to={'/main/occupied'} />}
+							/>
+							<Route
+								path='/'
+								element={<Navigate to={'/main/occupied'} />}
+							/>
+							<Route
+								path={'/main'}
+								element={<MainScreen />}
+							>
+								<Route
+									path={':mode'}
+									element={<MainScreen />}
+								/>
+							</Route>
+							<Route
+								path={'/profile'}
+								element={<ProfileScreen />}
+							/>
+							<Route
+								path={'/occupate/:id'}
+								element={<OccupateScreen />}
+							/>
+							<Route
+								path={'/give-up'}
+								element={<GiveUpScreen />}
+							/>
+							<Route
+								path='*'
+								element={<ParkingScreen />}
+							/>
+						</Routes>
+					) : (
+						<Routes>
+							<Route
+								path='/parking-selection'
+								element={<ParkingSelectionScreen />}
+							/>
+							<Route
+								path='*'
+								element={<Navigate to={'/parking-selection'} />}
+							/>
+						</Routes>
+					)
 				) : (
 					<Routes>
 						<Route

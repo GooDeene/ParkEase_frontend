@@ -1,0 +1,74 @@
+/* .adminScreen__loaderWrapper {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+} */
+
+.adminScreen__titleWrapper {
+	display: flex;
+	gap: 10px;
+	color: var(--colors_main);
+	justify-content: center;
+}
+
+.adminScreen__popupContentWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.adminScreen__visitingCode {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+
+	max-width: 400px;
+	align-self: center;
+	width: 100%;
+	padding: 4px 8px;
+	border-radius: var(--border_radius-m);
+	border: solid 1px var(--colors_main);
+	color: var(--colors_main);
+	font-weight: 500;
+
+	background-color: white;
+
+	position: relative;
+}
+
+.adminScreen__copyIcon {
+	position: absolute;
+	right: 8px;
+	background-color: white;
+}
+
+.adminScreen__copyHint {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: 14px;
+	color: var(--colors_accent);
+	font-weight: 500;
+
+	transition: 0.5s;
+	transform: translateY(0);
+	-moz-transform: translateY(0);
+	-o-transform: translateY(0);
+	-webkit-transform: translateY(0);
+}
+
+.adminScreen__copyHint_show {
+	transform: translateY(-95%);
+	-moz-transform: translateY(-95%);
+	-o-transform: translateY(-95%);
+	-webkit-transform: translateY(-95%);
+	/* opacity: 1; */
+}
+
+.adminScreen__copyWrapper {
+	position: relative;
+}

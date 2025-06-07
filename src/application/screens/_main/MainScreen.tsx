@@ -7,6 +7,7 @@ import { useState } from 'react';
 import './MainScreen.css';
 import GivenUpSubScreen from './_subScreens/GivenUpSubScreen';
 import { useNavigate, useParams } from 'react-router';
+import Title from '../../../controls/_title/Title';
 
 enum SwithcValue {
 	Occupate = 'occupate',
@@ -46,7 +47,10 @@ const MainScreen = () => {
 			<Header />
 			<ScreenLayout>
 				<div className={switchClassName}>
-					<span className='controls-margin_bottom-l'>Место на парковке</span>
+					<Title
+						className='controls-margin_bottom-l'
+						text='Место на парковке'
+					/>
 					<Switch
 						value={switchValue}
 						items={SWITCH_ITEMS}

@@ -11,20 +11,23 @@ import { UserAtom } from '../../application/core/state/UserAtom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../../firebase';
 import { AuthAtom } from '../../application/core/state/AuthAtom';
+import AdminIcon from '../_icons/AdminIcon';
 
 interface IHeaderProps extends IPropsWithClassName {
 	showHome?: boolean;
+	homePosition?: 'left' | 'center';
 }
 
 const ROOT_CLASS_NAME = 'controls-header';
 
-const Header = ({ showHome = false }: IHeaderProps) => {
+const Header = ({ showHome = false, homePosition = 'left' }: IHeaderProps) => {
 	const navigate = useNavigate();
 
 	const resetUserAtom = useResetRecoilState(UserAtom);
 	const resetAuthAtom = useResetRecoilState(AuthAtom);
 
 	const userAtom = useRecoilValue(UserAtom);
+	const authAtom = useRecoilValue(AuthAtom);
 
 	const headerButtonClassName = clsx(`${ROOT_CLASS_NAME}__button`);
 	const headerTitleClassName = clsx(
@@ -32,16 +35,28 @@ const Header = ({ showHome = false }: IHeaderProps) => {
 		'controls-fontsize-24',
 		'controls-fontweight-medium'
 	);
+	const wrapperClassName = clsx(
+		ROOT_CLASS_NAME,
+		authAtom.role === 'user' ? `${ROOT_CLASS_NAME}_user` : `${ROOT_CLASS_NAME}_admin`
+	);
 
 	/**
 	 * Обработчик клика по кнопки профиля
 	 * TODO: редирект на страницу профиля
 	 */
 	const onProfileClick = () => {
-		if (showHome) {
+		if (showHome && homePosition === 'left') {
 			navigate('/main');
 		} else {
 			navigate('/profile');
+		}
+	};
+
+	const onAdminClick = () => {
+		if (showHome && homePosition === 'center') {
+			navigate('/main');
+		} else {
+			navigate('/admin');
 		}
 	};
 
@@ -57,16 +72,36 @@ const Header = ({ showHome = false }: IHeaderProps) => {
 	};
 
 	return (
-		<div className={ROOT_CLASS_NAME}>
+		<div className={wrapperClassName}>
 			<Button
 				className={headerButtonClassName}
-				icon={showHome ? <HomeIcon size={40} /> : <ProfileIcon size={40} />}
+				icon={
+					showHome && homePosition === 'left' ? (
+						<HomeIcon size={34} />
+					) : (
+						<ProfileIcon size={34} />
+					)
+				}
 				onClick={onProfileClick}
 			/>
-			<span className={headerTitleClassName}>{userAtom.licencePlate}</span>
+			{authAtom.role === 'admin' ? (
+				<Button
+					className={headerButtonClassName}
+					icon={
+						showHome && homePosition === 'center' ? (
+							<HomeIcon size={34} />
+						) : (
+							<AdminIcon size={46} />
+						)
+					}
+					onClick={onAdminClick}
+				/>
+			) : (
+				<span className={headerTitleClassName}>{userAtom.licencePlate}</span>
+			)}
 			<Button
 				className={headerButtonClassName}
-				icon={<ExitIcon size={40} />}
+				icon={<ExitIcon size={34} />}
 				onClick={onExitCLick}
 			/>
 		</div>

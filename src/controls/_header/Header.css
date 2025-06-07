@@ -3,17 +3,21 @@
 	top: 0;
 	left: 0;
 	width: 100vw;
-	height: 70px;
 	box-sizing: border-box;
+	background-color: var(--colors_sub_main);
+	height: 64px;
 
+	z-index: 2;
+
+	display: flex;
+	box-sizing: border-box;
+	height: 64px;
+	padding: 20px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 20px;
 	background-color: var(--colors_sub_main);
 	color: var(--colors_white);
-
-	z-index: 2;
 }
 
 .controls-header__button {

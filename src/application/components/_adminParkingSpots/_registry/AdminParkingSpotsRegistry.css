@@ -1,0 +1,13 @@
+.adminParkingSpotsRegistry__wrapper {
+	margin-top: 20px;
+}
+
+.adminParkingSpotsRegistry {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+
+	justify-self: center;
+	margin: 0 auto;
+}

@@ -1,0 +1,24 @@
+.parkingSelectionScreen {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	padding-top: 50px;
+}
+
+.parkingSelectionScreen__logo {
+	margin: 0 auto 60px auto;
+}
+
+.parkingSelectionScreen__hintBlock {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	text-align: center;
+}
+
+.parkingSelectionScreen__dataBlock {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	text-align: center;
+}

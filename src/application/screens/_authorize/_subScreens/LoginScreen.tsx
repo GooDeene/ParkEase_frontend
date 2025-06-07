@@ -6,10 +6,13 @@ import ValidationController from '../../../../controls/_validationController/Val
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
 import clsx from 'clsx';
 import type { TValidationAPI } from '../../../../controls/_input/types/TValidationAPI';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth';
 import { auth } from '../../../../../firebase';
 import { toast } from 'react-toastify';
 import { useLoading } from '../../../core/utils/useLoading';
+import { useNavigate } from 'react-router';
+import { useSetRecoilState } from 'recoil';
+import { AuthAtom } from '../../../core/state/AuthAtom';
 
 const EMAIL_VALIDATORS = [isRequired];
 const PASSWORD_VALIDATORS = [isRequired];
@@ -17,6 +20,8 @@ const PASSWORD_VALIDATORS = [isRequired];
 const LOGIN_FAILED_MESSAGE = 'Неверный логин или пароль!';
 
 const LoginSubScreen = ({ className }: IPropsWithClassName) => {
+	const navigate = useNavigate();
+	const setAuthAtom = useSetRecoilState(AuthAtom);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const { loading, runProcess } = useLoading();
@@ -30,15 +35,22 @@ const LoginSubScreen = ({ className }: IPropsWithClassName) => {
 		const validateRes = validatorRef.current?.validate();
 
 		if (validateRes) {
-			runProcess(() => signInWithEmailAndPassword(auth, email, password)).catch(() => {
-				console.log('Ошибка авторизации!');
-				emailInputRef.current?.setTemporalError(LOGIN_FAILED_MESSAGE);
-				passwordInputRef.current?.setTemporalError(LOGIN_FAILED_MESSAGE);
-				toast(`Ошибка авторизации!`, {
-					type: 'error',
-					autoClose: 2500,
+			runProcess(() => signInWithEmailAndPassword(auth, email, password))
+				.then((user: UserCredential) => {
+					if (user) {
+						setAuthAtom({ logged: true, role: 'user' });
+						navigate('/main');
+					}
+				})
+				.catch(() => {
+					console.log('Ошибка авторизации!');
+					emailInputRef.current?.setTemporalError(LOGIN_FAILED_MESSAGE);
+					passwordInputRef.current?.setTemporalError(LOGIN_FAILED_MESSAGE);
+					toast(`Ошибка авторизации!`, {
+						type: 'error',
+						autoClose: 2500,
+					});
 				});
-			});
 		}
 	};
 

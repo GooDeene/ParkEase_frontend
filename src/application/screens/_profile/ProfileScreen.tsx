@@ -14,11 +14,16 @@ import type { TValidationAPI } from '../../../controls/_input/types/TValidationA
 import { useRecoilState } from 'recoil';
 import { UserAtom } from '../../core/state/UserAtom';
 import { isValidEmail } from '../../../controls/_input/validators/isValidEmail';
+import { doc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../../../../firebase';
+import { useLoading } from '../../core/utils/useLoading';
+import { toast } from 'react-toastify';
 
-type TInputVariant = 'email' | 'licencePlate' | 'telegram';
+type TInputVariant = 'fullName' | 'email' | 'licencePlate' | 'telegram';
 
 const ROOT_CLASS_NAME = 'profileScreen';
 
+const FULL_NAME_VALIDATORS = [isRequired];
 const EMAIL_VALIDATORS = [isRequired, isValidEmail];
 const LICENCE_PLATE_VALIDATORS = [isRequired, isLicensePlate];
 const TELEGRAM_VALIDATORS = [isValidTelegarmNickname];
@@ -26,11 +31,14 @@ const TELEGRAM_VALIDATORS = [isValidTelegarmNickname];
 const ProfileScreen = () => {
 	const [userAtom, _setUserAtom] = useRecoilState(UserAtom);
 
+	const [fullName, setFullName] = useState<string>(userAtom.fullName || '');
 	const [email, setEmail] = useState<string>(userAtom.email || '');
 	const [licencePlate, setLicencePlate] = useState<string>(userAtom.licencePlate || '');
 	const [telegram, setTelegram] = useState<string>(userAtom.telegram || '');
 	const [isButtonActive, setIsButtonActive] = useState(false);
 	const validatorRef = useRef<TValidationAPI>(null);
+
+	const { loading, runProcess } = useLoading();
 
 	const inputsClassName = clsx(`${ROOT_CLASS_NAME}__inputs`, 'controls-margin_top-l');
 	const submitButtonClassName = clsx(`${ROOT_CLASS_NAME}__submitButton`);
@@ -38,6 +46,9 @@ const ProfileScreen = () => {
 	const onInputChange = (value: string, type: TInputVariant) => {
 		setIsButtonActive(() => userAtom[type] !== value);
 		switch (type) {
+			case 'fullName':
+				setFullName(() => value);
+				break;
 			case 'email':
 				setEmail(() => value);
 				break;
@@ -59,9 +70,26 @@ const ProfileScreen = () => {
 	const onSubmitClick = () => {
 		const validationRes = validatorRef.current?.validate();
 		if (validationRes) {
-			console.log('ВАЛИДАЦИЯ УСПЕШНА МОЖНО ДЕЛАТЬ ЗАПРОС');
-		} else {
-			console.log('ЧТО-ТО НЕ ТАК!');
+			runProcess(() =>
+				updateDoc(doc(db, 'users', auth.currentUser?.uid || ''), {
+					fullName,
+					licencePlate,
+					telegram,
+				})
+			)
+				.then(() => {
+					toast('Данные профиля обновлены!', {
+						type: 'success',
+						autoClose: 2000,
+					});
+					setIsButtonActive(false);
+				})
+				.catch(() => {
+					toast('Ошибка обновления профиля! Данные не изменены', {
+						type: 'error',
+						autoClose: 3000,
+					});
+				});
 		}
 	};
 
@@ -80,6 +108,16 @@ const ProfileScreen = () => {
 							value={email}
 							onValueChanged={(val) => onInputChange(val, 'email')}
 							validators={EMAIL_VALIDATORS}
+							validateOnChange
+							validateOnFocusOut
+						/>
+						<TextInput
+							hint='Фамилия и имя'
+							type='text'
+							placeholder='Иванов Иван'
+							value={fullName}
+							onValueChanged={(val) => onInputChange(val, 'fullName')}
+							validators={FULL_NAME_VALIDATORS}
 							validateOnChange
 							validateOnFocusOut
 						/>
@@ -110,6 +148,7 @@ const ProfileScreen = () => {
 					className={submitButtonClassName}
 					disabled={!isButtonActive}
 					onClick={onSubmitClick}
+					loading={loading}
 				/>
 			</ScreenLayout>
 		</div>

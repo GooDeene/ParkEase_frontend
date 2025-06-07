@@ -4,9 +4,16 @@
 	align-items: center;
 }
 
+.controls-button_accent {
+	background-color: var(--colors_accent);
+}
+
+.controls-button_common {
+	background-color: var(--colors_main);
+}
+
 .controls-button-titleMode {
 	color: var(--colors_white);
-	background-color: var(--colors_main);
 	border-radius: var(--border_radius-m);
 }
 

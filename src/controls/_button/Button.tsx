@@ -12,6 +12,7 @@ interface IButtonProps {
 	disabled?: boolean;
 	fullWidth?: boolean;
 	padding?: { t: TPaddingSize; r: TPaddingSize; b: TPaddingSize; l: TPaddingSize };
+	accentColor?: boolean;
 
 	// Если задана эта опция кнопка отображается в режиме иконки (без текста и заливки фона)
 	icon?: ReactNode;
@@ -28,12 +29,14 @@ const Button = (
 		padding,
 		icon,
 		loading = false,
+		accentColor = false,
 	}: IButtonProps,
 	ref: ForwardedRef<HTMLButtonElement>
 ) => {
 	const buttonClassName = clsx(
 		'controls-button',
 		'controls-button-titleMode',
+        accentColor ? 'controls-button_accent' : 'controls-button_common',
 		!className?.includes('controls-fontsize') && 'controls-fontsize-20',
 		!className?.includes('controls-fontweight') && 'controls-fontweight-medium',
 		fullWidth && 'controls-button-w-full',

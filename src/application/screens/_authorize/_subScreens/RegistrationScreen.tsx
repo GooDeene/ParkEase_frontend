@@ -23,6 +23,7 @@ const EMAIL_VALIDATORS = [isRequired, isValidEmail];
 const TELEGRAM_VALIDATORS = [isValidTelegarmNickname];
 const LICENCE_PLATE_VALIDATORS = [isRequired, isLicensePlate];
 const PASSWORD_VALIDATORS = [isRequired, isValidPassword];
+const FULL_NAME_VALIDATORS = [isRequired];
 
 const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 	const [email, setEmail] = useState('');
@@ -30,42 +31,52 @@ const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 	const [licencePlate, setLicencePlate] = useState('');
 	const [password, setPassword] = useState('');
 	const [passRepeat, setPassRepeat] = useState('');
+	const [fullName, setFullName] = useState('');
 	const { loading, runProcess } = useLoading();
 	const validatorRef = useRef<TValidationAPI>(null);
 
 	const setUserAtom = useSetRecoilState(UserAtom);
 
-	const onSubmitClick = async (event: SyntheticEvent) => {
+	const onSubmitClick = (event: SyntheticEvent) => {
 		event.preventDefault();
 		const validateRes = validatorRef.current?.validate();
 
 		if (validateRes) {
 			// TODO: отправка зпроса регистрации
 
-			runProcess(() => createUserWithEmailAndPassword(auth, email, password))
-				.then((userCredential: UserCredential) =>
-					runProcess(() => {
+			runProcess(() =>
+				createUserWithEmailAndPassword(auth, email, password)
+					.then((userCredential: UserCredential) => {
 						const user = userCredential.user;
 
 						const dbUser: IUserAtom = {
 							email,
+							fullName: fullName,
 							licencePlate: licencePlate.toUpperCase(),
 							telegram,
-							parkingId: 'parking-1',
+							parkingId: null,
 							parkingSpotId: null,
 						};
 						// Создаем запись пользователя в Firestore
-						return setDoc(doc(db, 'users', user.uid), dbUser).then(() => {
-							setUserAtom(dbUser);
+						return setDoc(doc(db, 'users', user.uid), dbUser);
+					})
+					.then(() => {
+						setUserAtom({
+							email,
+							fullName: fullName,
+							licencePlate: licencePlate.toUpperCase(),
+							telegram,
+							parkingId: null,
+							parkingSpotId: null,
 						});
 					})
-				)
-				.catch(() => {
-					toast('Не удалось зарегистрироваться!', {
-						type: 'error',
-						autoClose: 2500,
-					});
-				});
+					.catch(() => {
+						toast('Не удалось зарегистрироваться!', {
+							type: 'error',
+							autoClose: 2500,
+						});
+					})
+			);
 		}
 	};
 
@@ -85,6 +96,17 @@ const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 					validateOnFocusOut
 					showRequired
 					onValueChanged={setEmail}
+				/>
+				<TextInput
+					type='text'
+					hint='Фамилия и имя'
+					placeholder='Иванов Иван'
+					value={fullName}
+					validators={FULL_NAME_VALIDATORS}
+					validateOnChange
+					validateOnFocusOut
+					showRequired
+					onValueChanged={setFullName}
 				/>
 				<TextInput
 					type='text'
@@ -108,6 +130,7 @@ const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 					uppercase
 					onValueChanged={setLicencePlate}
 				/>
+				<div className={clsx('authorizeScreen__separator', className)} />
 				<TextInput
 					type='password'
 					hint='Пароль'

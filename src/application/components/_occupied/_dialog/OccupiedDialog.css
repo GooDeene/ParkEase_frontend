@@ -1,6 +1,6 @@
 .occupiedDialog__template {
 	width: min-content;
-	border-radius: var(--border_radius-l);
+	border-radius: var(--border_radius-m);
 
 	padding: 20px 30px;
 	position: relative;
@@ -13,7 +13,7 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 
-	max-width: 90%;
+	max-width: 88%;
 	min-width: 300px;
 
 	box-sizing: border-box;

@@ -1,0 +1,42 @@
+.adminAddSpotButton__wrapper {
+	width: calc(50% - 10px);
+	height: 70px;
+	color: var(--colors_main);
+	border: 2px solid var(--colors_main);
+	border-radius: var(--border_radius-l);
+	box-sizing: border-box;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 6px;
+	gap: 2px;
+}
+
+.adminAddSpotButton__input {
+	all: unset;
+
+	font-size: 24px;
+	text-align: center;
+	width: 100%;
+	text-overflow: clip;
+	overflow: hidden;
+	font-weight: 500;
+}
+
+.adminAddSpotButton__wrapper_invalid {
+	border-color: var(--colors_error);
+	color: var(--colors_error);
+}
+
+.adminAddSpotButton__input_static {
+	font-size: 50px;
+}
+
+.controls-button.adminAddSpotButton__actionButton:disabled {
+	background-color: transparent;
+}
+
+.controls-button.adminAddSpotButton__actionButton:disabled > svg {
+	color: var(--colors_unactive);
+}
