@@ -71,4 +71,6 @@
 
 .adminScreen__copyWrapper {
 	position: relative;
+	display: flex;
+	justify-content: center;
 }
