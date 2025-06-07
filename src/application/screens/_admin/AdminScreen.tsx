@@ -80,11 +80,11 @@ const AdminScreen = () => {
 					if (snap.exists()) {
 						const { name } = snap.data();
 						setParkingName(() => name);
+						dialogRef.current?.show();
 					}
 				});
 			}
 		});
-		dialogRef.current?.show();
 	};
 
 	const onCopyClick = () => {
