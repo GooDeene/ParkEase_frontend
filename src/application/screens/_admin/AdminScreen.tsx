@@ -90,7 +90,7 @@ const AdminScreen = () => {
 	const onCopyClick = () => {
 		navigator.clipboard.writeText(userAtom.parkingId || '');
 		setCopied(() => true);
-		setTimeout(() => setCopied(() => false), 1500);
+		setTimeout(() => setCopied(() => false), 2000);
 	};
 
 	return (
