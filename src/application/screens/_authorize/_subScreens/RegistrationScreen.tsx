@@ -55,7 +55,6 @@ const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 							licencePlate: licencePlate.toUpperCase(),
 							telegram,
 							parkingId: null,
-							parkingSpotId: null,
 						};
 						// Создаем запись пользователя в Firestore
 						return setDoc(doc(db, 'users', user.uid), dbUser);
@@ -67,7 +66,6 @@ const RegistrationSubScreen = ({ className }: IPropsWithClassName) => {
 							licencePlate: licencePlate.toUpperCase(),
 							telegram,
 							parkingId: null,
-							parkingSpotId: null,
 						});
 					})
 					.catch(() => {
