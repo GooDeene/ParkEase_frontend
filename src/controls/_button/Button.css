@@ -17,6 +17,10 @@
 	border-radius: var(--border_radius-m);
 }
 
+.controls-button_bordered {
+	border: 1px solid;
+}
+
 .controls-button-iconMode {
 	color: inherit;
 }
@@ -35,4 +39,57 @@
 
 .controls-button:active:not(:disabled) {
 	opacity: 0.92;
+}
+
+/* Цветовые классы */
+.controls-button_main {
+	color: var(--colors_main);
+}
+
+.controls-button_error {
+	color: var(--colors_error);
+}
+
+.controls-button_accent {
+	color: var(--colors_accent);
+}
+
+.controls-button_white {
+	color: var(--colors_white);
+}
+
+/* ---- */
+
+.controls-button_mainBorder {
+	border-color: var(--colors_main);
+}
+
+.controls-button_errorBorder {
+	border-color: var(--colors_error);
+}
+
+.controls-button_accentBorder {
+	border-color: var(--colors_accent);
+}
+
+.controls-button_whiteBorder {
+	border-color: var(--colors_white);
+}
+
+/* ---- */
+
+.controls-button_mainBackground {
+	background-color: var(--colors_main);
+}
+
+.controls-button_errorBackground {
+	background-color: var(--colors_error);
+}
+
+.controls-button_accentBackground {
+	background-color: var(--colors_accent);
+}
+
+.controls-button_whiteBackground {
+	background-color: var(--colors_white);
 }

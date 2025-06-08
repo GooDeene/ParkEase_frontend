@@ -1,0 +1,61 @@
+.adminSpotUserCard {
+	padding: 14px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	color: var(--colors_main);
+	border: solid 1px var(--colors_main);
+	box-sizing: border-box;
+	position: relative;
+}
+
+.adminSpotUserCard_rounded {
+	border-radius: var(--border_radius-m);
+}
+
+.adminSpotUserCard_disabled {
+	background-color: var(--colors_unactive);
+}
+
+.adminSpotUserCard__disabledText {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0);
+	bottom: 0;
+	color: var(--colors_white);
+	font-size: 12px;
+	width: max-content;
+}
+
+.adminSpotUserCard_compact {
+	gap: 4px;
+	font-size: 13px;
+	padding: 8px;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.adminSpotUserCard_compact > .adminSpotUserCardRow {
+	max-width: 50%;
+	width: calc(50% - 2px);
+	gap: 4px;
+}
+
+.adminSpotUserCard_compact.adminSpotUserCard_disabled {
+	padding: 8px 8px 16px 8px;
+}
+
+/* ------------------------ */
+
+.adminSpotUserCardRow {
+	max-width: 100%;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	color: var(--colors_accent);
+}
+
+.adminSpotUserCardRow > svg {
+	flex-shrink: 0;
+}

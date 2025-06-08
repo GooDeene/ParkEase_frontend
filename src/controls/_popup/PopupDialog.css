@@ -1,12 +1,14 @@
-.controls-confirmationDialog {
+.controls-popupDialog {
 	position: fixed;
+	left: 0;
+	top: 0;
 	height: 100vh;
 	width: 100vw;
 
 	z-index: 3;
 }
 
-.controls-confirmationDialog__layout {
+.controls-popupDialog__layout {
 	height: 100%;
 	width: 100%;
 
@@ -14,7 +16,7 @@
 	opacity: 0.3;
 }
 
-.controls-confirmationDialog__dialog {
+.controls-popupDialog__dialog {
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -36,13 +38,13 @@
 	background-color: white;
 }
 
-.controls-confirmationDialog__buttons {
+.controls-popupDialog__buttons {
 	margin-top: 14px;
 	display: flex;
 	justify-content: space-around;
 }
 
-.controls-confirmationDialog__closeButton {
+.controls-popupDialog__closeButton {
 	background-color: white;
 	padding: 4px;
 	border-radius: 100%;

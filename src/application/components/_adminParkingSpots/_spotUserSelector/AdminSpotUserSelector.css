@@ -1,0 +1,30 @@
+.adminSpotUserSelector__emptyOwner {
+	border: 1px solid var(--colors_main);
+	color: var(--colors_hint);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 50px;
+	border-radius: var(--border_radius-m);
+}
+
+.adminSpotUserSelector__dropdown {
+	display: flex;
+	flex-direction: column;
+	margin-top: 4px;
+	border: 1px solid var(--colors_main);
+	border-radius: var(--border_radius-m);
+	overflow: hidden;
+	max-height: 210px;
+	overflow: scroll;
+	overscroll-behavior: contain;
+}
+
+.adminSpotUserSelector__dropdown > .adminSpotUserCard {
+	border-color: transparent;
+	border-bottom-color: var(--colors_main);
+}
+
+.adminSpotUserSelector__dropdown > .adminSpotUserCard:last-child {
+	border-bottom-color: transparent;
+}

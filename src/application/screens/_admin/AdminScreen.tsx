@@ -25,6 +25,7 @@ import PopupDialog, { type TPopupDialogAPI } from '../../../controls/_popup/Popu
 import { AuthAtom } from '../../core/state/AuthAtom';
 import clsx from 'clsx';
 import CopyIcon from '../../../controls/_icons/CopyIcon';
+import DebouncedLoaderScreen from '../_debouncedLoader/DebouncedLoaderScreen';
 
 const ROOT_CLASS_NAME = 'adminScreen';
 const TITLE_WRAPPER_CLASS_NAME = `${ROOT_CLASS_NAME}__titleWrapper`;
@@ -33,12 +34,13 @@ const DEFAULT_INFO_DETAIL =
 	'Создавайте парковочные места, закрепляйте постоянных владельцев за ними и рассылайте новым сотрудникам код приглашения на парковку';
 
 const AdminScreen = () => {
-	const [parkingSpots, setparkingSpots] = useState<IAdminParkingSpot[]>([]);
+	const [parkingSpots, setParkingSpots] = useState<IAdminParkingSpot[]>([]);
 	const [copied, setCopied] = useState(false);
 	const [parkingName, setParkingName] = useState('');
 	const userAtom = useRecoilValue(UserAtom);
 	const authAtom = useRecoilValue(AuthAtom);
 	const { runProcess } = useLoading();
+	const pageLoading = useLoading();
 
 	const dialogRef = useRef<TPopupDialogAPI>(null);
 
@@ -55,23 +57,21 @@ const AdminScreen = () => {
 	const copyWrapperClassName = `${ROOT_CLASS_NAME}__copyWrapper`;
 
 	useEffect(() => {
-		runProcess(() => {
+		pageLoading.runProcess(() => {
 			const q = query(
 				collection(db, 'parkingSpots'),
 				where('parkingId', '==', userAtom.parkingId),
 				orderBy('name')
 			);
 			return getDocs(q).then((querySnapshot: QuerySnapshot) => {
-				const users: IAdminParkingSpot[] = querySnapshot.docs.map((doc) => ({
+				const spotsData: IAdminParkingSpot[] = querySnapshot.docs.map((doc) => ({
 					key: doc.id,
 					...(doc.data() as Omit<IAdminParkingSpot, 'key'>),
 				}));
-				setparkingSpots(() => users);
+				setParkingSpots(() => spotsData);
 			});
 		});
 	}, []);
-
-	useEffect(() => {}, []);
 
 	const onInfoClick = () => {
 		runProcess(() => {
@@ -95,6 +95,7 @@ const AdminScreen = () => {
 
 	return (
 		<>
+			<DebouncedLoaderScreen loading={pageLoading.loading} />
 			<PopupDialog
 				ref={dialogRef}
 				showCloseButton
@@ -141,7 +142,7 @@ const AdminScreen = () => {
 					</div>
 					<AdminParkingSpotsRegistry
 						items={parkingSpots}
-						setItems={setparkingSpots}
+						setItems={setParkingSpots}
 					/>
 
 					{/* {loading ?? (

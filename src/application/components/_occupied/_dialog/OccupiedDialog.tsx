@@ -1,11 +1,10 @@
 import clsx from 'clsx';
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
 import './OccupiedDialog.css';
-import Button from '../../../../controls/_button/Button';
-import CrossIcon from '../../../../controls/_icons/CrossIcon';
 import {
 	forwardRef,
 	useImperativeHandle,
+	useRef,
 	useState,
 	type ForwardedRef,
 	type ReactNode,
@@ -13,6 +12,7 @@ import {
 import type { IParkingSpot } from '../../../../controls/types/TParkingSpot';
 import { getDatesPeriod } from '../../../../controls/utils/getDatesPeriod';
 import OwnerCard from '../../../../controls/_ownerCard/OwnerCard';
+import PopupDialog, { type TPopupDialogAPI } from '../../../../controls/_popup/PopupDialog';
 
 interface IOccupiedDialogProps extends IPropsWithClassName {}
 
@@ -27,8 +27,8 @@ export type OccupiedDialogAPI = {
 	open: (spot: IParkingSpot) => void;
 };
 
-const InfoBlock = ({ title, content }: IInfoBlockProps) => {
-	const blockClassName = clsx(`${ROOT_CLASS_NAME}__infoBlock`);
+const InfoBlock = ({ title, content, className }: IInfoBlockProps) => {
+	const blockClassName = clsx(`${ROOT_CLASS_NAME}__infoBlock`, className);
 	const contentWrapperClassName = clsx(`${ROOT_CLASS_NAME}__blockContentWrapper`);
 
 	return (
@@ -40,42 +40,25 @@ const InfoBlock = ({ title, content }: IInfoBlockProps) => {
 };
 
 const OccupiedDialog = ({}: IOccupiedDialogProps, ref: ForwardedRef<OccupiedDialogAPI>) => {
-	const [isOpen, setIsOpen] = useState(false);
 	const [spotInfo, setSpotInfo] = useState<IParkingSpot>();
+	const popupRef = useRef<TPopupDialogAPI>(null);
 
 	useImperativeHandle(ref, () => ({
-		open: (spot: IParkingSpot) => {
+		open: (spot) => {
 			setSpotInfo(() => spot);
-			setIsOpen(() => true);
-			document.body.style.overflow = 'hidden';
+			return popupRef.current?.show();
 		},
 	}));
 
-	const layoutClassName = clsx(`${ROOT_CLASS_NAME}__layout`);
 	const templateClassName = clsx(`${ROOT_CLASS_NAME}__template`);
-	const closeClassName = clsx(`${ROOT_CLASS_NAME}__closeButton`);
 	const blocksClassName = clsx(`${ROOT_CLASS_NAME}__infoBlocks`);
 
-	const onCloseClick = () => {
-		setSpotInfo(() => undefined);
-		setIsOpen(() => false);
-		document.body.style.overflow = '';
-	};
-
-	const onLayoutClick = () => {};
-
-	return isOpen ? (
-		<div>
-			<div
-				className={layoutClassName}
-				onClick={onLayoutClick}
-			/>
+	return (
+		<PopupDialog
+			ref={popupRef}
+			showCloseButton
+		>
 			<div className={templateClassName}>
-				<Button
-					className={closeClassName}
-					icon={<CrossIcon size={30} />}
-					onClick={onCloseClick}
-				/>
 				<div className={blocksClassName}>
 					<InfoBlock
 						title='Место'
@@ -94,9 +77,7 @@ const OccupiedDialog = ({}: IOccupiedDialogProps, ref: ForwardedRef<OccupiedDial
 					/>
 				</div>
 			</div>
-		</div>
-	) : (
-		<></>
+		</PopupDialog>
 	);
 };
 

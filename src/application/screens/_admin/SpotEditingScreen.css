@@ -1,0 +1,10 @@
+.spotEditingScreen__spotTitle {
+	border: 1px solid var(--colors_main);
+	border-radius: var(--border_radius-m);
+	min-height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: var(--colors_main);
+	margin-top: 14px;
+}

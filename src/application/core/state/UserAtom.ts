@@ -6,7 +6,6 @@ export interface IUserAtom {
 	licencePlate: string | null;
 	telegram: string | null;
 	parkingId: string | null;
-	parkingSpotId: string | null;
 }
 
 export const UserAtom = atom<IUserAtom>({
@@ -17,6 +16,5 @@ export const UserAtom = atom<IUserAtom>({
 		licencePlate: null,
 		telegram: null,
 		parkingId: null,
-		parkingSpotId: null,
 	},
 });

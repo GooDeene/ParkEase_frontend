@@ -13,11 +13,12 @@ import { auth, db } from '../firebase';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { AuthAtom } from './application/core/state/AuthAtom';
 import { UserAtom, type IUserAtom } from './application/core/state/UserAtom';
-import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import LoaderScreen from './application/screens/_loader/LoaderScreen';
 import ParkingSelectionScreen from './application/screens/_parkingSelection/ParkingSelectionScreen';
 import AdminScreen from './application/screens/_admin/AdminScreen';
 import SpotEditingScreen from './application/screens/_admin/SpotEditingScreen';
+import { MySpotAtom, type IMySpotAtom } from './application/core/state/MySpotAtom';
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -25,8 +26,17 @@ function App() {
 	const [authAtom, setAuthAtom] = useRecoilState(AuthAtom);
 	const [userAtom, setUserAtom] = useRecoilState(UserAtom);
 
+	const [_mySpotAtom, setMySpotAtom] = useRecoilState(MySpotAtom);
+
 	const resetAuthAtom = useResetRecoilState(AuthAtom);
 	const resetUserAtom = useResetRecoilState(UserAtom);
+	const resetMySpotAtom = useResetRecoilState(MySpotAtom);
+
+	const resetAtoms = () => {
+		resetAuthAtom();
+		resetUserAtom();
+		resetMySpotAtom();
+	};
 
 	useEffect(() => {
 		setTimeout(() => setShowLoader(false), 1300);
@@ -69,10 +79,25 @@ function App() {
 									}
 								);
 							}
+
+							// Попробуем найти парковочное место, за которым закреплен пользователь
+							const q = query(
+								collection(db, 'parkingSpots'),
+								where('attachedUserId', '==', user.uid)
+								// limit(1)
+							);
+
+							getDocs(q).then((snap) => {
+								if (!snap.empty) {
+									setMySpotAtom(() => snap.docs?.[0]?.data() as IMySpotAtom);
+								} else {
+									console.log('Парковочное место не найдено!');
+									resetMySpotAtom();
+								}
+							});
 						} else {
 							// Документ пользователя не найден — можно очистить стейт
-							resetAuthAtom();
-							resetUserAtom();
+							resetAtoms();
 						}
 						setLoading(false);
 					},
@@ -87,8 +112,7 @@ function App() {
 					unsubscribeUserDoc;
 				};
 			} else {
-				resetAuthAtom();
-				resetUserAtom();
+				resetAtoms();
 				setLoading(false);
 			}
 		});

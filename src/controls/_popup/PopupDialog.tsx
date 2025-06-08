@@ -12,7 +12,7 @@ import {
 import CrossCircleIcon from '../_icons/CrossCircleIcon';
 import CommitIcon from '../_icons/CommitIcon';
 
-const ROOT_CLASS_NAME = 'controls-confirmationDialog';
+const ROOT_CLASS_NAME = 'controls-popupDialog';
 const LAYOUT_CLASS_NAME = `${ROOT_CLASS_NAME}__layout`;
 
 export type TPopupDialogAPI = {
@@ -96,23 +96,22 @@ const PopupDialog = (
 		<>
 			<span className={titleClassName}>{title}</span>
 			{detail && <span className={detailClassName}>{detail}</span>}
-			{showCommitButton ||
-				(showRejectButton && (
-					<div className={buttonsClassName}>
-						{showRejectButton && (
-							<Button
-								icon={<CrossCircleIcon className='controls-fontcolor-error' />}
-								onClick={onRejectClick}
-							/>
-						)}
-						{showCommitButton && (
-							<Button
-								icon={<CommitIcon className='controls-fontcolor-accent' />}
-								onClick={onCommitClick}
-							/>
-						)}
-					</div>
-				))}
+			{(showCommitButton || showRejectButton) && (
+				<div className={buttonsClassName}>
+					{showRejectButton && (
+						<Button
+							icon={<CrossCircleIcon className='controls-fontcolor-error' />}
+							onClick={onRejectClick}
+						/>
+					)}
+					{showCommitButton && (
+						<Button
+							icon={<CommitIcon className='controls-fontcolor-accent' />}
+							onClick={onCommitClick}
+						/>
+					)}
+				</div>
+			)}
 		</>
 	);
 

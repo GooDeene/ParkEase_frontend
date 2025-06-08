@@ -12,6 +12,7 @@ export interface IAdminParkingSpot {
 interface IAdminParkingSpotsRegistryProps {
 	items: IAdminParkingSpot[];
 	setItems: React.Dispatch<React.SetStateAction<IAdminParkingSpot[]>>;
+	loading?: boolean;
 }
 
 const ROOT_CLASS_NAME = 'adminParkingSpotsRegistry';

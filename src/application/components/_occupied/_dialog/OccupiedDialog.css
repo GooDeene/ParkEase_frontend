@@ -1,22 +1,25 @@
 .occupiedDialog__template {
-	width: min-content;
-	border-radius: var(--border_radius-m);
+	/* width: min-content; */
+	/* border-radius: var(--border_radius-m); */
 
-	padding: 20px 30px;
-	position: relative;
-	z-index: 3;
-	background-color: var(--colors_white);
+	/* padding: 20px 30px; */
+	/* position: relative; */
+	/* z-index: 3; */
+	/* background-color: var(--colors_white); */
 	color: var(--colors_main);
 
-	position: fixed;
-	top: 50%;
+	/* top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 
 	max-width: 88%;
-	min-width: 300px;
+	min-width: 300px; */
 
 	box-sizing: border-box;
+}
+
+.occupiedDialog__infoBlock {
+	width: 100%;
 }
 
 .occupiedDialog__blockContentWrapper {
@@ -31,27 +34,12 @@
 
 	max-width: 100%;
 	box-sizing: border-box;
+	width: 100%;
 }
 
 .occupiedDialog__infoBlocks {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: 14px;
-}
-
-.occupiedDialog__closeButton {
-	position: absolute;
-	top: 14px;
-	right: 14px;
-}
-
-.occupiedDialog__layout {
-	height: 101vh;
-	width: 101vw;
-	position: fixed;
-	opacity: 0.3;
-	background-color: black;
-	top: 0;
-	left: 0;
-	z-index: 2;
 }

@@ -6,6 +6,8 @@ import { formatDateToRU } from '../../../controls/utils/formatDate';
 import { getTomorrowDate } from '../../../controls/utils/getTomorrowDate';
 import './MySpotCard.css';
 import { useNavigate } from 'react-router';
+import { useRecoilValue } from 'recoil';
+import { MySpotAtom } from '../../core/state/MySpotAtom';
 
 interface IMySpotCard extends IPropsWithClassName {
 	spotName?: string;
@@ -16,8 +18,10 @@ const ROOT_CLASS_NAME = 'mySpotCard';
 const DEFAULT_EMPTY_TITLE = 'У вас нет постоянного парковочного места';
 const DEFAULT_EMPTY_DETAIL = 'Получите его у администратора парковки вашего офиса';
 
-const MySpotCard = ({ className, spotName }: IMySpotCard) => {
+const MySpotCard = ({ className }: IMySpotCard) => {
 	const navigate = useNavigate();
+
+	const mySpotAtom = useRecoilValue(MySpotAtom);
 
 	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
 	const spotNameClassName = clsx('controls-fontsize-40', 'controls-fontweight-medium');
@@ -41,13 +45,13 @@ const MySpotCard = ({ className, spotName }: IMySpotCard) => {
 
 	return (
 		<div className={wrapperClassName}>
-			{spotName && spotName !== '' ? (
+			{mySpotAtom.name && mySpotAtom.name !== '' ? (
 				<>
 					<div className={spotInfoBlockClassName}>
 						<span className={clsx('controls-fontsize-20', 'controls-text-ellipsis')}>
 							Ваше место
 						</span>
-						<span className={spotNameClassName}>{spotName}</span>
+						<span className={spotNameClassName}>{mySpotAtom.name}</span>
 						<span className={clsx('controls-fontsize-20', 'controls-text-ellipsis')}>
 							устпите его
 						</span>

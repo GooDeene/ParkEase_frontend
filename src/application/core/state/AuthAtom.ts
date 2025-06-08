@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-interface IAuthAtom {
+export interface IAuthAtom {
 	logged: boolean;
 	role: 'user' | 'admin' | null;
 }

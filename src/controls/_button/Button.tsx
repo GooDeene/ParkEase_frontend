@@ -5,6 +5,8 @@ import './Button.css';
 
 import LoaderGif from '/menu_spinner.gif';
 
+type TButtonColor = 'main' | 'accent' | 'error' | 'white';
+
 interface IButtonProps {
 	className?: string;
 	onClick?: (event: SyntheticEvent) => void;
@@ -12,7 +14,10 @@ interface IButtonProps {
 	disabled?: boolean;
 	fullWidth?: boolean;
 	padding?: { t: TPaddingSize; r: TPaddingSize; b: TPaddingSize; l: TPaddingSize };
-	accentColor?: boolean;
+	color?: TButtonColor;
+	borderColor?: TButtonColor;
+	backgroundColor?: TButtonColor;
+	showBorder?: boolean;
 
 	// Если задана эта опция кнопка отображается в режиме иконки (без текста и заливки фона)
 	icon?: ReactNode;
@@ -29,14 +34,20 @@ const Button = (
 		padding,
 		icon,
 		loading = false,
-		accentColor = false,
+		color = 'white',
+		borderColor = 'main',
+		backgroundColor = 'main',
+		showBorder = false,
 	}: IButtonProps,
 	ref: ForwardedRef<HTMLButtonElement>
 ) => {
 	const buttonClassName = clsx(
 		'controls-button',
 		'controls-button-titleMode',
-        accentColor ? 'controls-button_accent' : 'controls-button_common',
+		`controls-button_${color}`,
+		`controls-button_${borderColor}Border`,
+		`controls-button_${backgroundColor}Background`,
+		showBorder && `controls-button_bordered`,
 		!className?.includes('controls-fontsize') && 'controls-fontsize-20',
 		!className?.includes('controls-fontweight') && 'controls-fontweight-medium',
 		fullWidth && 'controls-button-w-full',
