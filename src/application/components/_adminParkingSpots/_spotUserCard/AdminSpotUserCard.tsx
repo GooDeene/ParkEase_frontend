@@ -2,12 +2,11 @@ import clsx from 'clsx';
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
 import './AdminSpotUserCard.css';
 import Button from '../../../../controls/_button/Button';
-import { useMemo, useRef, type ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import UserCircleIcon from '../../../../controls/_icons/UserCircleIcon';
 import CarIcon from '../../../../controls/_icons/CarIcon';
 import EmailIcon from '../../../../controls/_icons/EmailIcon';
 import TelegramIcon from '../../../../controls/_icons/TelegramIcon';
-import PopupDialog, { type TPopupDialogAPI } from '../../../../controls/_popup/PopupDialog';
 import type { TUser } from '../../../screens/_admin/SpotEditingScreen';
 
 const ROOT_CLASS_NAME = 'adminSpotUserCard';
@@ -40,7 +39,7 @@ const InfoRow = (props: IInfoRow) => {
 		<div className={rootClaaName}>
 			{props.icon}
 			{props.textTemplate ?? (
-				<span className={textClassName}>{props.text ?? DEFAULT_NOT_FOUND_TEXT}</span>
+				<span className={textClassName}>{props.text || DEFAULT_NOT_FOUND_TEXT}</span>
 			)}
 		</div>
 	);
@@ -72,12 +71,13 @@ const AdminSpotUserCard = ({
 		'controls-fontsize-10'
 	);
 	const iconSize = useMemo(() => (compact ? 20 : 28), [compact]);
-	const popupRef = useRef<TPopupDialogAPI>(null);
+	// const popupRef = useRef<TPopupDialogAPI>(null);
 
 	const onDeattachClick = () => {
-		popupRef.current?.show().then((res) => {
-			if (res) onDeattach?.(user);
-		});
+		onDeattach?.(user);
+		// popupRef.current?.show().then((res) => {
+		// 	if (res) onDeattach?.(user);
+		// });
 	};
 
 	const onCardClick = () => {
@@ -90,13 +90,13 @@ const AdminSpotUserCard = ({
 
 	return (
 		<>
-			<PopupDialog
+			{/* <PopupDialog
 				ref={popupRef}
 				title='Уверены, что хотите отвязать пользователя от парковочного места?'
 				detail='Это приведет к сбросу всех уступленных и занятых периодов этого места'
 				showCommitButton
 				showRejectButton
-			/>
+			/> */}
 			<div
 				className={mainClassName}
 				onClick={onCardClick}

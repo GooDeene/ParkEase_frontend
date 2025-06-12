@@ -110,3 +110,7 @@
 .controls-fontcolor-accent {
 	color: var(--colors_accent);
 }
+
+.controls-fontcolor-unactive {
+	color: var(--colors_unactive);
+}

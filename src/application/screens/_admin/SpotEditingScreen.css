@@ -8,3 +8,13 @@
 	color: var(--colors_main);
 	margin-top: 14px;
 }
+
+.spotEditingScreen__titleWrapper {
+	display: flex;
+	justify-content: center;
+	gap: 14px;
+}
+
+.spotEditingScreen__titleWrapper > .controls-button:disabled {
+	background-color: transparent;
+}

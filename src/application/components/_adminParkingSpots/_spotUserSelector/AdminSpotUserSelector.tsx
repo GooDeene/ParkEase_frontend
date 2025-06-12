@@ -9,6 +9,9 @@ interface IAdminSpotUserSelectorProps extends IPropsWithClassName {
 	users: TUser[];
 	initialSelectedValue: TUser | null;
 	disabledUsersIds?: string[];
+
+	onDeattach?: (user: TUser) => void;
+	onOwnerSelected?: (user: TUser) => void;
 }
 
 const ROOT_CLASS_NAME = 'adminSpotUserSelector';
@@ -18,6 +21,8 @@ const AdminSpotUserSelector = ({
 	className,
 	initialSelectedValue,
 	disabledUsersIds,
+	onDeattach: deattachCallback,
+	onOwnerSelected,
 }: IAdminSpotUserSelectorProps) => {
 	const [isDropdownOpen, setIsDropdwonOpen] = useState(false);
 	const [selectedUser, setSelectedUser] = useState<TUser | null>(initialSelectedValue);
@@ -29,10 +34,12 @@ const AdminSpotUserSelector = ({
 	const onCardClick = (user: TUser) => {
 		setIsDropdwonOpen(() => false);
 		setSelectedUser(() => user);
+		onOwnerSelected?.(user);
 	};
 
-	const onDeattach = (_user: TUser) => {
+	const onDeattach = (user: TUser) => {
 		setSelectedUser(() => null);
+		deattachCallback?.(user);
 	};
 
 	useEffect(() => {
