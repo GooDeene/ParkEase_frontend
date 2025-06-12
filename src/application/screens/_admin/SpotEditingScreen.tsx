@@ -153,7 +153,10 @@ const SpotEditingScreen = () => {
 			<DebouncedLoaderScreen loading={loading} />
 			<div>
 				{/* <ConfirmationDialog title='Вы точно хотите отвязать владельца места?' detail='Это приведет к потере всех уступленных промежутков'/> */}
-				<Header />
+				<Header
+					showHome
+					homePosition='center'
+				/>
 				<ScreenLayout>
 					<div className={titleWrapperClassName}>
 						<Title text='Парковочное место' />
