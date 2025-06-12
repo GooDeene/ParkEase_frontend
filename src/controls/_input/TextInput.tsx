@@ -45,6 +45,12 @@ const VALIDATION_DEBOUNCE = 700;
 
 const ROOT_CLASS_NAME = 'controls-textInput';
 
+/**
+ * Функциональный компонент ввода текстового значения.
+ * Поддерживает механизмы валидации, работу с любыми типами данных: номер телефона, почти, текст и т.д.
+ * 
+ * @returns {ReactNode} 
+ */
 const TextInput = (
 	{
 		className,
