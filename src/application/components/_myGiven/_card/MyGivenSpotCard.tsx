@@ -12,6 +12,7 @@ interface IMyGivenSpotCardProps extends IPropsWithClassName {
 }
 
 const ROOT_CLASS_NAME = 'myGivenSpotCard';
+const DEFAULT_OCCUPIED_MESSAGE = 'Место уже занято';
 
 const MyGivenSpotCard = ({ className, spotStatus, dates }: IMyGivenSpotCardProps) => {
 	const [hideAction, setHideAction] = useState(false);
@@ -42,7 +43,7 @@ const MyGivenSpotCard = ({ className, spotStatus, dates }: IMyGivenSpotCardProps
 		}
 	};
 
-	const onButtonClick = (event: SyntheticEvent) => {
+	const onRejectClick = (event: SyntheticEvent) => {
 		event.stopPropagation();
 	};
 
@@ -67,10 +68,10 @@ const MyGivenSpotCard = ({ className, spotStatus, dates }: IMyGivenSpotCardProps
 							b: 's',
 							l: 'xs',
 						}}
-						onClick={onButtonClick}
+						onClick={onRejectClick}
 					/>
 				) : (
-					<span className={emptyActionClassName}>Место уже занято</span>
+					<span className={emptyActionClassName}>{DEFAULT_OCCUPIED_MESSAGE}</span>
 				)}
 			</div>
 		</div>
