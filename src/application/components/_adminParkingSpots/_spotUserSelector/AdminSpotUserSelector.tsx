@@ -56,6 +56,7 @@ const AdminSpotUserSelector = ({
 					user={selectedUser}
 					showDeattachButton
 					onDeattach={onDeattach}
+					clickableLinks
 				/>
 			) : (
 				<>

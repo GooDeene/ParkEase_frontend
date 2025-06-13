@@ -95,7 +95,7 @@ const OwnerCard = ({
 					{email && clickableLinks ? (
 						<a
 							target='_blank'
-							href={getTelegramHref(email)}
+							href={`mailto:${email}`}
 							className='controls-text-ellipsis'
 							onClick={() => onContactClick('telegram')}
 						>
