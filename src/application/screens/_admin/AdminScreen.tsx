@@ -25,7 +25,7 @@ import PopupDialog, { type TPopupDialogAPI } from '../../../controls/_popup/Popu
 import { AuthAtom } from '../../core/state/AuthAtom';
 import clsx from 'clsx';
 import CopyIcon from '../../../controls/_icons/CopyIcon';
-import DebouncedLoaderScreen from '../_debouncedLoader/DebouncedLoaderScreen';
+import InnerLoader from '../../components/_innerLoader/InnerLoader';
 
 const ROOT_CLASS_NAME = 'adminScreen';
 const TITLE_WRAPPER_CLASS_NAME = `${ROOT_CLASS_NAME}__titleWrapper`;
@@ -95,7 +95,6 @@ const AdminScreen = () => {
 
 	return (
 		<>
-			<DebouncedLoaderScreen loading={pageLoading.loading} />
 			<PopupDialog
 				ref={dialogRef}
 				showCloseButton
@@ -140,16 +139,17 @@ const AdminScreen = () => {
 							onClick={onInfoClick}
 						/>
 					</div>
-					<AdminParkingSpotsRegistry
-						items={parkingSpots}
-						setItems={setParkingSpots}
-					/>
-
-					{/* {loading ?? (
-					<div className={LOADER_WRAPPER_CLASS_NAME}>
-						<Loader />
-					</div>
-				)} */}
+					{pageLoading.loading ? (
+						<InnerLoader
+							height={200}
+							style='dark'
+						/>
+					) : (
+						<AdminParkingSpotsRegistry
+							items={parkingSpots}
+							setItems={setParkingSpots}
+						/>
+					)}
 				</ScreenLayout>
 			</div>
 		</>

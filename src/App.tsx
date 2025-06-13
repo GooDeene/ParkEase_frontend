@@ -54,10 +54,10 @@ function App() {
 							const userData = docSnap.data() as IUserAtom;
 
 							// установим данные пользователя из БД
-							setAuthAtom({ logged: true, role: 'user' });
 							setUserAtom({
 								...userData,
 							} as IUserAtom);
+							setAuthAtom({ logged: true, role: 'user' });
 
 							if (userData.parkingId) {
 								// если пользователь привязан к парковке - проверим не админ ли он
@@ -142,7 +142,7 @@ function App() {
 		<>
 			<ToastContainer />
 			<BrowserRouter>
-				{authAtom.logged ? (
+				{authAtom.logged && userAtom.email ? (
 					userAtom.parkingId ? (
 						<Routes>
 							{authAtom.role === 'admin' ? (

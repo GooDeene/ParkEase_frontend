@@ -13,8 +13,9 @@ const OccupiedSubScreen = () => {
 						startDate: new Date(),
 						endDate: new Date(),
 						owner: {
-							phone: '89536050838',
+							email: '123@mail.ru',
 							telegram: '@v_medvedevskiadasdasdasdawdawdawdawdy',
+							fullName: 'Петренко Сидр',
 						},
 						spotName: '31л',
 					},
@@ -23,8 +24,9 @@ const OccupiedSubScreen = () => {
 						startDate: new Date(),
 						endDate: null,
 						owner: {
-							phone: null,
+							email: '123@mail.ru',
 							telegram: null,
+							fullName: 'Инакентий Иванович',
 						},
 						spotName: '148',
 					},
@@ -33,50 +35,49 @@ const OccupiedSubScreen = () => {
 			/>
 			<OccupiedDateFilter className='controls-margin_bottom-3xl' />
 			<GivenUpRegistry
-				items={
-					[
-						// {
-						// 	id: '123',
-						// 	startDate: new Date(),
-						// 	endDate: new Date(),
-						// 	owner: {
-						// 		phone: '89536050838',
-						// 		telegram: '@avada_keda5ra_and_abra_kadabra_extra_large_nckname',
-						// 	},
-						// 	spotName: '31л',
-						// },
-						// {
-						// 	id: '13acasc',
-						// 	startDate: new Date(),
-						// 	endDate: null,
-						// 	owner: {
-						// 		phone: null,
-						// 		telegram: '@pihny_sladko',
-						// 	},
-						// 	spotName: '148',
-						// },
-						// {
-						// 	id: '2jmnbbnkhjarenbkjaywevr',
-						// 	startDate: new Date(),
-						// 	endDate: null,
-						// 	owner: {
-						// 		phone: null,
-						// 		telegram: '@pihny_sladko',
-						// 	},
-						// 	spotName: '148',
-						// },
-						// {
-						// 	id: '2',
-						// 	startDate: new Date(),
-						// 	endDate: null,
-						// 	owner: {
-						// 		phone: null,
-						// 		telegram: '@pihny_sladko',
-						// 	},
-						// 	spotName: '148',
-						// },
-					]
-				}
+				items={[
+					{
+						id: '123',
+						startDate: new Date(),
+						endDate: new Date(),
+						owner: {
+							email: '123@mail.ru',
+							telegram: null,
+							fullName: 'Инакентий Иванович',
+						},
+						spotName: '31л',
+					},
+					// {
+					// 	id: '13acasc',
+					// 	startDate: new Date(),
+					// 	endDate: null,
+					// 	owner: {
+					// 		phone: null,
+					// 		telegram: '@pihny_sladko',
+					// 	},
+					// 	spotName: '148',
+					// },
+					// {
+					// 	id: '2jmnbbnkhjarenbkjaywevr',
+					// 	startDate: new Date(),
+					// 	endDate: null,
+					// 	owner: {
+					// 		phone: null,
+					// 		telegram: '@pihny_sladko',
+					// 	},
+					// 	spotName: '148',
+					// },
+					// {
+					// 	id: '2',
+					// 	startDate: new Date(),
+					// 	endDate: null,
+					// 	owner: {
+					// 		phone: null,
+					// 		telegram: '@pihny_sladko',
+					// 	},
+					// 	spotName: '148',
+					// },
+				]}
 			/>
 		</>
 	);

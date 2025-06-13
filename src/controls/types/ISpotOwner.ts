@@ -1,4 +1,5 @@
 export interface ISpotOwner {
-	phone: string | null;
 	telegram: string | null;
+	email: string | null;
+	fullName: string | null;
 }

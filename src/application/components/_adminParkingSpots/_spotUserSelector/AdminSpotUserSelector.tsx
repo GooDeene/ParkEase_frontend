@@ -4,11 +4,13 @@ import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithC
 import AdminSpotUserCard from '../_spotUserCard/AdminSpotUserCard';
 import { useEffect, useState } from 'react';
 import type { TUser } from '../../../screens/_admin/SpotEditingScreen';
+import InnerLoader from '../../_innerLoader/InnerLoader';
 
 interface IAdminSpotUserSelectorProps extends IPropsWithClassName {
 	users: TUser[];
 	initialSelectedValue: TUser | null;
 	disabledUsersIds?: string[];
+	loading?: boolean;
 
 	onDeattach?: (user: TUser) => void;
 	onOwnerSelected?: (user: TUser) => void;
@@ -21,6 +23,7 @@ const AdminSpotUserSelector = ({
 	className,
 	initialSelectedValue,
 	disabledUsersIds,
+	loading = false,
 	onDeattach: deattachCallback,
 	onOwnerSelected,
 }: IAdminSpotUserSelectorProps) => {
@@ -60,7 +63,14 @@ const AdminSpotUserSelector = ({
 						className={emptyOwnerClassName}
 						onClick={() => setIsDropdwonOpen(() => true)}
 					>
-						Владелец не выбран
+						{loading ? (
+							<InnerLoader
+								style='dark'
+								height={50}
+							/>
+						) : (
+							'Владелец не выбран'
+						)}
 					</div>
 					{isDropdownOpen && (
 						<div className={dropdownClassName}>

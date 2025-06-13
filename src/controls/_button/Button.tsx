@@ -3,7 +3,7 @@ import type { TPaddingSize } from '../_input/types/TPaddingSize';
 import { forwardRef, type ForwardedRef, type ReactNode, type SyntheticEvent } from 'react';
 import './Button.css';
 
-import LoaderGif from '/menu_spinner.gif';
+import InnerLoader from '../../application/components/_innerLoader/InnerLoader';
 
 type TButtonColor = 'main' | 'accent' | 'error' | 'white';
 
@@ -76,10 +76,7 @@ const Button = (
 			}}
 		>
 			{loading ? (
-				<img
-					height={56}
-					src={LoaderGif}
-				/>
+				<InnerLoader height={56} />
 			) : (
 				<>
 					{!icon && title}

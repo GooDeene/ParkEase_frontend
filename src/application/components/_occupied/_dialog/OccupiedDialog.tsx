@@ -73,7 +73,13 @@ const OccupiedDialog = ({}: IOccupiedDialogProps, ref: ForwardedRef<OccupiedDial
 					/>
 					<OwnerCard
 						title='Информация о владельце'
-						item={spotInfo?.owner ?? { telegram: null, phone: null }}
+						item={
+							spotInfo?.owner ?? {
+								telegram: null,
+								email: 'pih@p.r',
+								fullName: 'Владлен Борисов',
+							}
+						}
 					/>
 				</div>
 			</div>

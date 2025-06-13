@@ -20,16 +20,6 @@ interface IDatepickerProps extends IPropsWithClassName {
 	onSelectionComplete?: (startDate: Date | null, endDate: Date | null) => void;
 }
 
-/**
- * Возвращает true, если календарь надо открывать вверх. Иначе - false.
- */
-// const calculateUpsideOpening = (inputRef: RefObject<HTMLDivElement | null>): boolean => {
-// 	const screenHeight = window.screen.height;
-// 	const inputTopOffset = inputRef.current?.getBoundingClientRect().top ?? 0;
-
-// 	return inputTopOffset > screenHeight / 2;
-// };
-
 const DEFAULT_PLACEHOLDER = 'Дата не выбрана';
 
 const ROOT_CLASS_NAME = 'controls-datepicker';

@@ -36,7 +36,8 @@ const OccupateScreen = () => {
 					</div>
 					<OwnerCard
 						item={{
-							phone: null,
+							email: 'avada@kedavra.gmail.com',
+							fullName: 'Лорд Волдеморт',
 							telegram: '@avada.kedavra',
 						}}
 					/>

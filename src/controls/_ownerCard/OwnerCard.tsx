@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import type { IPropsWithClassName } from '../types/IPropsWithClassName';
 import type { ISpotOwner } from '../types/ISpotOwner';
-import PhoneIcon from '../_icons/PhoneIcon';
 import TelegramIcon from '../_icons/TelegramIcon';
 import './OwnerCard.css';
+import UserCircleIcon from '../_icons/UserCircleIcon';
+import EmailIcon from '../_icons/EmailIcon';
 
 interface IOwnerCardProps extends IPropsWithClassName {
 	item: ISpotOwner;
@@ -24,7 +25,7 @@ const getTelegramHref = (username: string) => {
 
 const OwnerCard = ({
 	className,
-	item: { telegram, phone },
+	item: { telegram, email, fullName },
 	title,
 	clickableLinks = true,
 	onContactClick: clickHandler,
@@ -43,6 +44,27 @@ const OwnerCard = ({
 		<div className={wrapperClassName}>
 			<div className={titleClassName}>{title || DEFAULT_TITLE}</div>
 			<div className={contentClassName}>
+				<div className={clsx(contactClassName, 'controls-margin_bottom-xs')}>
+					<UserCircleIcon
+						className={iconClassName}
+						size={24}
+						color='var(--colors_accent)'
+					/>
+					{fullName && clickableLinks ? (
+						<a
+							target='_blank'
+							href={`tel:${fullName}`}
+							className='controls-text-ellipsis'
+							onClick={() => onContactClick('phone')}
+						>
+							{fullName}
+						</a>
+					) : (
+						<span className='controls-text-ellipsis'>
+							{DEAFULT_CONTACT_NOT_SPECIFIED}
+						</span>
+					)}
+				</div>
 				<div className={clsx(contactClassName, 'controls-margin_bottom-xs')}>
 					<TelegramIcon
 						className={iconClassName}
@@ -64,20 +86,20 @@ const OwnerCard = ({
 						</span>
 					)}
 				</div>
-				<div className={contactClassName}>
-					<PhoneIcon
+				<div className={clsx(contactClassName)}>
+					<EmailIcon
 						className={iconClassName}
 						size={24}
 						color='var(--colors_accent)'
 					/>
-					{phone && clickableLinks ? (
+					{email && clickableLinks ? (
 						<a
 							target='_blank'
-							href={`tel:${phone}`}
+							href={getTelegramHref(email)}
 							className='controls-text-ellipsis'
-							onClick={() => onContactClick('phone')}
+							onClick={() => onContactClick('telegram')}
 						>
-							{phone}
+							{email}
 						</a>
 					) : (
 						<span className='controls-text-ellipsis'>

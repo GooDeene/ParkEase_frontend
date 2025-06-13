@@ -1,0 +1,9 @@
+.innerLoader {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.innerLoader__gif {
+	max-height: 100%;
+}

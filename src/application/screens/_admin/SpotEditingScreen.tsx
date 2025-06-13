@@ -5,17 +5,30 @@ import Title from '../../../controls/_title/Title';
 import clsx from 'clsx';
 import Button from '../../../controls/_button/Button';
 import AdminSpotUserSelector from '../../components/_adminParkingSpots/_spotUserSelector/AdminSpotUserSelector';
-import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import { useLoading } from '../../core/utils/useLoading';
 import ParkingScreen from '../_parking/ParkingScreen';
-import { collection, getDocs, orderBy, query, QuerySnapshot, where } from 'firebase/firestore';
+import {
+	collection,
+	deleteDoc,
+	doc,
+	getDocs,
+	orderBy,
+	query,
+	QuerySnapshot,
+	updateDoc,
+	where,
+} from 'firebase/firestore';
 import { db } from '../../../../firebase';
 import { useRecoilValue } from 'recoil';
 import { UserAtom, type IUserAtom } from '../../core/state/UserAtom';
-import DebouncedLoaderScreen from '../_debouncedLoader/DebouncedLoaderScreen';
 import type { IAdminParkingSpot } from '../../components/_adminParkingSpots/_registry/AdminParkingSpotsRegistry';
 import TrashIcon from '../../../controls/_icons/TrashIcon';
+import PopupDialog, { type TPopupDialogAPI } from '../../../controls/_popup/PopupDialog';
+
+import InnerLoader from '../../components/_innerLoader/InnerLoader';
+import { toast } from 'react-toastify';
 
 const ROOT_CLASS_NAME = 'spotEditingScreen';
 
@@ -32,23 +45,28 @@ export type TUser = IUserAtom & {
 const SpotEditingScreen = () => {
 	const params = useParams();
 	const id = params.id;
+	const navigate = useNavigate();
 	const [spotOwner, setSpotOwner] = useState<TUser | null>(null);
 	const [_initialSpotOwner, setInitialSpotOwner] = useState<TUser | null>(null);
 	const [allParkingSpots, setAllParkingSpots] = useState<IAdminParkingSpot[]>([]);
 	const [users, setUsers] = useState<TUser[]>([]);
 	const userAtom = useRecoilValue(UserAtom);
 	const [saveDisabled, setSaveDisabled] = useState(true);
-	const { loading, runProcess } = useLoading();
+	const [deleteDisabled, setDeleteDisabled] = useState(true);
+	const [unknownSpot, setUnknownSpot] = useState(false);
+	const [parkingSpot, setParkingSpot] = useState<IParkingSpot | null>(null);
+	const popupRef = useRef<TPopupDialogAPI>(null);
+	const pageLoading = useLoading();
+	const saveLoading = useLoading();
+
 	const spotTitleClassName = clsx(`${ROOT_CLASS_NAME}__spotTitle`, 'controls-fontsize-24');
 	const titleWrapperClassName = clsx(`${ROOT_CLASS_NAME}__titleWrapper`);
 
-	const parkingSpot: IParkingSpot | null = useMemo(() => {
-		if (id) {
-			return allParkingSpots.find((spot) => spot.key === id) ?? null;
+	useEffect(() => {
+		if (allParkingSpots.length && parkingSpot === null) {
+			setUnknownSpot(() => true);
 		}
-
-		return null;
-	}, [allParkingSpots]);
+	}, [allParkingSpots, parkingSpot]);
 
 	useEffect(() => {
 		if (id) {
@@ -61,13 +79,24 @@ const SpotEditingScreen = () => {
 					orderBy('name')
 				);
 				promises.push(
-					getDocs(q).then((querySnapshot: QuerySnapshot) => {
-						const spotsData: IAdminParkingSpot[] = querySnapshot.docs.map((doc) => ({
-							key: doc.id,
-							...(doc.data() as Omit<IAdminParkingSpot, 'key'>),
-						}));
-						setAllParkingSpots(() => spotsData);
-					})
+					getDocs(q)
+						.then((querySnapshot: QuerySnapshot) => {
+							const spotsData: IAdminParkingSpot[] = querySnapshot.docs.map(
+								(doc) => ({
+									key: doc.id,
+									...(doc.data() as Omit<IAdminParkingSpot, 'key'>),
+								})
+							);
+							setAllParkingSpots(() => spotsData);
+							setParkingSpot(() => {
+								if (id) {
+									return spotsData.find((spot) => spot.key === id) ?? null;
+								}
+
+								return null;
+							});
+						})
+						.catch(() => {})
 				);
 			}
 
@@ -91,7 +120,7 @@ const SpotEditingScreen = () => {
 				);
 			}
 
-			runProcess(() => Promise.all(promises));
+			pageLoading.runProcess(() => Promise.all(promises));
 		}
 	}, []);
 
@@ -100,25 +129,73 @@ const SpotEditingScreen = () => {
 			const owner = users.find((user) => user.id === parkingSpot.attachedUserId);
 			setSpotOwner(() => owner || null);
 			setInitialSpotOwner(() => owner || null);
+		} else if (!parkingSpot?.attachedUserId) {
+		}
+
+		if (users.length && !parkingSpot?.attachedUserId) {
+			setDeleteDisabled(() => false);
 		}
 	}, [parkingSpot, users]);
-
-	if (!id) {
-		return <ParkingScreen />;
-	}
 
 	const disabledUsersIds: string[] = useMemo(() => {
 		return allParkingSpots.map((spot) => spot.attachedUserId).filter((id) => id) as string[];
 	}, [allParkingSpots]);
 
-	const onDeleteSpotClick = () => {};
+	const onDeleteSpotClick = () => {
+		popupRef.current?.show().then((res) => {
+			if (res && id) {
+				deleteDoc(doc(db, 'parkingSpots', id))
+					.then(() => {
+						toast('Парковочное место удалено!', {
+							type: 'info',
+							autoClose: 1000,
+						});
+						navigate('/admin');
+					})
+					.catch(() => {
+						toast('Что-то пошло не так! Не удалось удалить место!', {
+							type: 'error',
+							autoClose: 2500,
+						});
+					});
+			}
+		});
+	};
 
-	const onSaveChangesClick = () => {};
+	const onSaveChangesClick = () => {
+		saveLoading
+			.runProcess(() => {
+				if (id) {
+					return updateDoc(doc(db, 'parkingSpots', id), {
+						attachedUserId: spotOwner?.id || null,
+					});
+				}
+
+				return Promise.reject();
+			})
+			.then(() => {
+				toast('Данные сохранены!', {
+					type: 'success',
+					autoClose: 1000,
+				});
+				setSaveDisabled(() => true);
+				// if (spotOwner) {
+				// 	navigate('/admin');
+				// }
+			})
+			.catch(() => {
+				toast('Что-то пошло не так! Данные не сохранены!', {
+					type: 'error',
+					autoClose: 2500,
+				});
+			});
+	};
 
 	// Функция, вызываемая изнутри реестра пользователей при нажатии кнопки "Отвязать"
 	const onDeattach = (_user: TUser) => {
 		setSaveDisabled(() => false);
 		setSpotOwner(() => null);
+		setDeleteDisabled(() => false);
 
 		const index = allParkingSpots.findIndex((spot) => spot.key === id);
 		if (index !== -1) {
@@ -135,6 +212,7 @@ const SpotEditingScreen = () => {
 	const onOwnerSelected = (user: TUser) => {
 		setSaveDisabled(() => false);
 		setSpotOwner(() => user);
+		setDeleteDisabled(() => true);
 
 		const index = allParkingSpots.findIndex((spot) => spot.key === id);
 
@@ -148,14 +226,24 @@ const SpotEditingScreen = () => {
 		}
 	};
 
+	if (!id || unknownSpot) {
+		return <ParkingScreen />;
+	}
+
 	return (
 		<>
-			<DebouncedLoaderScreen loading={loading} />
+			<PopupDialog
+				ref={popupRef}
+				title={`Удалить парковочное место ${parkingSpot?.name}?`}
+				detail='Восставновить его не получится, но можно бдует создать новое с такими же параметрами'
+				showCommitButton
+				showRejectButton
+			/>
+			{/* <DebouncedLoaderScreen loading={loading} /> */}
 			<div>
-				{/* <ConfirmationDialog title='Вы точно хотите отвязать владельца места?' detail='Это приведет к потере всех уступленных промежутков'/> */}
 				<Header
 					showHome
-					homePosition='center'
+					homePosition='left'
 				/>
 				<ScreenLayout>
 					<div className={titleWrapperClassName}>
@@ -164,18 +252,27 @@ const SpotEditingScreen = () => {
 							icon={
 								<TrashIcon
 									className={
-										spotOwner
+										deleteDisabled
 											? 'controls-fontcolor-unactive'
 											: 'controls-fontcolor-error'
 									}
 									size={30}
 								/>
 							}
-							disabled={!!spotOwner}
+							disabled={deleteDisabled}
 							onClick={onDeleteSpotClick}
 						/>
 					</div>
-					<div className={spotTitleClassName}>{parkingSpot?.name || ''}</div>
+					<div className={spotTitleClassName}>
+						{pageLoading.loading ? (
+							<InnerLoader
+								style='dark'
+								height={50}
+							/>
+						) : (
+							parkingSpot?.name || ''
+						)}
+					</div>
 					<div
 						className={clsx(
 							'controls-fontcolor-main',
@@ -192,6 +289,7 @@ const SpotEditingScreen = () => {
 						disabledUsersIds={disabledUsersIds}
 						onDeattach={onDeattach}
 						onOwnerSelected={onOwnerSelected}
+						loading={pageLoading.loading}
 					/>
 					<Button
 						className={clsx('controls-margin_top-3xl')}
@@ -199,6 +297,7 @@ const SpotEditingScreen = () => {
 						fullWidth
 						disabled={saveDisabled}
 						onClick={onSaveChangesClick}
+						loading={saveLoading.loading}
 					/>
 					{/* <Button
 						className={clsx('controls-margin_top-3xl')}
