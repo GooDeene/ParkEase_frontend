@@ -15,6 +15,7 @@ import { MySpotAtom } from '../../core/state/MySpotAtom';
 import { useLoading } from '../../core/utils/useLoading';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
+import { getDatesPeriod } from '../../../controls/utils/getDatesPeriod';
 
 const spotName = '12A';
 
@@ -90,17 +91,23 @@ const GiveUpScreen = () => {
 							];
 						});
 
-						toast(`Вы уступили мето на ${getDatePeriodTitle(startDate, endDate)}`, {
-							type: 'success',
-							autoClose: 1500,
-						});
+						toast(
+							`Вы уступили место на ${getDatePeriodTitle(
+								startDate,
+								endDate
+							)} ${getDatesPeriod([startDate, endDate])}`,
+							{
+								type: 'success',
+								autoClose: 2800,
+							}
+						);
 						navigate('/main/giveUp');
 					} else {
 						return Promise.reject();
 					}
 				})
 				.catch(() => {
-					toast('Не удалось утсупить место!', { type: 'error', autoClose: 1200 });
+					toast('Не удалось утсупить место!', { type: 'error', autoClose: 1400 });
 				});
 		}
 	};

@@ -211,7 +211,7 @@ const OccupateScreen = () => {
 					}`,
 					{
 						type: 'success',
-						autoClose: 1500,
+						autoClose: 2000,
 					}
 				);
 				// setTimeout(() => location.reload(), 200);
