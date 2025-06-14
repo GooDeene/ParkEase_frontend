@@ -8,6 +8,8 @@ import CrossIcon from '../_icons/CrossIcon';
 import { getDatesPeriod } from '../utils/getDatesPeriod';
 import type { IPropsWithClassName } from '../types/IPropsWithClassName';
 import { isDatesEqual } from '../utils/isDatesEqual';
+import { toast } from 'react-toastify';
+import type { TPeriod } from '../../application/screens/_giveUp/GiveUpScreen';
 
 interface IDatepickerProps extends IPropsWithClassName {
 	placeholder?: string;
@@ -16,6 +18,8 @@ interface IDatepickerProps extends IPropsWithClassName {
 	// Включает режим постоянного отображения календаря, а не по клику на поле ввода
 	inline?: boolean;
 	calendarClassName?: string;
+	excludeDateIntervals?: TPeriod[];
+	includeDateIntervals?: TPeriod[];
 
 	onSelectionComplete?: (startDate: Date | null, endDate: Date | null) => void;
 }
@@ -33,6 +37,8 @@ const Datepicker = (
 		inline = false,
 		className,
 		calendarClassName: calendarClass,
+		excludeDateIntervals,
+		includeDateIntervals,
 	}: IDatepickerProps,
 	rootRef: ForwardedRef<HTMLDivElement>
 ) => {
@@ -57,6 +63,8 @@ const Datepicker = (
 	const dateCardClassName = clsx(`${ROOT_CLASS_NAME}__dateCard`, 'controls-fontsize-20');
 	const overlayClassName = clsx(`${ROOT_CLASS_NAME}__overlay`);
 
+	const testRef = useRef<DatePicker>(null);
+
 	const rootClickHandler = () => {
 		if (!inline) {
 			// setOpenCalendarUpside(() => calculateUpsideOpening(inputRef));
@@ -66,6 +74,27 @@ const Datepicker = (
 			setTimeout(() => el?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 250);
 			// document.body.style.overflow = 'hidden';
 		}
+	};
+
+	/**
+	 * Функция валидации пересечений, запрещающая выбор интервала, подынтервалом которого является выколотый
+	 */
+	const validateIntersections = (start: Date, end: Date): boolean => {
+		if (!excludeDateIntervals) {
+			return true;
+		}
+
+		for (const interval of excludeDateIntervals) {
+			// Если какой-то конец запрещенных интервалов содержится в выбранном промежутке, выбор невалиден
+			if (
+				(interval.start >= start && interval.start <= end) ||
+				(interval.end >= start && interval.end <= end)
+			) {
+				return false;
+			}
+		}
+
+		return true;
 	};
 
 	/**
@@ -80,6 +109,27 @@ const Datepicker = (
 
 			if (inline) {
 				onSelectionComplete?.(start, null);
+			}
+		} else if (start !== null && end !== null) {
+			const isValid = validateIntersections(start, end);
+			console.log(`Рез-т валидации: ${isValid}`);
+			if (isValid) {
+				setStartDate(() => start);
+				setEndDate(() => end);
+
+				if (inline) {
+					onSelectionComplete?.(start, end);
+				}
+			} else {
+				toast('Нельзя выбрать период с недоступными датами!', {
+					type: 'error',
+					autoClose: 2300,
+				});
+				setStartDate(() => null);
+				setEndDate(() => null);
+				if (inline) {
+					onSelectionComplete?.(null, null);
+				}
 			}
 		} else {
 			setStartDate(() => start);
@@ -107,10 +157,7 @@ const Datepicker = (
 		if (!inline) {
 			setIsOpen(() => false);
 		}
-
-		if (inline || !isOpen) {
-			onSelectionComplete?.(null, null);
-		}
+		onSelectionComplete?.(null, null);
 	};
 
 	const title = getDatesPeriod([startDate, endDate]);
@@ -149,6 +196,7 @@ const Datepicker = (
 			</div>
 			{/* {isOpen && ( */}
 			<DatePicker
+				ref={testRef}
 				calendarClassName={calendarClassName}
 				startDate={startDate}
 				endDate={endDate}
@@ -156,6 +204,8 @@ const Datepicker = (
 				renderCustomHeader={CalendarHeader}
 				dayClassName={() => dayClassName}
 				minDate={new Date()}
+				excludeDateIntervals={excludeDateIntervals}
+				includeDateIntervals={includeDateIntervals}
 				disabledKeyboardNavigation
 				inline
 				selectsRange

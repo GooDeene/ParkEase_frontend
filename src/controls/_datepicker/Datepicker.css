@@ -125,12 +125,24 @@
 	background-color: var(--colors_white);
 }
 
-.TEST_CLASS {
-	height: 0;
-	border-width: 0;
+/* Перебивание стилей библиотеки datepicker`а */
+/* .react-datepicker__day--in-selecting-range:not([aria-disabled='true']):hover {
+	background-color: white;
+} */
+
+.react-datepicker .react-datepicker__day--in-range:hover {
+	background-color: var(--colors_main) !important;
 }
 
-/* Перебивание стилей библиотеки datepicker`а */
+.react-datepicker
+	*:not(.react-datepicker__day--in-range, .react-datepicker__day--in-selecting-range):hover {
+	background-color: white !important;
+}
+
+/* .react-datepicker *:hover {
+	background-color: inherit !important;
+} */
+
 .react-datepicker__week {
 	display: flex;
 }

@@ -17,4 +17,13 @@ export const formatDateToRU = (date: Date): string => {
 	const str = date.toLocaleDateString('ru-RU');
 
 	return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};
+
+export const formatDateToRUReversed = (date: Date): string => {
+	const str = date.toLocaleDateString('ru-RU');
+
+	const ru = str.charAt(0).toUpperCase() + str.slice(1);
+	const parts = ru.split('.');
+
+	return `${parts[2]}.${parts[1]}.${parts[0]}`;
+};

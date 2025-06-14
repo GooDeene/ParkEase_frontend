@@ -12,13 +12,16 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../firebase';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { AuthAtom } from './application/core/state/AuthAtom';
-import { UserAtom, type IUserAtom } from './application/core/state/UserAtom';
+import { UserAtom, type IUser } from './application/core/state/UserAtom';
 import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import LoaderScreen from './application/screens/_loader/LoaderScreen';
 import ParkingSelectionScreen from './application/screens/_parkingSelection/ParkingSelectionScreen';
 import AdminScreen from './application/screens/_admin/AdminScreen';
 import SpotEditingScreen from './application/screens/_admin/SpotEditingScreen';
 import { MySpotAtom, type IMySpotAtom } from './application/core/state/MySpotAtom';
+import { MyLeasesAtom, type ILease } from './application/core/state/MyLeases';
+import { BookingsAtom, type IBooking } from './application/core/state/BookingsAtom';
+import { isDatesEqual } from './controls/utils/isDatesEqual';
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -27,6 +30,8 @@ function App() {
 	const [userAtom, setUserAtom] = useRecoilState(UserAtom);
 
 	const [_mySpotAtom, setMySpotAtom] = useRecoilState(MySpotAtom);
+	const [_myLeasesAtom, setMyLeasesAtom] = useRecoilState(MyLeasesAtom);
+	const [_BookigsAtom, setBookingsAtom] = useRecoilState(BookingsAtom);
 
 	const resetAuthAtom = useResetRecoilState(AuthAtom);
 	const resetUserAtom = useResetRecoilState(UserAtom);
@@ -51,12 +56,12 @@ function App() {
 					userDocRef,
 					(docSnap) => {
 						if (docSnap.exists()) {
-							const userData = docSnap.data() as IUserAtom;
+							const userData = docSnap.data() as IUser;
 
 							// установим данные пользователя из БД
 							setUserAtom({
 								...userData,
-							} as IUserAtom);
+							} as IUser);
 							setAuthAtom({ logged: true, role: 'user' });
 
 							if (userData.parkingId) {
@@ -79,22 +84,6 @@ function App() {
 									}
 								);
 							}
-
-							// Попробуем найти парковочное место, за которым закреплен пользователь
-							const q = query(
-								collection(db, 'parkingSpots'),
-								where('attachedUserId', '==', user.uid)
-								// limit(1)
-							);
-
-							getDocs(q).then((snap) => {
-								if (!snap.empty) {
-									setMySpotAtom(() => snap.docs?.[0]?.data() as IMySpotAtom);
-								} else {
-									console.log('Парковочное место не найдено!');
-									resetMySpotAtom();
-								}
-							});
 						} else {
 							// Документ пользователя не найден — можно очистить стейт
 							resetAtoms();
@@ -106,6 +95,88 @@ function App() {
 						setLoading(false);
 					}
 				);
+
+				// Попробуем найти парковочное место, за которым закреплен пользователь
+				const spotsQuery = query(
+					collection(db, 'parkingSpots'),
+					where('attachedUserId', '==', user.uid)
+					// limit(1)
+				);
+
+				getDocs(spotsQuery).then((snap) => {
+					if (!snap.empty) {
+						setMySpotAtom(() => {
+							return {
+								...snap.docs?.[0]?.data(),
+								id: snap.docs[0].id,
+							} as IMySpotAtom;
+						});
+					} else {
+						console.log('Парковочное место не найдено!');
+						resetMySpotAtom();
+					}
+				});
+
+				// Получим все уступленные прмоежутки данного пользователя
+				const leasesRef = collection(db, 'leases');
+				const leasesQuery = query(leasesRef, where('ownerId', '==', user.uid));
+				getDocs(leasesQuery).then((snap) => {
+					if (!snap.empty) {
+						const docs = snap.docs;
+						setMyLeasesAtom(() =>
+							docs.map((doc) => {
+								const data = doc.data();
+
+								const start = data.startDate?.toDate();
+								const end = data.endDate?.toDate();
+								// 	? getDateFromString(data.startDate)
+								// 	: null;
+								// const end = data.endDate ? getDateFromString(data.endDate) : null;
+
+								return {
+									...data,
+									id: doc.id,
+									startDate: start ? new Date(start.toDateString()) : start,
+									endDate: isDatesEqual(start, end)
+										? start
+										: end
+										? new Date(end.toDateString())
+										: end,
+								} as ILease;
+							})
+						);
+					} else {
+						setMyLeasesAtom(() => []);
+					}
+				});
+
+				// Получим все бронирования для фильтраций и отображений
+				const myBookingsQuery = query(collection(db, 'bookings'));
+
+				getDocs(myBookingsQuery).then((snap) => {
+					if (!snap.empty) {
+						const bookings = snap.docs.map((doc) => {
+							const booking = doc.data();
+							const start = booking.startDate?.toDate();
+							const end = booking.endDate?.toDate();
+
+							return {
+								...booking,
+								id: doc.id,
+								startDate: start ? new Date(start.toDateString()) : start,
+								endDate: isDatesEqual(start, end)
+									? start
+									: end
+									? new Date(end.toDateString())
+									: end,
+							} as IBooking;
+						});
+
+						setBookingsAtom(() => bookings);
+					} else {
+						setBookingsAtom(() => []);
+					}
+				});
 
 				// Отписываемся от userDoc при смене пользователя
 				return () => {

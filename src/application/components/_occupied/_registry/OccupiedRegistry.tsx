@@ -2,14 +2,16 @@ import clsx from 'clsx';
 import './OccupiedRegistry.css';
 import OccupiedCard from '../_card/OccupiedCard';
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
-import type { IParkingSpot } from '../../../../controls/types/TParkingSpot';
 import OccupiedDialog, { type OccupiedDialogAPI } from '../_dialog/OccupiedDialog';
 import { useRef } from 'react';
+import type { IBooking } from '../../../core/state/BookingsAtom';
+import InnerLoader from '../../_innerLoader/InnerLoader';
 
 interface IOccupiedRegistryProps extends IPropsWithClassName {
 	className?: string;
-	items: IParkingSpot[];
+	items: IBooking[];
 	showBottomSeparator?: boolean;
+	loading?: boolean;
 }
 
 const ROOT_CLASS_NAME = 'occupiedRegistry';
@@ -18,6 +20,7 @@ const OccupiedRegistry = ({
 	items,
 	showBottomSeparator = false,
 	className,
+	loading = false,
 }: IOccupiedRegistryProps) => {
 	const dialogRef = useRef<OccupiedDialogAPI>(null);
 
@@ -30,7 +33,7 @@ const OccupiedRegistry = ({
 		'controls-margin_bottom-l'
 	);
 
-	const onCardClick = (item: IParkingSpot) => {
+	const onCardClick = (item: IBooking) => {
 		dialogRef.current?.open(item);
 	};
 
@@ -39,15 +42,23 @@ const OccupiedRegistry = ({
 			<OccupiedDialog ref={dialogRef} />
 			<div className={titleClassName}>Уже занятые мной</div>
 			<div className={cardsClassName}>
-				{items.map((item) => {
-					return (
-						<OccupiedCard
-							key={item.id}
-							item={item}
-							onCardClick={onCardClick}
-						/>
-					);
-				})}
+				{loading ? (
+					<InnerLoader
+						style='dark'
+						height={100}
+					/>
+				) : (
+					items.map((item) => {
+						return (
+							<OccupiedCard
+								key={item.id}
+								item={item}
+								onCardClick={onCardClick}
+							/>
+						);
+					})
+				)}
+
 				{showBottomSeparator && <div className={separatorClassName} />}
 			</div>
 		</div>

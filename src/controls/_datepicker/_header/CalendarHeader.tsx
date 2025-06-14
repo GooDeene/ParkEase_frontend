@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Button from '../../_button/Button';
 import HomeIcon from '../../_icons/HomeIcon';
 import NextArrowIcon from '../../_icons/NextArrowIcon';
-import { formatDateToCalendarHeader } from '../../utils/formatDate';
+import { formatDateToCalendarHeader } from '../../utils/formatDateToRU';
 import './CalendarHeader.css';
 
 const isSameDates = (date1: Date, date2: Date): boolean => {

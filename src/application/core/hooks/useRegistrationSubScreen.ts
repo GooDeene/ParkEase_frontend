@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useSetRecoilState } from 'recoil';
 import { auth, db } from '../../../../firebase';
 import type { TValidationAPI } from '../../../controls/_input/types/TValidationAPI';
-import { UserAtom, type IUserAtom } from '../state/UserAtom';
+import { UserAtom, type IUser } from '../state/UserAtom';
 
 type TFormKey = 'email' | 'telegram' | 'licencePlate' | 'password' | 'passRepeat' | 'fullName';
 
@@ -66,7 +66,7 @@ export const useRegistrationSubScreen = () => {
 					.then((userCredential: UserCredential) => {
 						const user = userCredential.user;
 
-						const dbUser: IUserAtom = {
+						const dbUser: IUser = {
 							email: formState.email,
 							fullName: formState.fullName,
 							licencePlate: formState.licencePlate.toUpperCase(),

@@ -1,43 +1,47 @@
 import clsx from 'clsx';
 import './OccupiedDateFilter.css';
 import Datepicker from '../../../../controls/_datepicker/Datepicker';
-import { useState } from 'react';
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
 import { getDatePeriodTitle } from '../../../../controls/utils/getDatePeriodTitle';
 import ReloadButton from '../../_reloadButton/ReloadButton';
-
-interface IOccupiedDateFilterProps extends IPropsWithClassName {
-	onValueChanged?: (startDate: Date | null, endDate: Date | null) => void;
-}
+import { useRecoilState } from 'recoil';
+import { MainFilterAtom } from '../../../core/state/MainFilterAtom';
+import type { TPeriod } from '../../../screens/_giveUp/GiveUpScreen';
 
 const ROOT_CLASS_NAME = 'occupiedDateFilter';
 
-const OccupiedDateFilter = ({ onValueChanged, className }: IOccupiedDateFilterProps) => {
-	const [selectedStart, setSelectedStart] = useState<Date | null>(new Date());
-	const [selectedEnd, setSelectedEnd] = useState<Date | null>(new Date());
+interface IOccupiedDateFilterProps extends IPropsWithClassName {
+	excludedIntervals: TPeriod[];
+}
+
+const OccupiedDateFilter = ({ className, excludedIntervals }: IOccupiedDateFilterProps) => {
+	const [mainFilterAtom, setMainFilterAtom] = useRecoilState(MainFilterAtom);
 	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
 	const headerClassName = clsx(`${ROOT_CLASS_NAME}__header`);
 
 	const onFilterSet = (start: Date | null, end: Date | null) => {
-		if (selectedStart !== start && selectedEnd !== end) {
-			setSelectedStart(() => start);
-			setSelectedEnd(() => end);
-
-			onValueChanged?.(start, end);
-
-			console.log(`${start} \n ${end}`);
-		}
+		// if (mainFilterAtom.start !== start && mainFilterAtom.end !== end) {
+		setMainFilterAtom(() => {
+			return {
+				start,
+				end,
+			};
+		});
 	};
 
 	return (
 		<div className={wrapperClassName}>
 			<div className={headerClassName}>
-				<span>{`Свободные на ${getDatePeriodTitle(selectedStart, selectedEnd)}`}</span>
+				<span>{`Свободные на ${getDatePeriodTitle(
+					mainFilterAtom.start,
+					mainFilterAtom.end
+				)}`}</span>
 				<ReloadButton />
 			</div>
 			<Datepicker
-				startDate={selectedStart}
-				endDate={selectedEnd}
+				startDate={mainFilterAtom.start}
+				endDate={mainFilterAtom.end}
+				excludeDateIntervals={excludedIntervals}
 				onSelectionComplete={onFilterSet}
 			/>
 		</div>

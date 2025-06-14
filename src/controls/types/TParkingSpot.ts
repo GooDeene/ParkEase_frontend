@@ -5,5 +5,5 @@ export interface IParkingSpot {
 	startDate: Date | null;
 	endDate: Date | null;
 	spotName: string;
-	owner: ISpotOwner;
+	ownerId: ISpotOwner;
 }

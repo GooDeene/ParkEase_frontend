@@ -23,3 +23,8 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+
+.occupiedCard__buttonWrapper {
+	min-width: 95px;
+	width: max-content;
+}

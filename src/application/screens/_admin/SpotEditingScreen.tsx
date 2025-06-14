@@ -22,7 +22,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../../../firebase';
 import { useRecoilValue } from 'recoil';
-import { UserAtom, type IUserAtom } from '../../core/state/UserAtom';
+import { UserAtom, type IUser } from '../../core/state/UserAtom';
 import type { IAdminParkingSpot } from '../../components/_adminParkingSpots/_registry/AdminParkingSpotsRegistry';
 import TrashIcon from '../../../controls/_icons/TrashIcon';
 import PopupDialog, { type TPopupDialogAPI } from '../../../controls/_popup/PopupDialog';
@@ -38,7 +38,7 @@ interface IParkingSpot {
 	parkingId: string | null;
 }
 
-export type TUser = IUserAtom & {
+export type TUser = IUser & {
 	id: string;
 };
 

@@ -1,22 +1,15 @@
 import clsx from 'clsx';
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
 import MyGivenSpotCard from '../_card/MyGivenSpotCard';
-import type { SpotStatus } from '../types/SpotStatus';
+import { SpotStatus } from '../types/SpotStatus';
 import './MyGivenSpotRegistry.css';
 import EmptyHint from '../../../../controls/_emptyHint/EmptyHint';
 import ReloadButton from '../../_reloadButton/ReloadButton';
 import ParkSign from '/src/assets/yes_park_sign.png';
-
-type TMyGivenSpotRecord = {
-	id: string;
-	spotName: string;
-	startDate: Date | null;
-	endDate: Date | null;
-	status: SpotStatus;
-};
+import type { ILease } from '../../../core/state/MyLeases';
 
 interface IMyGivenSpotRegistryProps extends IPropsWithClassName {
-	items: TMyGivenSpotRecord[];
+	items: ILease[];
 }
 
 const ROOT_CLASS_NAME = 'myGivenSpotRegistry';
@@ -40,7 +33,7 @@ const MyGivenSpotRegistry = ({ items, className }: IMyGivenSpotRegistryProps) =>
 								<MyGivenSpotCard
 									key={item.id}
 									dates={[item.startDate, item.endDate]}
-									spotStatus={item.status}
+									spotStatus={SpotStatus.Occupied}
 								/>
 							);
 						})}

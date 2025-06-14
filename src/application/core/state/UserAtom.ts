@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export interface IUserAtom {
+export interface IUser {
 	email: string | null;
 	fullName: string | null;
 	licencePlate: string | null;
@@ -8,7 +8,7 @@ export interface IUserAtom {
 	parkingId: string | null;
 }
 
-export const UserAtom = atom<IUserAtom>({
+export const UserAtom = atom<IUser>({
 	key: 'UserAtom',
 	default: {
 		email: null,

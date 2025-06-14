@@ -1,40 +1,30 @@
+import { useRecoilValue } from 'recoil';
 import MyGivenSpotRegistry from '../../../components/_myGiven/_registry/MyGivenSpotRegistry';
 import MySpotCard from '../../../components/_mySpotCard/MySpotCard';
+import { MyLeasesAtom } from '../../../core/state/MyLeases';
+import { useMemo } from 'react';
 
 const GivenUpSubScreen = () => {
+	const myLeasesAtom = useRecoilValue(MyLeasesAtom);
+
+	const items = useMemo(() => {
+		return [...myLeasesAtom].sort((a, b) => {
+			if (a.startDate && b.startDate && a.startDate > b.startDate) {
+				return 1;
+			} else if (a.startDate && b.startDate && a.startDate < b.startDate) {
+				return -1;
+			} else {
+				return 0;
+			}
+		});
+	}, [myLeasesAtom]);
+
 	return (
 		<>
-			<MySpotCard
-				className='controls-margin_top-4xl'
-				// spotName='1998'
-			/>
+			<MySpotCard className='controls-margin_top-4xl' />
 			<MyGivenSpotRegistry
 				className='controls-margin_top-xl'
-				items={
-					[
-						// {
-						// 	id: '123',
-						// 	spotName: '12A-C',
-						// 	startDate: new Date(),
-						// 	endDate: new Date(),
-						// 	status: SpotStatus.Free,
-						// },
-						// {
-						// 	id: '1235',
-						// 	spotName: '12A-C',
-						// 	startDate: new Date(),
-						// 	endDate: new Date(),
-						// 	status: SpotStatus.Occupied,
-						// },
-						// {
-						// 	id: '12355',
-						// 	spotName: '12A-C',
-						// 	startDate: new Date(),
-						// 	endDate: null,
-						// 	status: SpotStatus.Free,
-						// },
-					]
-				}
+				items={items}
 			/>
 		</>
 	);

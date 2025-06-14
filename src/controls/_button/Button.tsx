@@ -18,6 +18,7 @@ interface IButtonProps {
 	borderColor?: TButtonColor;
 	backgroundColor?: TButtonColor;
 	showBorder?: boolean;
+	loaderHeight?: number;
 
 	// Если задана эта опция кнопка отображается в режиме иконки (без текста и заливки фона)
 	icon?: ReactNode;
@@ -38,6 +39,7 @@ const Button = (
 		borderColor = 'main',
 		backgroundColor = 'main',
 		showBorder = false,
+		loaderHeight,
 	}: IButtonProps,
 	ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -76,7 +78,7 @@ const Button = (
 			}}
 		>
 			{loading ? (
-				<InnerLoader height={56} />
+				<InnerLoader height={loaderHeight ?? 56} />
 			) : (
 				<>
 					{!icon && title}

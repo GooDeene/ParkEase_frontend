@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import type { IPropsWithClassName } from '../../../controls/types/IPropsWithClassName';
 import Button from '../../../controls/_button/Button';
 import type { SyntheticEvent } from 'react';
-import { formatDateToRU } from '../../../controls/utils/formatDate';
+import { formatDateToRU } from '../../../controls/utils/formatDateToRU';
 import { getTomorrowDate } from '../../../controls/utils/getTomorrowDate';
 import './MySpotCard.css';
 import { useNavigate } from 'react-router';

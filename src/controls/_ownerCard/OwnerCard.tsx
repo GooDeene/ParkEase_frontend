@@ -5,11 +5,14 @@ import TelegramIcon from '../_icons/TelegramIcon';
 import './OwnerCard.css';
 import UserCircleIcon from '../_icons/UserCircleIcon';
 import EmailIcon from '../_icons/EmailIcon';
+import InnerLoader from '../../application/components/_innerLoader/InnerLoader';
+import { memo } from 'react';
 
 interface IOwnerCardProps extends IPropsWithClassName {
 	item: ISpotOwner;
 	title?: string;
 	clickableLinks?: boolean;
+	loading?: boolean;
 
 	onContactClick?: (contactType: 'phone' | 'telegram') => void;
 }
@@ -28,6 +31,7 @@ const OwnerCard = ({
 	item: { telegram, email, fullName },
 	title,
 	clickableLinks = true,
+	loading = false,
 	onContactClick: clickHandler,
 }: IOwnerCardProps) => {
 	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
@@ -44,72 +48,74 @@ const OwnerCard = ({
 		<div className={wrapperClassName}>
 			<div className={titleClassName}>{title || DEFAULT_TITLE}</div>
 			<div className={contentClassName}>
-				<div className={clsx(contactClassName, 'controls-margin_bottom-xs')}>
-					<UserCircleIcon
-						className={iconClassName}
-						size={24}
-						color='var(--colors_accent)'
+				{loading ? (
+					<InnerLoader
+						style='dark'
+						height={88}
 					/>
-					{fullName && clickableLinks ? (
-						<a
-							target='_blank'
-							href={`tel:${fullName}`}
-							className='controls-text-ellipsis'
-							onClick={() => onContactClick('phone')}
-						>
-							{fullName}
-						</a>
-					) : (
-						<span className='controls-text-ellipsis'>
-							{DEAFULT_CONTACT_NOT_SPECIFIED}
-						</span>
-					)}
-				</div>
-				<div className={clsx(contactClassName, 'controls-margin_bottom-xs')}>
-					<TelegramIcon
-						className={iconClassName}
-						size={24}
-						color='var(--colors_accent)'
-					/>
-					{telegram && clickableLinks ? (
-						<a
-							target='_blank'
-							href={getTelegramHref(telegram)}
-							className='controls-text-ellipsis'
-							onClick={() => onContactClick('telegram')}
-						>
-							{telegram}
-						</a>
-					) : (
-						<span className='controls-text-ellipsis'>
-							{DEAFULT_CONTACT_NOT_SPECIFIED}
-						</span>
-					)}
-				</div>
-				<div className={clsx(contactClassName)}>
-					<EmailIcon
-						className={iconClassName}
-						size={24}
-						color='var(--colors_accent)'
-					/>
-					{email && clickableLinks ? (
-						<a
-							target='_blank'
-							href={`mailto:${email}`}
-							className='controls-text-ellipsis'
-							onClick={() => onContactClick('telegram')}
-						>
-							{email}
-						</a>
-					) : (
-						<span className='controls-text-ellipsis'>
-							{DEAFULT_CONTACT_NOT_SPECIFIED}
-						</span>
-					)}
-				</div>
+				) : (
+					<>
+						<div className={clsx(contactClassName, 'controls-margin_bottom-xs')}>
+							<UserCircleIcon
+								className={iconClassName}
+								size={24}
+								color='var(--colors_accent)'
+							/>
+							{fullName && clickableLinks ? (
+								<span className='controls-text-ellipsis'>{fullName}</span>
+							) : (
+								<span className='controls-text-ellipsis'>
+									{DEAFULT_CONTACT_NOT_SPECIFIED}
+								</span>
+							)}
+						</div>
+						<div className={clsx(contactClassName, 'controls-margin_bottom-xs')}>
+							<TelegramIcon
+								className={iconClassName}
+								size={24}
+								color='var(--colors_accent)'
+							/>
+							{telegram && clickableLinks ? (
+								<a
+									target='_blank'
+									href={getTelegramHref(telegram)}
+									className='controls-text-ellipsis'
+									onClick={() => onContactClick('telegram')}
+								>
+									{telegram}
+								</a>
+							) : (
+								<span className='controls-text-ellipsis'>
+									{DEAFULT_CONTACT_NOT_SPECIFIED}
+								</span>
+							)}
+						</div>
+						<div className={clsx(contactClassName)}>
+							<EmailIcon
+								className={iconClassName}
+								size={24}
+								color='var(--colors_accent)'
+							/>
+							{email && clickableLinks ? (
+								<a
+									target='_blank'
+									href={`mailto:${email}`}
+									className='controls-text-ellipsis'
+									onClick={() => onContactClick('telegram')}
+								>
+									{email}
+								</a>
+							) : (
+								<span className='controls-text-ellipsis'>
+									{DEAFULT_CONTACT_NOT_SPECIFIED}
+								</span>
+							)}
+						</div>
+					</>
+				)}
 			</div>
 		</div>
 	);
 };
 
-export default OwnerCard;
+export default memo(OwnerCard);

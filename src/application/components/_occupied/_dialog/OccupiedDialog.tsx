@@ -3,16 +3,23 @@ import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithC
 import './OccupiedDialog.css';
 import {
 	forwardRef,
+	useEffect,
 	useImperativeHandle,
 	useRef,
 	useState,
 	type ForwardedRef,
 	type ReactNode,
 } from 'react';
-import type { IParkingSpot } from '../../../../controls/types/TParkingSpot';
 import { getDatesPeriod } from '../../../../controls/utils/getDatesPeriod';
 import OwnerCard from '../../../../controls/_ownerCard/OwnerCard';
 import PopupDialog, { type TPopupDialogAPI } from '../../../../controls/_popup/PopupDialog';
+import type { IBooking } from '../../../core/state/BookingsAtom';
+import { useLoading } from '../../../core/utils/useLoading';
+import { doc, DocumentSnapshot, getDoc } from 'firebase/firestore';
+import { db } from '../../../../../firebase';
+import type { ISpotOwner } from '../../../../controls/types/ISpotOwner';
+import type { IUser } from '../../../core/state/UserAtom';
+import { getDatePeriodTitle } from '../../../../controls/utils/getDatePeriodTitle';
 
 interface IOccupiedDialogProps extends IPropsWithClassName {}
 
@@ -24,7 +31,7 @@ interface IInfoBlockProps extends IPropsWithClassName {
 }
 
 export type OccupiedDialogAPI = {
-	open: (spot: IParkingSpot) => void;
+	open: (spot: IBooking) => void;
 };
 
 const InfoBlock = ({ title, content, className }: IInfoBlockProps) => {
@@ -40,8 +47,14 @@ const InfoBlock = ({ title, content, className }: IInfoBlockProps) => {
 };
 
 const OccupiedDialog = ({}: IOccupiedDialogProps, ref: ForwardedRef<OccupiedDialogAPI>) => {
-	const [spotInfo, setSpotInfo] = useState<IParkingSpot>();
+	const [spotInfo, setSpotInfo] = useState<IBooking>();
+	const [owner, setOwner] = useState<ISpotOwner>({
+		email: null,
+		telegram: null,
+		fullName: null,
+	});
 	const popupRef = useRef<TPopupDialogAPI>(null);
+	const userLoading = useLoading();
 
 	useImperativeHandle(ref, () => ({
 		open: (spot) => {
@@ -53,6 +66,37 @@ const OccupiedDialog = ({}: IOccupiedDialogProps, ref: ForwardedRef<OccupiedDial
 	const templateClassName = clsx(`${ROOT_CLASS_NAME}__template`);
 	const blocksClassName = clsx(`${ROOT_CLASS_NAME}__infoBlocks`);
 
+	useEffect(() => {
+		if (spotInfo?.renterId) {
+			userLoading
+				.runProcess(() => {
+					return getDoc(doc(db, 'users', spotInfo.renterId));
+				})
+				.then((snap: DocumentSnapshot) => {
+					if (snap.exists()) {
+						const user = snap.data() as IUser;
+						setOwner(() => {
+							return {
+								email: user.email,
+								telegram: user.telegram,
+								fullName: user.fullName,
+							};
+						});
+					}
+				});
+		}
+
+		return () => {
+			setOwner(() => {
+				return {
+					email: null,
+					telegram: null,
+					fullName: null,
+				};
+			});
+		};
+	}, [spotInfo]);
+
 	return (
 		<PopupDialog
 			ref={popupRef}
@@ -62,10 +106,13 @@ const OccupiedDialog = ({}: IOccupiedDialogProps, ref: ForwardedRef<OccupiedDial
 				<div className={blocksClassName}>
 					<InfoBlock
 						title='Место'
-						content={spotInfo?.spotName}
+						content={spotInfo?.parkingSpotName}
 					/>
 					<InfoBlock
-						title={`Занято вами на ${spotInfo?.endDate ? 'период' : 'дату'}`}
+						title={`Занято вами на ${getDatePeriodTitle(
+							spotInfo?.startDate || null,
+							spotInfo?.endDate || null
+						)}`}
 						content={getDatesPeriod([
 							spotInfo?.startDate ?? null,
 							spotInfo?.endDate ?? null,
@@ -73,13 +120,8 @@ const OccupiedDialog = ({}: IOccupiedDialogProps, ref: ForwardedRef<OccupiedDial
 					/>
 					<OwnerCard
 						title='Информация о владельце'
-						item={
-							spotInfo?.owner ?? {
-								telegram: null,
-								email: 'pih@p.r',
-								fullName: 'Владлен Борисов',
-							}
-						}
+						item={owner}
+						loading={userLoading.loading}
 					/>
 				</div>
 			</div>
