@@ -20,6 +20,7 @@ interface IDatepickerProps extends IPropsWithClassName {
 	calendarClassName?: string;
 	excludeDateIntervals?: TPeriod[];
 	includeDateIntervals?: TPeriod[];
+	selectRange?: boolean;
 
 	onSelectionComplete?: (startDate: Date | null, endDate: Date | null) => void;
 }
@@ -39,6 +40,7 @@ const Datepicker = (
 		calendarClassName: calendarClass,
 		excludeDateIntervals,
 		includeDateIntervals,
+		selectRange = true,
 	}: IDatepickerProps,
 	rootRef: ForwardedRef<HTMLDivElement>
 ) => {
@@ -102,7 +104,9 @@ const Datepicker = (
 	 * Если значения идентичны - установили период из одной даты.
 	 * Тогда представим его не как период, а как фиксированную дату.
 	 */
-	const changeHandler = ([start, end]: [Date | null, Date | null]) => {
+	const changeHandler = (obj: [Date | null, Date | null] | Date) => {
+		const [start, end] = obj instanceof Array ? obj : [obj, null];
+
 		if (isDatesEqual(start, end) && start !== null) {
 			setStartDate(() => start);
 			setEndDate(() => null);
@@ -194,12 +198,10 @@ const Datepicker = (
 					/>
 				)}
 			</div>
-			{/* {isOpen && ( */}
 			<DatePicker
 				ref={testRef}
 				calendarClassName={calendarClassName}
-				startDate={startDate}
-				endDate={endDate}
+				// endDate={endDate}
 				onChange={changeHandler}
 				renderCustomHeader={CalendarHeader}
 				dayClassName={() => dayClassName}
@@ -208,8 +210,10 @@ const Datepicker = (
 				includeDateIntervals={includeDateIntervals}
 				disabledKeyboardNavigation
 				inline
-				selectsRange
 				swapRange
+				// @ts-ignore
+				selectsRange={selectRange}
+				{...(selectRange ? { startDate, endDate } : { selected: startDate })}
 			/>
 			{/* )} */}
 		</div>

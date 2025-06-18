@@ -55,8 +55,8 @@
 	overflow: hidden;
 
 	height: auto;
-	transition: 0.5s ease;
-	-webkit-transition: 0.5s ease;
+	transition: 0.3s ease;
+	-webkit-transition: 0.3s ease;
 
 	width: 85%;
 	max-width: 360px;
@@ -113,7 +113,7 @@
 	left: 0;
 	top: 0;
 	background-color: black;
-	opacity: 0.2;
+	opacity: 0.45;
 }
 
 .react-datepicker__day--in-selecting-range:not(
@@ -130,12 +130,20 @@
 	background-color: white;
 } */
 
+.react-datepicker__day--selected {
+	background-color: var(--colors_main) !important;
+}
+
 .react-datepicker .react-datepicker__day--in-range:hover {
 	background-color: var(--colors_main) !important;
 }
 
 .react-datepicker
-	*:not(.react-datepicker__day--in-range, .react-datepicker__day--in-selecting-range):hover {
+	*:not(
+		.react-datepicker__day--in-range,
+		.react-datepicker__day--in-selecting-range,
+		.react-datepicker__day--selected
+	):hover {
 	background-color: white !important;
 }
 

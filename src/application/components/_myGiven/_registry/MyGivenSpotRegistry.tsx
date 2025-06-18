@@ -1,20 +1,25 @@
 import clsx from 'clsx';
 import type { IPropsWithClassName } from '../../../../controls/types/IPropsWithClassName';
 import MyGivenSpotCard from '../_card/MyGivenSpotCard';
-import { SpotStatus } from '../types/SpotStatus';
 import './MyGivenSpotRegistry.css';
 import EmptyHint from '../../../../controls/_emptyHint/EmptyHint';
-import ReloadButton from '../../_reloadButton/ReloadButton';
 import ParkSign from '/src/assets/yes_park_sign.png';
-import type { ILease } from '../../../core/state/MyLeases';
+import { type ILease } from '../../../core/state/MyLeases';
+import InnerLoader from '../../_innerLoader/InnerLoader';
 
 interface IMyGivenSpotRegistryProps extends IPropsWithClassName {
 	items: ILease[];
+	loading?: boolean;
+	onReloadClick?: () => void;
 }
 
 const ROOT_CLASS_NAME = 'myGivenSpotRegistry';
 
-const MyGivenSpotRegistry = ({ items, className }: IMyGivenSpotRegistryProps) => {
+const MyGivenSpotRegistry = ({
+	items,
+	className,
+	loading = false
+}: IMyGivenSpotRegistryProps) => {
 	const mainClassName = clsx(ROOT_CLASS_NAME, className);
 	const headerClassName = clsx(`${ROOT_CLASS_NAME}__header`);
 	const cardsClassName = clsx(`${ROOT_CLASS_NAME}__cards`);
@@ -25,18 +30,24 @@ const MyGivenSpotRegistry = ({ items, className }: IMyGivenSpotRegistryProps) =>
 				<>
 					<div className={headerClassName}>
 						<span>Предоставленные периоды</span>
-						<ReloadButton />
+						{/* <ReloadButton onClick={onReloadClick} /> */}
 					</div>
 					<div className={cardsClassName}>
-						{items.map((item) => {
-							return (
-								<MyGivenSpotCard
-									key={item.id}
-									dates={[item.startDate, item.endDate]}
-									spotStatus={SpotStatus.Occupied}
-								/>
-							);
-						})}
+						{loading ? (
+							<InnerLoader
+								style='dark'
+								height={200}
+							/>
+						) : (
+							items.map((item) => {
+								return (
+									<MyGivenSpotCard
+										key={item.id}
+										item={item}
+									/>
+								);
+							})
+						)}
 					</div>
 				</>
 			) : (

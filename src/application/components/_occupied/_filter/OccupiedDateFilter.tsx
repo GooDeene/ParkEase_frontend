@@ -36,13 +36,16 @@ const OccupiedDateFilter = ({ className, excludedIntervals }: IOccupiedDateFilte
 					mainFilterAtom.start,
 					mainFilterAtom.end
 				)}`}</span>
-				<ReloadButton />
+				<ReloadButton
+					onClick={() => onFilterSet(mainFilterAtom.start, mainFilterAtom.end)}
+				/>
 			</div>
 			<Datepicker
 				startDate={mainFilterAtom.start}
 				endDate={mainFilterAtom.end}
 				excludeDateIntervals={excludedIntervals}
 				onSelectionComplete={onFilterSet}
+				selectRange={false}
 			/>
 		</div>
 	);

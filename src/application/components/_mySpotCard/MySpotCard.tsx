@@ -1,13 +1,18 @@
 import clsx from 'clsx';
 import type { IPropsWithClassName } from '../../../controls/types/IPropsWithClassName';
 import Button from '../../../controls/_button/Button';
-import type { SyntheticEvent } from 'react';
+import { useMemo, type SyntheticEvent } from 'react';
 import { formatDateToRU } from '../../../controls/utils/formatDateToRU';
 import { getTomorrowDate } from '../../../controls/utils/getTomorrowDate';
 import './MySpotCard.css';
 import { useNavigate } from 'react-router';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { MySpotAtom } from '../../core/state/MySpotAtom';
+import { auth, db } from '../../../../firebase';
+import { MyLeasesAtom } from '../../core/state/MyLeases';
+import { useLoading } from '../../core/utils/useLoading';
+import { addDoc, collection, DocumentReference } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 interface IMySpotCard extends IPropsWithClassName {
 	spotName?: string;
@@ -22,6 +27,7 @@ const MySpotCard = ({ className }: IMySpotCard) => {
 	const navigate = useNavigate();
 
 	const mySpotAtom = useRecoilValue(MySpotAtom);
+	const [myLeasesAtom, setMyLeasesAtom] = useRecoilState(MyLeasesAtom);
 
 	const wrapperClassName = clsx(ROOT_CLASS_NAME, className);
 	const spotNameClassName = clsx('controls-fontsize-40', 'controls-fontweight-medium');
@@ -34,9 +40,64 @@ const MySpotCard = ({ className }: IMySpotCard) => {
 		`${ROOT_CLASS_NAME}__emptyHintDetail`,
 		'controls-fontsize-14'
 	);
+	const { loading, runProcess } = useLoading();
+
+	const canGiveUp: boolean = useMemo(() => {
+		const tomorrow = getTomorrowDate();
+
+		for (const lease of myLeasesAtom) {
+			if (lease.startDate <= tomorrow && lease.endDate >= tomorrow) {
+				return false;
+			}
+		}
+
+		return true;
+	}, [myLeasesAtom]);
 
 	const onTomorrowClick = (event: SyntheticEvent) => {
 		event.stopPropagation();
+
+		if (mySpotAtom.id && auth.currentUser && canGiveUp) {
+			const tomorrow = getTomorrowDate();
+			const itemToAdd = {
+				parkingSpotId: mySpotAtom.id,
+				parkingSpotName: mySpotAtom.name,
+				ownerId: auth.currentUser?.uid,
+				startDate: tomorrow,
+				endDate: tomorrow,
+			};
+
+			runProcess(() => {
+				return addDoc(collection(db, 'leases'), itemToAdd);
+			})
+				.then((snap: DocumentReference) => {
+					if (snap.id) {
+						setMyLeasesAtom((prev) => {
+							return [
+								...prev,
+								{
+									id: snap.id,
+									parkingSpotId: itemToAdd.parkingSpotId,
+									parkingSpotName: itemToAdd.parkingSpotName,
+									ownerId: itemToAdd.ownerId,
+									startDate: tomorrow,
+									endDate: tomorrow,
+								},
+							];
+						});
+
+						toast(`Вы уступили место на завтра ${formatDateToRU(getTomorrowDate())}`, {
+							type: 'success',
+							autoClose: 2800,
+						});
+					} else {
+						return Promise.reject();
+					}
+				})
+				.catch(() => {
+					toast('Не удалось утсупить место!', { type: 'error', autoClose: 1400 });
+				});
+		}
 	};
 
 	const onPeriodClick = () => {
@@ -65,6 +126,8 @@ const MySpotCard = ({ className }: IMySpotCard) => {
 									<span>{`(${formatDateToRU(getTomorrowDate())})`}</span>
 								</div>
 							}
+							loading={loading}
+							disabled={!canGiveUp}
 							onClick={onTomorrowClick}
 						/>
 						<Button
