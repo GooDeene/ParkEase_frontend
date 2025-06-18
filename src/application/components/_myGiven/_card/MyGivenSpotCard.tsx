@@ -6,7 +6,15 @@ import { getDatesPeriod } from '../../../../controls/utils/getDatesPeriod';
 import { useEffect, useState, type SyntheticEvent } from 'react';
 import { MyLeasesAtom, type ILease } from '../../../core/state/MyLeases';
 import { useLoading } from '../../../core/utils/useLoading';
-import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import {
+	collection,
+	deleteDoc,
+	doc,
+	getDocs,
+	query,
+	QuerySnapshot,
+	where,
+} from 'firebase/firestore';
 import { db } from '../../../../../firebase';
 import InnerLoader from '../../_innerLoader/InnerLoader';
 import { toast } from 'react-toastify';
@@ -46,9 +54,9 @@ const MyGivenSpotCard = ({ className, item }: IMyGivenSpotCardProps) => {
 	useEffect(() => {
 		runProcess(() => {
 			const q = query(collection(db, 'bookings'), where('leaseId', '==', item.id));
-			return getDocs(q).then((snap) => {
-				setSpotFree(() => snap.empty);
-			});
+			return getDocs(q);
+		}).then((snap: QuerySnapshot) => {
+			setSpotFree(() => snap.empty);
 		});
 	}, []);
 
